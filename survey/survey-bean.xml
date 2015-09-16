@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="project1" class="io.feedback.survey.Project">
+        <property name="id" value="1"></property>
+        <property name="name" value="The first project"></property>
+        <property name="title" value="The first project"></property>
+        <property name="pages">
+            <list>
+                <ref bean="page1"></ref>
+                <ref bean="page2"></ref>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="page1" class="io.feedback.survey.Page">
+        <property name="id" value="1"></property>
+        <property name="name" value="The first page"></property>
+        <property name="title" value="The first page"></property>
+        <property name="questions">
+            <list>
+                <ref bean="question1"></ref>
+            </list>
+        </property>
+    </bean>
+    <bean id="page2" class="io.feedback.survey.Page">
+        <property name="id" value="2"></property>
+        <property name="name" value="The second page"></property>
+        <property name="title" value="The second page"></property>
+    </bean>
+
+    <bean id="question1" class="io.feedback.survey.Question">
+        <property name="id" value="1"></property>
+        <property name="name" value="The first question"></property>
+        <property name="title" value="The first question"></property>
+    </bean>
+</beans>
