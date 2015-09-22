@@ -2,6 +2,9 @@ package io.feedback.survey;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Page {
     private int id;
     private String name;

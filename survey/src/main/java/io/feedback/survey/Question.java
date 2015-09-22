@@ -1,5 +1,8 @@
 package io.feedback.survey;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Question {
     private int id;
     private String name;

@@ -2,6 +2,11 @@ package io.feedback.survey;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
 public class Project {
     private int id;
     private String name;
@@ -12,6 +17,8 @@ public class Project {
         return id;
     }
 
+    @Required
+    @Value("1")
     public void setId(int id) {
         this.id = id;
     }
