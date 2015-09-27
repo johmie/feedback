@@ -6,10 +6,11 @@ import io.feedback.survey.entity.Page;
 import io.feedback.survey.repository.PageRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class PageService {
+
     private PageRepository pageRepository;
 
     public PageRepository getPageRepository() {
@@ -21,11 +22,11 @@ public class PageService {
         this.pageRepository = pageRepository;
     }
     
-    public void addProject(Page page) {
+    public void addPage(Page page) {
         getPageRepository().insert(page);
     }
     
-    public List<Page> findAllProjects() {
+    public List<Page> findAllPages() {
         return getPageRepository().findAll();
     }
 }

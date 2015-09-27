@@ -47,21 +47,21 @@ public class TestSpringHibernateJpa {
         page.setTitle("My title");
         page.setProject(project);
         
-        this.pageService.addProject(page);
+        this.pageService.addPage(page);
         
         Page page2 = new Page();
         page2.setName("My name 2");
         page2.setTitle("My title 2");
         page2.setProject(project);
         
-        this.pageService.addProject(page2);
+        this.pageService.addPage(page2);
         
         Page page3 = new Page();
         page3.setName("My name 3");
         page3.setTitle("My title 3");
         page3.setProject(project);
         
-        this.pageService.addProject(page3);
+        this.pageService.addPage(page3);
     }
     
     public void listPages() {
@@ -69,8 +69,9 @@ public class TestSpringHibernateJpa {
         List<Project> projects = this.projectService.findAllProjects();
         Integer numberOfProjects = projects.size();
         Integer lastIndexOfProjects = numberOfProjects - 1;
+        System.out.println(lastIndexOfProjects);
         Project project = projects.get(lastIndexOfProjects);
-        System.out.println(project.getPages().size());
+        System.out.println(project.getPages());
     }
 }
 

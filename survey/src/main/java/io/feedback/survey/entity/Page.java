@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class Page extends AbstractBaseEntity {
+
     private String name;
     private String title;
     @ManyToOne
@@ -37,6 +38,4 @@ public class Page extends AbstractBaseEntity {
     public void setTitle(String title) {
         this.title = title;
     }
-    
-
 }

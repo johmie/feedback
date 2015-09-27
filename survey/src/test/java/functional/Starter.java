@@ -19,4 +19,3 @@ public class Starter {
         ((ConfigurableApplicationContext)context).close();
     }
 }
-

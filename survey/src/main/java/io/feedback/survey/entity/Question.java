@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 
 @Entity
 public class Question extends AbstractBaseEntity {
+
     private String name;
     private String title;
 

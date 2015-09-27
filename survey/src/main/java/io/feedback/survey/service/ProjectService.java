@@ -6,10 +6,11 @@ import io.feedback.survey.entity.Project;
 import io.feedback.survey.repository.ProjectRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class ProjectService {
+
     private ProjectRepository projectRepository;
 
     public ProjectRepository getProjectRepository() {

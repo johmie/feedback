@@ -9,6 +9,7 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Project extends AbstractBaseEntity {
+
     private String name;
     private String title;
     @OneToMany(mappedBy = "project")
@@ -37,5 +38,4 @@ public class Project extends AbstractBaseEntity {
     public void setTitle(String title) {
         this.title = title;
     }
-
 }
