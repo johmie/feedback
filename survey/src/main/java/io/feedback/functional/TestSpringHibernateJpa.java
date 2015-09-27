@@ -1,12 +1,14 @@
-package io.feedback.demo;
+package io.feedback.functional;
 
 import io.feedback.survey.entity.Project;
 import io.feedback.survey.service.ProjectService;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class TestSpringHibernateJpa {
+      
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext(
                 "spring-config.xml");
@@ -20,5 +22,7 @@ public class TestSpringHibernateJpa {
         System.out.println("Project : " + project + " added successfully");
 
         System.out.println(projectService.findAllProjects().toString());
+        
+        ((ConfigurableApplicationContext)context).close();
     }
 }

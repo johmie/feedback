@@ -6,8 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "project")
-public class Project extends AbstractBaseEntity {
+@Table(name = "question")
+public class Question extends AbstractBaseEntity {
 
     private String name;
     private String title;
