@@ -9,7 +9,7 @@ import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
-@Repository("projectRepository")
+@Repository
 public class ProjectRepository extends AbstractBaseRepository {
 
     private static final String SELECT_QUERY = "select p from Project p";

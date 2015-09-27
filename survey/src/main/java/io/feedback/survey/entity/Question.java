@@ -3,12 +3,9 @@ package io.feedback.survey.entity;
 import io.feedback.core.entity.AbstractBaseEntity;
 
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "question")
 public class Question extends AbstractBaseEntity {
-
     private String name;
     private String title;
 
