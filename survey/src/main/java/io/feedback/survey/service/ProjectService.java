@@ -26,7 +26,7 @@ public class ProjectService {
         getProjectRepository().insert(project);
     }
     
-    public List<Project> findAllProjects() {
-        return getProjectRepository().findAll();
+    public List<Project> fetchAllProjects() {
+        return getProjectRepository().fetchAll();
     }
 }

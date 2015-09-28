@@ -26,7 +26,7 @@ public class PageService {
         getPageRepository().insert(page);
     }
     
-    public List<Page> findAllPages() {
-        return getPageRepository().findAll();
+    public List<Page> fetchAllPages() {
+        return getPageRepository().fetchAll();
     }
 }
