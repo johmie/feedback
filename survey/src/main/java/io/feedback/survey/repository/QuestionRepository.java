@@ -25,4 +25,8 @@ public class QuestionRepository extends AbstractBaseRepository<Question> {
         List<Question> questions = (List<Question>) query.getResultList();
         return questions;
     }
+    
+    public Question fetchById(Long id) {
+        return getEntityManager().find(Question.class, id);
+    }
 }

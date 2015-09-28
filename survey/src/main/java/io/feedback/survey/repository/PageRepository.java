@@ -25,4 +25,8 @@ public class PageRepository extends AbstractBaseRepository<Page> {
         List<Page> pages = (List<Page>) query.getResultList();
         return pages;
     }
+    
+    public Page fetchById(Long id) {
+        return getEntityManager().find(Page.class, id);
+    }
 }

@@ -29,4 +29,8 @@ public class ProjectService {
     public List<Project> fetchAllProjects() {
         return getProjectRepository().fetchAll();
     }
+    
+    public Project fetchProjectById(Long id) {
+        return getProjectRepository().fetchById(id);
+    }
 }

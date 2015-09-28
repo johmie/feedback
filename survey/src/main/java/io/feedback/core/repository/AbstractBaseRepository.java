@@ -25,4 +25,6 @@ public abstract class AbstractBaseRepository<T> {
     public abstract void insert(T entity);
     
     public abstract List<T> fetchAll();
+    
+    public abstract T fetchById(Long id);
 }

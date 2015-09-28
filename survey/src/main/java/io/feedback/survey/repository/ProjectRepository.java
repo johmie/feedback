@@ -25,4 +25,8 @@ public class ProjectRepository extends AbstractBaseRepository<Project> {
         List<Project> projects = (List<Project>) query.getResultList();
         return projects;
     }
+    
+    public Project fetchById(Long id) {
+        return getEntityManager().find(Project.class, id);
+    }
 }
