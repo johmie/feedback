@@ -8,11 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Project extends AbstractBaseEntity {
+public class Survey extends AbstractBaseEntity {
 
     private String name;
     private String title;
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "survey")
     private Set<Page> pages;
 
     public Set<Page> getPages() {

@@ -5,6 +5,7 @@ import java.util.Set;
 import io.feedback.core.entity.AbstractBaseEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -15,9 +16,9 @@ public class Page extends AbstractBaseEntity {
     private String name;
     private String title;
     @ManyToOne
-    @JoinColumn(name = "project_id")
-    private Project project;
-    @OneToMany(mappedBy = "page")
+    @JoinColumn(name = "survey_id")
+    private Survey survey;
+    @OneToMany(mappedBy = "page", fetch = FetchType.EAGER)
     private Set<Question> questions;
 
     public Set<Question> getQuestions() {
@@ -28,12 +29,12 @@ public class Page extends AbstractBaseEntity {
         this.questions = questions;
     }
 
-    public Project getProject() {
-        return project;
+    public Survey getSurvey() {
+        return survey;
     }
 
-    public void setProject(Project project) {
-        this.project = project;
+    public void setSurvey(Survey survey) {
+        this.survey = survey;
     }
 
     public String getName() {
