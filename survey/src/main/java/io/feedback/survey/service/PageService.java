@@ -1,7 +1,5 @@
 package io.feedback.survey.service;
 
-import java.util.List;
-
 import io.feedback.survey.entity.Page;
 import io.feedback.survey.repository.PageRepository;
 
@@ -24,9 +22,5 @@ public class PageService {
     
     public void addPage(Page page) {
         getPageRepository().insertOrUpdate(page);
-    }
-    
-    public List<Page> fetchAllPages() {
-        return getPageRepository().fetchAll();
     }
 }

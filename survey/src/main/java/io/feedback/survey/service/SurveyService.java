@@ -1,7 +1,5 @@
 package io.feedback.survey.service;
 
-import java.util.List;
-
 import io.feedback.survey.entity.Page;
 import io.feedback.survey.entity.Survey;
 import io.feedback.survey.repository.PageRepository;
@@ -36,14 +34,6 @@ public class SurveyService {
 
     public void addSurvey(Survey survey) {
         getSurveyRepository().insertOrUpdate(survey);
-    }
-    
-    public List<Survey> fetchAllSurveys() {
-        return getSurveyRepository().fetchAll();
-    }
-    
-    public Survey fetchSurveyById(Long id) {
-        return getSurveyRepository().fetchById(id);
     }
     
     public Page fetchPageByPageNumber(Long surveyId, Integer pageNumber) {

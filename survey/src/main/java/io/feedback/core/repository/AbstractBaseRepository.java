@@ -1,7 +1,5 @@
 package io.feedback.core.repository;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -23,8 +21,6 @@ public abstract class AbstractBaseRepository<T> {
     }
 
     public abstract void insertOrUpdate(T entity);
-    
-    public abstract List<T> fetchAll();
-    
+
     public abstract T fetchById(Long id);
 }

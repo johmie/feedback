@@ -1,13 +1,13 @@
 package functional;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import io.feedback.survey.entity.Answer;
 import io.feedback.survey.entity.Page;
 import io.feedback.survey.entity.Question;
 import io.feedback.survey.entity.Survey;
+import io.feedback.survey.service.AnswerService;
 import io.feedback.survey.service.PageService;
 import io.feedback.survey.service.QuestionService;
 import io.feedback.survey.service.SurveyService;
@@ -23,6 +23,7 @@ public class TestSpringHibernateJpa {
     private SurveyService surveyService;
     private PageService pageService;
     private QuestionService questionService;
+    private AnswerService answerService;
     @PersistenceContext
     private EntityManager entityManager;
     
@@ -32,25 +33,27 @@ public class TestSpringHibernateJpa {
         entityManager.createNativeQuery("ALTER TABLE Survey AUTO_INCREMENT = 1").executeUpdate();
         entityManager.createNativeQuery("ALTER TABLE Page AUTO_INCREMENT = 1").executeUpdate();
         entityManager.createNativeQuery("ALTER TABLE Question AUTO_INCREMENT = 1").executeUpdate();
+        entityManager.createNativeQuery("ALTER TABLE Answer AUTO_INCREMENT = 1").executeUpdate();
         
         surveyService = (SurveyService) context.getBean("surveyService");
         pageService = (PageService) context.getBean("pageService");
         questionService = (QuestionService) context.getBean("questionService");
+        answerService = (AnswerService) context.getBean("answerService");
         
         Survey survey = createSurvey();
         createPages(survey);
-        listPages();
+        //listPages();
     }
     
     public Survey createSurvey() {
         
         Survey survey = new Survey();
-        survey.setName("My name");
-        survey.setTitle("My title");
+        survey.setName("Internal name of my first project");
+        survey.setTitle("Title of my first project");
         
         surveyService.addSurvey(survey);
 
-        System.out.println("Survey : " + survey + " added successfully");
+        System.out.println("Survey: " + survey + " added successfully");
         
         return survey;
     }
@@ -58,62 +61,72 @@ public class TestSpringHibernateJpa {
     public void createPages(Survey survey) {
         
         Page page = new Page();
-        page.setName("My name");
-        page.setTitle("My title");
+        page.setName("Page #1");
+        page.setTitle("Page #1");
         page.setSurvey(survey);
-
         pageService.addPage(page);
         System.out.println("Page #1: " + page + " added successfully");
 
+//        Page page2 = new Page();
+//        page2.setName("Page #2");
+//        page2.setTitle("Page #2");
+//        page2.setSurvey(survey);
+//        pageService.addPage(page2);
+//        System.out.println("Page #2: " + page2 + " added successfully");
+//        
+//        Page page3 = new Page();
+//        page3.setName("Page #3");
+//        page3.setTitle("Page #3");
+//        page3.setSurvey(survey);
+//        pageService.addPage(page3);
+//        System.out.println("Page #3: " + page3 + " added successfully");
+        
         createQuestions(page);
         System.out.println("Questions added to Page #1");
-        
-        
-
-        Page page2 = new Page();
-        page2.setName("My name 2");
-        page2.setTitle("My title 2");
-        page2.setSurvey(survey);
-        
-        pageService.addPage(page2);
-        
-        System.out.println("Page #2: " + page2 + " added successfully");
-        
-        Page page3 = new Page();
-        page3.setName("My name 3");
-        page3.setTitle("My title 3");
-        page3.setSurvey(survey);
-        
-        pageService.addPage(page3);
-        
-        System.out.println("Page #3: " + page3 + " added successfully");
     }
     
     private void createQuestions(Page page) {
+        
         Question question1 = new Question();
-        question1.setName("My name 1");
-        question1.setTitle("My title 1");
+        question1.setName("Schönste Farbe");
+        question1.setTitle("Einfachauswahl: Welche Farbe ist die schönste?");
+        question1.setPosition(1);
         question1.setPage(page);
         questionService.addQuestion(question1);
+        createAnswers1(question1);
         
         Question question2 = new Question();
-        question2.setName("My name 2");
-        question2.setTitle("My title 2");
+        question2.setName("Farben");
+        question2.setTitle("Mehrfachauswahl: Welche Farben findest du schön?");
+        question2.setPosition(2);
         question2.setPage(page);
         questionService.addQuestion(question2);
     }
-    
-    public void listPages() {
-        
-        List<Survey> surveys = surveyService.fetchAllSurveys();
-        Integer numberOfSurveys = surveys.size();
-        Integer lastIndexOfSurveys = numberOfSurveys - 1;
-        System.out.println(lastIndexOfSurveys);
 
-        Survey survey = surveys.get(lastIndexOfSurveys);
-        System.out.println("Pages: " + survey.getPages());
+    private void createAnswers1(Question question) {
         
-        System.out.println("Survey ID: " + survey.getId());
+        Answer answer1 = new Answer();
+        answer1.setTitle("Antwortoption #1");
+        answer1.setName("grün");
+        answer1.setValue("#00ff00");
+        answer1.setPosition(1);
+        answer1.setQuestion(question);
+        answerService.addAnswer(answer1);
+        
+        Answer answer2 = new Answer();
+        answer2.setTitle("Antwortoption #2");
+        answer2.setName("rot");
+        answer2.setValue("#ff0000");
+        answer2.setPosition(2);
+        answer2.setQuestion(question);
+        answerService.addAnswer(answer2);
+        
+        Answer answer3 = new Answer();
+        answer3.setTitle("Antwortoption #3");
+        answer3.setName("blau");
+        answer3.setValue("#0000ff");
+        answer3.setPosition(3);
+        answer3.setQuestion(question);
+        answerService.addAnswer(answer3);
     }
 }
-

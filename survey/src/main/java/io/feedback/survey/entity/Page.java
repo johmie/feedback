@@ -9,16 +9,19 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 @Entity
 public class Page extends AbstractBaseEntity {
 
     private String name;
     private String title;
+    private Integer position;
     @ManyToOne
     @JoinColumn(name = "survey_id")
     private Survey survey;
     @OneToMany(mappedBy = "page", fetch = FetchType.EAGER)
+    @OrderBy("position ASC")
     private Set<Question> questions;
 
     public Set<Question> getQuestions() {
@@ -51,5 +54,14 @@ public class Page extends AbstractBaseEntity {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+    
+
+    public Integer getPosition() {
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
     }
 }

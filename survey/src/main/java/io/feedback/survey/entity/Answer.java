@@ -1,43 +1,28 @@
 package io.feedback.survey.entity;
 
-import java.util.Set;
-
 import io.feedback.core.entity.AbstractBaseEntity;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 
 @Entity
-public class Question extends AbstractBaseEntity {
+public class Answer extends AbstractBaseEntity {
 
     private String name;
     private String title;
+    private String value;
     private Integer position;
     @ManyToOne
-    @JoinColumn(name = "page_id")
-    private Page page;
-    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER)
-    @OrderBy("position ASC")
-    private Set<Answer> answers;
+    @JoinColumn(name = "question_id")
+    private Question question;
 
-    public Page getPage() {
-        return page;
+    public Question getQuestion() {
+        return question;
     }
 
-    public void setPage(Page page) {
-        this.page = page;
-    }
-
-    public Set<Answer> getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(Set<Answer> answers) {
-        this.answers = answers;
+    public void setQuestion(Question question) {
+        this.question = question;
     }
 
     public String getName() {
@@ -54,6 +39,14 @@ public class Question extends AbstractBaseEntity {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public Integer getPosition() {

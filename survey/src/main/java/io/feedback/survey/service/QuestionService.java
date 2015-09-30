@@ -1,7 +1,5 @@
 package io.feedback.survey.service;
 
-import java.util.List;
-
 import io.feedback.survey.entity.Question;
 import io.feedback.survey.repository.QuestionRepository;
 
@@ -24,9 +22,5 @@ public class QuestionService {
     
     public void addQuestion(Question question) {
         getQuestionRepository().insertOrUpdate(question);
-    }
-    
-    public List<Question> fetchAllQuestions() {
-        return getQuestionRepository().fetchAll();
     }
 }
