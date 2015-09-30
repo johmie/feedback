@@ -15,7 +15,7 @@ public class SurveyRepository extends AbstractBaseRepository<Survey> {
     private static final String SELECT_QUERY = "select s from Survey s";
 
     @Override
-    public void insert(Survey project) {
+    public void insertOrUpdate(Survey project) {
         getEntityManager().persist(project);
         getEntityManager().refresh(project);
     }

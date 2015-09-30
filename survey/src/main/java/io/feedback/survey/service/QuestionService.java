@@ -23,7 +23,7 @@ public class QuestionService {
     }
     
     public void addQuestion(Question question) {
-        getQuestionRepository().insert(question);
+        getQuestionRepository().insertOrUpdate(question);
     }
     
     public List<Question> fetchAllQuestions() {

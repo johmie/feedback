@@ -35,7 +35,7 @@ public class SurveyService {
     }
 
     public void addSurvey(Survey survey) {
-        getSurveyRepository().insert(survey);
+        getSurveyRepository().insertOrUpdate(survey);
     }
     
     public List<Survey> fetchAllSurveys() {
@@ -46,7 +46,7 @@ public class SurveyService {
         return getSurveyRepository().fetchById(id);
     }
     
-    public Page fetchPageOfSurveyByPageNumber(Long surveyId, Integer number) {
-        return getPageRepository().fetchOfSurveyByPageNumber(surveyId, number);
+    public Page fetchPageByPageNumber(Long surveyId, Integer pageNumber) {
+        return getPageRepository().fetchByPageNumber(surveyId, pageNumber);
     }
 }

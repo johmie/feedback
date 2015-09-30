@@ -1,4 +1,4 @@
-package io.feedback.web.controller;
+package io.feedback.survey.web;
 
 import io.feedback.survey.entity.Page;
 import io.feedback.survey.service.SurveyService;
@@ -26,7 +26,7 @@ public class SurveyController {
     @RequestMapping(value = "/survey/{surveyId}/{pageNumber}")
     public String page(@PathVariable Long surveyId,
             @PathVariable Integer pageNumber, Model model) {
-        Page page = getSurveyService().fetchPageOfSurveyByPageNumber(surveyId,
+        Page page = getSurveyService().fetchPageByPageNumber(surveyId,
                 pageNumber);
         model.addAttribute("page", page);
         return "survey/page";

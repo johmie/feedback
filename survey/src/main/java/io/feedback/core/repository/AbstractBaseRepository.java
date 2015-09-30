@@ -22,7 +22,7 @@ public abstract class AbstractBaseRepository<T> {
         this.entityManager = entityManager;
     }
 
-    public abstract void insert(T entity);
+    public abstract void insertOrUpdate(T entity);
     
     public abstract List<T> fetchAll();
     

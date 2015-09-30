@@ -15,7 +15,7 @@ public class QuestionRepository extends AbstractBaseRepository<Question> {
     private static final String SELECT_QUERY = "select q from Question q";
 
     @Override
-    public void insert(Question question) {
+    public void insertOrUpdate(Question question) {
         getEntityManager().persist(question);
         getEntityManager().refresh(question);
     }

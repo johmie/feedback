@@ -23,7 +23,7 @@ public class PageService {
     }
     
     public void addPage(Page page) {
-        getPageRepository().insert(page);
+        getPageRepository().insertOrUpdate(page);
     }
     
     public List<Page> fetchAllPages() {

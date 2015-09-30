@@ -15,7 +15,7 @@ public class PageRepository extends AbstractBaseRepository<Page> {
     private static final String SELECT_QUERY = "select p from Page p";
 
     @Override
-    public void insert(Page page) {
+    public void insertOrUpdate(Page page) {
         getEntityManager().persist(page);
         getEntityManager().refresh(page);
     }
@@ -33,7 +33,7 @@ public class PageRepository extends AbstractBaseRepository<Page> {
         return getEntityManager().find(Page.class, id);
     }
 
-    public Page fetchOfSurveyByPageNumber(Long surveyId, Integer pageNumber) {
+    public Page fetchByPageNumber(Long surveyId, Integer pageNumber) {
         Query query = getEntityManager().createQuery(
                 "select p from Page p where survey_id = :surveyId order by position");
         query.setParameter("surveyId", surveyId);
