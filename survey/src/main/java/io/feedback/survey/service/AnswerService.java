@@ -20,7 +20,11 @@ public class AnswerService {
         this.answerRepository = answerRepository;
     }
     
-    public void addAnswer(Answer answer) {
+    public void saveAnswer(Answer answer) {
         getAnswerRepository().insertOrUpdate(answer);
+    }
+    
+    public void deleteAnswer(Answer answer) {
+        getAnswerRepository().delete(answer);
     }
 }

@@ -51,7 +51,7 @@ public class TestSpringHibernateJpa {
         survey.setName("Internal name of my first project");
         survey.setTitle("Title of my first project");
         
-        surveyService.addSurvey(survey);
+        surveyService.saveSurvey(survey);
 
         System.out.println("Survey: " + survey + " added successfully");
         
@@ -64,7 +64,7 @@ public class TestSpringHibernateJpa {
         page.setName("Page #1");
         page.setTitle("Page #1");
         page.setSurvey(survey);
-        pageService.addPage(page);
+        pageService.savePage(page);
         System.out.println("Page #1: " + page + " added successfully");
 
 //        Page page2 = new Page();
@@ -92,7 +92,7 @@ public class TestSpringHibernateJpa {
         question1.setTitle("Einfachauswahl: Welche Farbe ist die schönste?");
         question1.setPosition(1);
         question1.setPage(page);
-        questionService.addQuestion(question1);
+        questionService.saveQuestion(question1);
         createAnswers1(question1);
         
         Question question2 = new Question();
@@ -100,7 +100,7 @@ public class TestSpringHibernateJpa {
         question2.setTitle("Mehrfachauswahl: Welche Farben findest du schön?");
         question2.setPosition(2);
         question2.setPage(page);
-        questionService.addQuestion(question2);
+        questionService.saveQuestion(question2);
     }
 
     private void createAnswers1(Question question) {
@@ -111,7 +111,7 @@ public class TestSpringHibernateJpa {
         answer1.setValue("#00ff00");
         answer1.setPosition(1);
         answer1.setQuestion(question);
-        answerService.addAnswer(answer1);
+        answerService.saveAnswer(answer1);
         
         Answer answer2 = new Answer();
         answer2.setTitle("Antwortoption #2");
@@ -119,7 +119,7 @@ public class TestSpringHibernateJpa {
         answer2.setValue("#ff0000");
         answer2.setPosition(2);
         answer2.setQuestion(question);
-        answerService.addAnswer(answer2);
+        answerService.saveAnswer(answer2);
         
         Answer answer3 = new Answer();
         answer3.setTitle("Antwortoption #3");
@@ -127,8 +127,10 @@ public class TestSpringHibernateJpa {
         answer3.setValue("#0000ff");
         answer3.setPosition(3);
         answer3.setQuestion(question);
-        answerService.addAnswer(answer3);
+        answerService.saveAnswer(answer3);
         answer3.setName("blau resaved");
-        answerService.addAnswer(answer3);
+        answerService.saveAnswer(answer3);
+        
+        answerService.deleteAnswer(answer2);
     }
 }

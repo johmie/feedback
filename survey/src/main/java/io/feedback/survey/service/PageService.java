@@ -20,7 +20,7 @@ public class PageService {
         this.pageRepository = pageRepository;
     }
     
-    public void addPage(Page page) {
+    public void savePage(Page page) {
         getPageRepository().insertOrUpdate(page);
     }
 }

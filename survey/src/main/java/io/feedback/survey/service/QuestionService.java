@@ -20,7 +20,7 @@ public class QuestionService {
         this.questionRepository = questionRepository;
     }
     
-    public void addQuestion(Question question) {
+    public void saveQuestion(Question question) {
         getQuestionRepository().insertOrUpdate(question);
     }
 }

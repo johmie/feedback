@@ -32,11 +32,11 @@ public class SurveyService {
         this.pageRepository = pageRepository;
     }
 
-    public void addSurvey(Survey survey) {
+    public void saveSurvey(Survey survey) {
         getSurveyRepository().insertOrUpdate(survey);
     }
     
-    public Page findPageByPageNumber(Long surveyId, Integer pageNumber) {
+    public Page loadSurveyPage(Long surveyId, Integer pageNumber) {
         return getPageRepository().findPageByPageNumber(surveyId, pageNumber);
     }
 }
