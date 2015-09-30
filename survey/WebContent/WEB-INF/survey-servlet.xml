@@ -11,10 +11,12 @@ http://www.springframework.org/schema/context/spring-context-4.0.xsd
 
     <context:component-scan base-package="io.feedback" />
 
+    <import resource="classpath:spring-config.xml" />
+
     <mvc:annotation-driven />
     <mvc:default-servlet-handler />
-
-    <import resource="classpath:spring-config.xml" />
+    <mvc:resources mapping="/webjars/**"
+        location="classpath:/META-INF/resources/webjars/" />
 
     <bean id="viewResolver"
         class="org.springframework.web.servlet.view.UrlBasedViewResolver">
@@ -22,5 +24,14 @@ http://www.springframework.org/schema/context/spring-context-4.0.xsd
             value="org.springframework.web.servlet.view.JstlView" />
         <property name="prefix" value="/WEB-INF/jsp/" />
         <property name="suffix" value=".jsp" />
+    </bean>
+
+    <bean id="tilesConfigurer"
+        class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+        <property name="definitions">
+            <list>
+                <value>/WEB-INF/tiles.xml</value>
+            </list>
+        </property>
     </bean>
 </beans>

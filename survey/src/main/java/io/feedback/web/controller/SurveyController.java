@@ -24,7 +24,7 @@ public class SurveyController {
     }
 
     @RequestMapping(value = "/survey/{surveyId}/{pageNumber}")
-    public String renderPage(@PathVariable Long surveyId,
+    public String page(@PathVariable Long surveyId,
             @PathVariable Integer pageNumber, Model model) {
         Page page = getSurveyService().fetchPageOfSurveyByPageNumber(surveyId,
                 pageNumber);
