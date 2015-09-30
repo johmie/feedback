@@ -1,5 +1,7 @@
 package io.feedback.core.repository;
 
+import io.feedback.core.entity.AbstractBaseEntity;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -20,7 +22,22 @@ public abstract class AbstractBaseRepository<T> {
         this.entityManager = entityManager;
     }
 
-    public abstract void insertOrUpdate(T entity);
+    public void insertOrUpdate(T entity) {
+        if (!(entity instanceof AbstractBaseEntity)) {
+            throw new RuntimeException();
+        }
+        if (((AbstractBaseEntity) entity).getId() == null) {
+            getEntityManager().persist(entity);
+        }
+        else {
+            getEntityManager().merge(entity);
+        }
+    }
 
-    public abstract T fetchById(Long id);
+    public void delete(T entity) {
+        if (!(entity instanceof AbstractBaseEntity)) {
+            throw new RuntimeException();
+        }
+        getEntityManager().remove(entity);
+    }
 }

@@ -128,5 +128,7 @@ public class TestSpringHibernateJpa {
         answer3.setPosition(3);
         answer3.setQuestion(question);
         answerService.addAnswer(answer3);
+        answer3.setName("blau resaved");
+        answerService.addAnswer(answer3);
     }
 }

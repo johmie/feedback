@@ -14,11 +14,11 @@ public abstract class AbstractBaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    
+
     @Version
     @Column(name = "version")
     private Long version;
-    
+
     public Long getId() {
         return id;
     }

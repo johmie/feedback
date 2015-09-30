@@ -19,20 +19,16 @@ public class SurveyController {
     }
 
     @Autowired
-    public void setProjectService(SurveyService surveyService) {
+    public void setSurveyService(SurveyService surveyService) {
         this.surveyService = surveyService;
     }
 
     @RequestMapping(value = "/survey/{surveyId}/{pageNumber}")
     public String page(@PathVariable Long surveyId,
             @PathVariable Integer pageNumber, Model model) {
-        Page page = getSurveyService().fetchPageByPageNumber(surveyId,
+        Page page = getSurveyService().findPageByPageNumber(surveyId,
                 pageNumber);
         model.addAttribute("page", page);
         return "survey/page";
-    }
-
-    public String process() {
-        return "processed";
     }
 }
