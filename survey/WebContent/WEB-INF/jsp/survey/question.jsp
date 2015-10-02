@@ -6,12 +6,12 @@
         <c:choose>
             <c:when test="${question.type == 'SINGLE'}">
                 <form:radiobutton
-                    path="questionResults[${statusLoopQuestions.index}].results[0].answer.id"
+                    path="resultLists[${statusLoopQuestions.index}].results[0].answer.id"
                     value="${answer.id}"/> ${answer.title}<br/>
             </c:when>
             <c:when test="${question.type == 'MULTIPLE'}">
                 <form:checkbox
-                    path="questionResults[${statusLoopQuestions.index}].results[${statusLoopAnswers.index}].answer.id"
+                    path="resultLists[${statusLoopQuestions.index}].results[${statusLoopAnswers.index}].answer.id"
                     value="${answer.id}"/> ${answer.title}<br/>
             </c:when>
             <c:when test="${question.type == 'MATRIX'}">

@@ -4,13 +4,13 @@ import java.util.List;
 
 public class PageForm {
 
-    private List<QuestionResult> questionResults;
+    private List<ResultList> resultLists;
 
-    public List<QuestionResult> getQuestionResults() {
-        return questionResults;
+    public List<ResultList> getResultLists() {
+        return resultLists;
     }
 
-    public void setQuestionResults(List<QuestionResult> questionResults) {
-        this.questionResults = questionResults;
+    public void setResultLists(List<ResultList> resultLists) {
+        this.resultLists = resultLists;
     } 
 }
