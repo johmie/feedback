@@ -6,6 +6,8 @@ import io.feedback.survey.service.SurveyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -25,9 +27,10 @@ public class SurveyController {
 
     @RequestMapping(value = "/survey/{surveyId}/{pageNumber}")
     public String page(@PathVariable Long surveyId,
-            @PathVariable Integer pageNumber, Model model) {
-        Page page = getSurveyService().loadSurveyPage(surveyId,
-                pageNumber);
+            @PathVariable Integer pageNumber,
+            @ModelAttribute("surveyForm") SurveyForm surveyForm, Model model, BindingResult result) {
+        System.out.println(result.hasErrors());
+        Page page = getSurveyService().loadSurveyPage(surveyId, pageNumber);
         model.addAttribute("page", page);
         return "survey/page";
     }

@@ -5,6 +5,8 @@ import java.util.Set;
 import io.feedback.core.entity.AbstractBaseEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -14,15 +16,28 @@ import javax.persistence.OrderBy;
 @Entity
 public class Question extends AbstractBaseEntity {
 
+    public static enum Type {
+        SINGLE, MULTIPLE
+    }
+    @Enumerated(EnumType.STRING)
+    private Type type;
     private String name;
     private String title;
-    private Integer position;
+    private Integer position = 0;
     @ManyToOne
     @JoinColumn(name = "page_id")
     private Page page;
     @OneToMany(mappedBy = "question", fetch = FetchType.EAGER)
     @OrderBy("position ASC")
     private Set<Answer> answers;
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
 
     public Page getPage() {
         return page;

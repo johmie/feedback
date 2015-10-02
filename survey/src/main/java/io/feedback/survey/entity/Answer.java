@@ -1,10 +1,13 @@
 package io.feedback.survey.entity;
 
+import java.util.Set;
+
 import io.feedback.core.entity.AbstractBaseEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Answer extends AbstractBaseEntity {
@@ -12,10 +15,12 @@ public class Answer extends AbstractBaseEntity {
     private String name;
     private String title;
     private String value;
-    private Integer position;
+    private Integer position = 0;
     @ManyToOne
     @JoinColumn(name = "question_id")
     private Question question;
+    @OneToMany(mappedBy = "answer")
+    private Set<Result> results;
 
     public Question getQuestion() {
         return question;

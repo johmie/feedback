@@ -6,6 +6,7 @@ import javax.persistence.PersistenceContext;
 import io.feedback.survey.entity.Answer;
 import io.feedback.survey.entity.Page;
 import io.feedback.survey.entity.Question;
+import io.feedback.survey.entity.Question.Type;
 import io.feedback.survey.entity.Survey;
 import io.feedback.survey.service.AnswerService;
 import io.feedback.survey.service.PageService;
@@ -34,6 +35,7 @@ public class TestSpringHibernateJpa {
         entityManager.createNativeQuery("ALTER TABLE Page AUTO_INCREMENT = 1").executeUpdate();
         entityManager.createNativeQuery("ALTER TABLE Question AUTO_INCREMENT = 1").executeUpdate();
         entityManager.createNativeQuery("ALTER TABLE Answer AUTO_INCREMENT = 1").executeUpdate();
+        entityManager.createNativeQuery("ALTER TABLE Result AUTO_INCREMENT = 1").executeUpdate();
         
         surveyService = (SurveyService) context.getBean("surveyService");
         pageService = (PageService) context.getBean("pageService");
@@ -42,6 +44,7 @@ public class TestSpringHibernateJpa {
         
         Survey survey = createSurvey();
         createPages(survey);
+        System.out.println("End of test");
         //listPages();
     }
     
@@ -88,6 +91,7 @@ public class TestSpringHibernateJpa {
     private void createQuestions(Page page) {
         
         Question question1 = new Question();
+        question1.setType(Type.SINGLE);
         question1.setName("Schönste Farbe");
         question1.setTitle("Einfachauswahl: Welche Farbe ist die schönste?");
         question1.setPosition(1);
@@ -96,11 +100,13 @@ public class TestSpringHibernateJpa {
         createAnswers1(question1);
         
         Question question2 = new Question();
+        question2.setType(Type.MULTIPLE);
         question2.setName("Farben");
         question2.setTitle("Mehrfachauswahl: Welche Farben findest du schön?");
         question2.setPosition(2);
         question2.setPage(page);
         questionService.saveQuestion(question2);
+        createAnswers1(question2);
     }
 
     private void createAnswers1(Question question) {

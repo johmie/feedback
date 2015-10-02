@@ -16,7 +16,7 @@ public class Page extends AbstractBaseEntity {
 
     private String name;
     private String title;
-    private Integer position;
+    private Integer position = 0;
     @ManyToOne
     @JoinColumn(name = "survey_id")
     private Survey survey;

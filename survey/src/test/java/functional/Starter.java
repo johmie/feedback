@@ -15,6 +15,7 @@ public class Starter {
                 .getBean("testSpringHibernateJpa");
         
         test.test(context);
+        System.out.println("Ent of test in Starter");
         
         ((ConfigurableApplicationContext)context).close();
     }
