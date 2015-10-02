@@ -1,10 +1,10 @@
-package io.feedback.survey.web;
+package io.feedback.survey.web.form;
 
 import io.feedback.survey.entity.Result;
 
 import java.util.List;
 
-public class ResultSet {
+public class QuestionResult {
 
     private List<Result> results;
 

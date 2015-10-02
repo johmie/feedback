@@ -107,36 +107,41 @@ public class TestSpringHibernateJpa {
         question2.setPage(page);
         questionService.saveQuestion(question2);
         createAnswers1(question2);
+        
+        Question question3 = new Question();
+        question3.setType(Type.MATRIX);
+        question3.setName("Farben Matrix");
+        question3.setTitle("Matrix: Welche Farben findest du schön?");
+        question3.setPosition(2);
+        question3.setPage(page);
+        questionService.saveQuestion(question3);
+        createAnswers1(question3);
     }
 
     private void createAnswers1(Question question) {
         
         Answer answer1 = new Answer();
-        answer1.setTitle("Antwortoption #1");
-        answer1.setName("grün");
+        answer1.setName("Antwortoption #1");
+        answer1.setTitle("grün");
         answer1.setValue("#00ff00");
         answer1.setPosition(1);
         answer1.setQuestion(question);
         answerService.saveAnswer(answer1);
         
         Answer answer2 = new Answer();
-        answer2.setTitle("Antwortoption #2");
-        answer2.setName("rot");
+        answer2.setName("Antwortoption #2");
+        answer2.setTitle("rot");
         answer2.setValue("#ff0000");
         answer2.setPosition(2);
         answer2.setQuestion(question);
         answerService.saveAnswer(answer2);
         
         Answer answer3 = new Answer();
-        answer3.setTitle("Antwortoption #3");
-        answer3.setName("blau");
+        answer3.setName("Antwortoption #3");
+        answer3.setTitle("blau");
         answer3.setValue("#0000ff");
         answer3.setPosition(3);
         answer3.setQuestion(question);
         answerService.saveAnswer(answer3);
-        answer3.setName("blau resaved");
-        answerService.saveAnswer(answer3);
-        
-        answerService.deleteAnswer(answer2);
     }
 }

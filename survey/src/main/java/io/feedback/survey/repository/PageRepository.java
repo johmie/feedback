@@ -14,8 +14,8 @@ public class PageRepository extends AbstractBaseRepository<Page> {
         Query query = getEntityManager().createQuery(
                 "select p from Page p where survey_id = :surveyId order by position");
         query.setParameter("surveyId", surveyId);
-        query.setMaxResults(1);
         query.setFirstResult(pageNumber - 1);
+        query.setMaxResults(1);
         Page page = (Page) query.getSingleResult();
         return page;
     }

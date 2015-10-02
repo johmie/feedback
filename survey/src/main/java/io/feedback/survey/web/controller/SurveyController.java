@@ -1,7 +1,8 @@
-package io.feedback.survey.web;
+package io.feedback.survey.web.controller;
 
 import io.feedback.survey.entity.Page;
 import io.feedback.survey.service.SurveyService;
+import io.feedback.survey.web.form.PageForm;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,7 +29,8 @@ public class SurveyController {
     @RequestMapping(value = "/survey/{surveyId}/{pageNumber}")
     public String page(@PathVariable Long surveyId,
             @PathVariable Integer pageNumber,
-            @ModelAttribute("surveyForm") SurveyForm surveyForm, Model model, BindingResult result) {
+            @ModelAttribute("pageForm") PageForm pageForm, Model model,
+            BindingResult result) {
         System.out.println(result.hasErrors());
         Page page = getSurveyService().loadSurveyPage(surveyId, pageNumber);
         model.addAttribute("page", page);

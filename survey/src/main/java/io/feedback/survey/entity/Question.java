@@ -17,7 +17,7 @@ import javax.persistence.OrderBy;
 public class Question extends AbstractBaseEntity {
 
     public static enum Type {
-        SINGLE, MULTIPLE
+        SINGLE, MULTIPLE, MATRIX
     }
     @Enumerated(EnumType.STRING)
     private Type type;
