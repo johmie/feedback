@@ -6,11 +6,11 @@
         <c:set var="answer" value="${answer}" scope="request"/>
         <c:set var="statusLoopAnswers" value="${statusLoopAnswers}" scope="request"/>
         <c:choose>
-            <c:when test="${question.type == 'SINGLE'}">
-                <jsp:include page="question/single.jsp"></jsp:include>
+            <c:when test="${question.type == 'SINGLE_CHOICE'}">
+                <jsp:include page="question/singleChoice.jsp"></jsp:include>
             </c:when>
-            <c:when test="${question.type == 'MULTIPLE'}">
-                <jsp:include page="question/multiple.jsp"></jsp:include>
+            <c:when test="${question.type == 'MULTIPLE_CHOICE'}">
+                <jsp:include page="question/multipleChoice.jsp"></jsp:include>
             </c:when>
             <c:when test="${question.type == 'MATRIX'}">
                 MATRIX

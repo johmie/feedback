@@ -1,8 +1,8 @@
-package io.feedback.survey.web.form;
+package io.feedback.survey.web.bind;
 
 import java.util.List;
 
-public class PageForm {
+public class PageModelAttribute {
 
     private List<ResultList> resultLists;
 

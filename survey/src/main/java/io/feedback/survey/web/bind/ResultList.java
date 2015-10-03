@@ -1,4 +1,4 @@
-package io.feedback.survey.web.form;
+package io.feedback.survey.web.bind;
 
 import io.feedback.survey.entity.Result;
 

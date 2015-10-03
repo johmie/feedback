@@ -5,7 +5,7 @@
     <tiles:putAttribute name="content">
         <div class="page">
             <h1>${page.title}</h1>
-            <form:form method="post" modelAttribute="pageForm">
+            <form:form method="post" modelAttribute="pageModelAttribute">
                 <c:forEach var="question" items="${page.questions}" varStatus="statusLoopQuestions">
                     <c:set var="question" value="${question}" scope="request"/>
                     <c:set var="statusLoopQuestions" value="${statusLoopQuestions}" scope="request"/>

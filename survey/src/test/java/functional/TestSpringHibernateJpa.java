@@ -90,7 +90,7 @@ public class TestSpringHibernateJpa {
     private void createQuestions(Page page) {
         
         Question question1 = new Question();
-        question1.setType(io.feedback.survey.entity.Question.Type.SINGLE);
+        question1.setType(io.feedback.survey.entity.Question.Type.SINGLE_CHOICE);
         question1.setName("Schönste Farbe");
         question1.setTitle("Einfachauswahl: Welche Farbe ist die schönste?");
         question1.setPosition(1);
@@ -99,7 +99,7 @@ public class TestSpringHibernateJpa {
         createAnswers1(question1);
         
         Question question2 = new Question();
-        question2.setType(io.feedback.survey.entity.Question.Type.MULTIPLE);
+        question2.setType(io.feedback.survey.entity.Question.Type.MULTIPLE_CHOICE);
         question2.setName("Farben");
         question2.setTitle("Mehrfachauswahl: Welche Farben findest du schön?");
         question2.setPosition(2);
@@ -146,7 +146,7 @@ public class TestSpringHibernateJpa {
         Answer answer4 = new Answer();
         answer4.setName("Antwortoption #4");
         answer4.setTitle("freitext");
-        answer4.setType(io.feedback.survey.entity.Answer.Type.FREE_TEXT);
+        answer4.setValueType(io.feedback.survey.entity.Answer.ValueType.FREE_TEXT);
         answer4.setPosition(4);
         answer4.setQuestion(question);
         answerService.saveAnswer(answer4);
