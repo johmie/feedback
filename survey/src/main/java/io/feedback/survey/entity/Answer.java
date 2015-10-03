@@ -5,6 +5,8 @@ import java.util.Set;
 import io.feedback.core.entity.AbstractBaseEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -12,6 +14,11 @@ import javax.persistence.OneToMany;
 @Entity
 public class Answer extends AbstractBaseEntity {
 
+    public static enum Type {
+        PREDEFINED, FREE_TEXT 
+    }
+    @Enumerated(EnumType.STRING)
+    private Type type = Type.PREDEFINED;
     private String name;
     private String title;
     private String value;
@@ -21,6 +28,14 @@ public class Answer extends AbstractBaseEntity {
     private Question question;
     @OneToMany(mappedBy = "answer")
     private Set<Result> results;
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
 
     public Question getQuestion() {
         return question;

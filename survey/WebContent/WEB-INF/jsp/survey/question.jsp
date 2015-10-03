@@ -3,16 +3,14 @@
 <div class="question">
     <h2>${question.title}</h2>
     <c:forEach items="${question.answers}" var="answer" varStatus="statusLoopAnswers">
+        <c:set var="answer" value="${answer}" scope="request"/>
+        <c:set var="statusLoopAnswers" value="${statusLoopAnswers}" scope="request"/>
         <c:choose>
             <c:when test="${question.type == 'SINGLE'}">
-                <form:radiobutton
-                    path="resultLists[${statusLoopQuestions.index}].results[0].answer.id"
-                    value="${answer.id}"/> ${answer.title}<br/>
+                <jsp:include page="question/single.jsp"></jsp:include>
             </c:when>
             <c:when test="${question.type == 'MULTIPLE'}">
-                <form:checkbox
-                    path="resultLists[${statusLoopQuestions.index}].results[${statusLoopAnswers.index}].answer.id"
-                    value="${answer.id}"/> ${answer.title}<br/>
+                <jsp:include page="question/multiple.jsp"></jsp:include>
             </c:when>
             <c:when test="${question.type == 'MATRIX'}">
                 MATRIX

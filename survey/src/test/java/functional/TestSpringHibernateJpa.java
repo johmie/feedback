@@ -6,7 +6,6 @@ import javax.persistence.PersistenceContext;
 import io.feedback.survey.entity.Answer;
 import io.feedback.survey.entity.Page;
 import io.feedback.survey.entity.Question;
-import io.feedback.survey.entity.Question.Type;
 import io.feedback.survey.entity.Survey;
 import io.feedback.survey.service.AnswerService;
 import io.feedback.survey.service.PageService;
@@ -91,7 +90,7 @@ public class TestSpringHibernateJpa {
     private void createQuestions(Page page) {
         
         Question question1 = new Question();
-        question1.setType(Type.SINGLE);
+        question1.setType(io.feedback.survey.entity.Question.Type.SINGLE);
         question1.setName("Schönste Farbe");
         question1.setTitle("Einfachauswahl: Welche Farbe ist die schönste?");
         question1.setPosition(1);
@@ -100,7 +99,7 @@ public class TestSpringHibernateJpa {
         createAnswers1(question1);
         
         Question question2 = new Question();
-        question2.setType(Type.MULTIPLE);
+        question2.setType(io.feedback.survey.entity.Question.Type.MULTIPLE);
         question2.setName("Farben");
         question2.setTitle("Mehrfachauswahl: Welche Farben findest du schön?");
         question2.setPosition(2);
@@ -109,7 +108,7 @@ public class TestSpringHibernateJpa {
         createAnswers1(question2);
         
         Question question3 = new Question();
-        question3.setType(Type.MATRIX);
+        question3.setType(io.feedback.survey.entity.Question.Type.MATRIX);
         question3.setName("Farben Matrix");
         question3.setTitle("Matrix: Welche Farben findest du schön?");
         question3.setPosition(2);
@@ -143,5 +142,13 @@ public class TestSpringHibernateJpa {
         answer3.setPosition(3);
         answer3.setQuestion(question);
         answerService.saveAnswer(answer3);
+        
+        Answer answer4 = new Answer();
+        answer4.setName("Antwortoption #4");
+        answer4.setTitle("freitext");
+        answer4.setType(io.feedback.survey.entity.Answer.Type.FREE_TEXT);
+        answer4.setPosition(4);
+        answer4.setQuestion(question);
+        answerService.saveAnswer(answer4);
     }
 }
