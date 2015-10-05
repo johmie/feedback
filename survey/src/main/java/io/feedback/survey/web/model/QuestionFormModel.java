@@ -1,10 +1,10 @@
-package io.feedback.survey.web.bind;
-
-import io.feedback.survey.entity.Result;
+package io.feedback.survey.web.model;
 
 import java.util.List;
 
-public class ResultList {
+import io.feedback.survey.entity.Result;
+
+public class QuestionFormModel {
 
     private List<Result> results;
 

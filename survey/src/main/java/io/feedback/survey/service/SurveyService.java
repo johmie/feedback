@@ -36,7 +36,7 @@ public class SurveyService {
         getSurveyRepository().insertOrUpdate(survey);
     }
     
-    public Page loadSurveyPage(Long surveyId, Integer pageNumber) {
-        return getPageRepository().findByPageNumberAndSurveyId(pageNumber, surveyId);
+    public Page loadPage(Long surveyId, Integer pageNumber) {
+        return getPageRepository().findBySurveyIdAndPageNumber(surveyId, pageNumber);
     }
 }

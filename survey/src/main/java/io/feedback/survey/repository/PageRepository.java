@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class PageRepository extends AbstractBaseRepository<Page> {
 
-    public Page findByPageNumberAndSurveyId(Integer pageNumber, Long surveyId) {
+    public Page findBySurveyIdAndPageNumber(Long surveyId, Integer pageNumber) {
         Query query = getEntityManager().createQuery(
                 "select p from Page p where survey_id = :surveyId order by position");
         query.setParameter("surveyId", surveyId);

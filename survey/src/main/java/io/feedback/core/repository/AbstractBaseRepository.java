@@ -24,7 +24,7 @@ public abstract class AbstractBaseRepository<T> {
 
     public void insertOrUpdate(T entity) {
         if (!(entity instanceof AbstractBaseEntity)) {
-            throw new RuntimeException();
+            throw new RuntimeException("Entity is not extending AbstractBaseEntity");
         }
         if (((AbstractBaseEntity) entity).getId() == null) {
             getEntityManager().persist(entity);
@@ -36,7 +36,7 @@ public abstract class AbstractBaseRepository<T> {
 
     public void delete(T entity) {
         if (!(entity instanceof AbstractBaseEntity)) {
-            throw new RuntimeException();
+            throw new RuntimeException("Entity is not extending AbstractBaseEntity");
         }
         getEntityManager().remove(entity);
     }
