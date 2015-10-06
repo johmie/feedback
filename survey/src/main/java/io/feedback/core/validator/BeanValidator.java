@@ -1,8 +1,5 @@
-package io.feedback.survey.web.validator;
+package io.feedback.core.validator;
 
-import io.feedback.survey.web.model.QuestionFormModel;
-
-import java.util.List;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -20,6 +17,7 @@ public class BeanValidator implements org.springframework.validation.Validator,
 
     private Validator validator;
 
+    @Override
     public void afterPropertiesSet() throws Exception {
         ValidatorFactory validatorFactory = Validation
                 .buildDefaultValidatorFactory();
@@ -32,9 +30,6 @@ public class BeanValidator implements org.springframework.validation.Validator,
     }
 
     public void validate(Object target, Errors errors, String prefix) {
-                List<QuestionFormModel> questions = (List<QuestionFormModel>) target;
-                errors.rejectValue(prefix, "", "message");
-                System.out.println(questions.size() + " questions vorhanden");
         Set<ConstraintViolation<Object>> constraintViolations = validator
                 .validate(target);
         for (ConstraintViolation<Object> constraintViolation : constraintViolations) {

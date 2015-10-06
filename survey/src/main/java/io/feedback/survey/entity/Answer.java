@@ -16,11 +16,11 @@ import javax.persistence.OneToMany;
 public class Answer extends AbstractBaseEntity {
 
     public static enum ValueType {
-        PREDEFINED, FREE_TEXT 
+        CHOICE, FREE_TEXT 
     }
     @Enumerated(EnumType.STRING)
     @Column(name = "value_type")
-    private ValueType valueType = ValueType.PREDEFINED;
+    private ValueType valueType = ValueType.CHOICE;
     private String name;
     private String title;
     private String value;

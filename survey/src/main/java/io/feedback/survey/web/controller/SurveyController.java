@@ -5,7 +5,7 @@ import javax.validation.Valid;
 import io.feedback.survey.entity.Page;
 import io.feedback.survey.service.SurveyService;
 import io.feedback.survey.web.model.PageFormModel;
-import io.feedback.survey.web.validator.PageValidator;
+import io.feedback.survey.web.validator.PageFormValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class SurveyController {
 
-    private PageValidator validator;
+    @Autowired
+    private PageFormValidator pageFormValidator;
 
     private SurveyService surveyService;
 
@@ -34,14 +35,9 @@ public class SurveyController {
         this.surveyService = surveyService;
     }
 
-    @Autowired
-    public void setValidator(PageValidator validator) {
-        this.validator = validator;
-    }
-
     @InitBinder("pageFormModel")
     protected void initBinder(WebDataBinder binder) {
-        binder.setValidator(this.validator);
+        binder.setValidator(pageFormValidator);
     }
 
     @RequestMapping(value = "/survey/{surveyId}/{pageNumber}", method = RequestMethod.GET)
@@ -61,9 +57,7 @@ public class SurveyController {
             @PathVariable Integer pageNumber,
             @Valid @ModelAttribute("pageFormModel") PageFormModel pageFormModel,
             BindingResult result, Model model) {
-        Boolean hasErrors = result.hasErrors();
-        System.out.println("****************" + hasErrors + "_");
-
+        //Boolean hasErrors = result.hasErrors();
         Page page = getSurveyService().loadPage(surveyId, pageNumber);
         model.addAttribute("page", page);
         return "survey/page";

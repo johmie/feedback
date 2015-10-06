@@ -7,14 +7,15 @@
         <c:set var="statusLoopAnswers" value="${statusLoopAnswers}" scope="request"/>
         <c:choose>
             <c:when test="${question.type == 'SINGLE_CHOICE'}">
-                <jsp:include page="question/singleChoice.jsp"></jsp:include>
+                <jsp:include page="answer/singleChoice.jsp"></jsp:include>
             </c:when>
             <c:when test="${question.type == 'MULTIPLE_CHOICE'}">
-                <jsp:include page="question/multipleChoice.jsp"></jsp:include>
+                <jsp:include page="answer/multipleChoice.jsp"></jsp:include>
             </c:when>
             <c:when test="${question.type == 'MATRIX'}">
                 MATRIX
             </c:when>
         </c:choose>
+        <form:errors path="questions[${statusLoopQuestions.index}].results[${statusLoopAnswers.index}].freeText"/>
     </c:forEach>
 </div>
