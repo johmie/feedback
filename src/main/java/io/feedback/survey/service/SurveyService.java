@@ -88,6 +88,7 @@ public class SurveyService {
 
     private List<Result> extractResultsFromPageModel(PageModel pageModel) {
         List<Result> resultsFromPageModel = new ArrayList<Result>();
+
         Map<Long, QuestionModel> questionModels = pageModel.getQuestionModels();
         Iterator<Entry<Long, QuestionModel>> questionModelsIterator = questionModels.entrySet().iterator();
         while (questionModelsIterator.hasNext()) {
