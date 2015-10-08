@@ -2,17 +2,18 @@ package io.feedback.survey.entity;
 
 import java.util.Set;
 
-import io.feedback.core.entity.AbstractBaseEntity;
+import io.feedback.core.entity.AbstractEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Survey extends AbstractBaseEntity {
+public class Survey extends AbstractEntity {
 
     private String name;
     private String title;
-    @OneToMany(mappedBy = "survey")
+    @OneToMany(mappedBy = "survey", fetch = FetchType.EAGER)
     private Set<Page> pages;
 
     public Set<Page> getPages() {

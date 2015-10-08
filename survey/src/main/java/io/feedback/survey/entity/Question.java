@@ -2,7 +2,7 @@ package io.feedback.survey.entity;
 
 import java.util.Set;
 
-import io.feedback.core.entity.AbstractBaseEntity;
+import io.feedback.core.entity.AbstractEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -14,17 +14,19 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 
 @Entity
-public class Question extends AbstractBaseEntity {
+public class Question extends AbstractEntity {
 
     public static enum Type {
-        SINGLE_CHOICE, MULTIPLE_CHOICE, MATRIX
+        SINGLE_CHOICE,
+        MULTIPLE_CHOICE,
+        MATRIX
     }
     @Enumerated(EnumType.STRING)
     private Type type;
     private String name;
     private String title;
     private Integer position = 0;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "page_id")
     private Page page;
     @OneToMany(mappedBy = "question", fetch = FetchType.EAGER)

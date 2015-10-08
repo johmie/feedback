@@ -2,21 +2,23 @@ package io.feedback.survey.entity;
 
 import java.util.Set;
 
-import io.feedback.core.entity.AbstractBaseEntity;
+import io.feedback.core.entity.AbstractEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Answer extends AbstractBaseEntity {
+public class Answer extends AbstractEntity {
 
     public static enum ValueType {
-        CHOICE, FREE_TEXT 
+        CHOICE,
+        FREE_TEXT 
     }
     @Enumerated(EnumType.STRING)
     @Column(name = "value_type")
@@ -25,7 +27,7 @@ public class Answer extends AbstractBaseEntity {
     private String title;
     private String value;
     private Integer position = 0;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
     private Question question;
     @OneToMany(mappedBy = "answer")

@@ -111,10 +111,19 @@ public class TestSpringHibernateJpa {
         question3.setType(io.feedback.survey.entity.Question.Type.MATRIX);
         question3.setName("Farben Matrix");
         question3.setTitle("Matrix: Welche Farben findest du schön?");
-        question3.setPosition(2);
+        question3.setPosition(4);
         question3.setPage(page);
         questionService.saveQuestion(question3);
         createAnswers1(question3);
+        
+        Question question4 = new Question();
+        question4.setType(io.feedback.survey.entity.Question.Type.MULTIPLE_CHOICE);
+        question4.setName("Farben 2");
+        question4.setTitle("Mehrfachauswahl 2: Welche Farben findest du schön?");
+        question4.setPosition(3);
+        question4.setPage(page);
+        questionService.saveQuestion(question4);
+        createAnswers1(question4);
     }
 
     private void createAnswers1(Question question) {

@@ -4,7 +4,7 @@ import java.util.List;
 
 import io.feedback.survey.entity.Result;
 
-public class QuestionFormModel {
+public class QuestionModel {
 
     private List<Result> results;
 

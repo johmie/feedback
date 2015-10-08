@@ -5,10 +5,9 @@
     <tiles:putAttribute name="content">
         <div class="page">
             <h1>${page.title}</h1>
-            <form:form method="post" modelAttribute="pageFormModel">
-                <c:forEach var="question" items="${page.questions}" varStatus="statusLoopQuestions">
+            <form:form method="post" modelAttribute="pageModel">
+                <c:forEach var="question" items="${page.questions}">
                     <c:set var="question" value="${question}" scope="request"/>
-                    <c:set var="statusLoopQuestions" value="${statusLoopQuestions}" scope="request"/>
                     <jsp:include page="question.jsp"></jsp:include>
                 </c:forEach>
                 <input type="submit" value="weiter"/>

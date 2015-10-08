@@ -2,7 +2,7 @@ package io.feedback.survey.entity;
 
 import java.util.Set;
 
-import io.feedback.core.entity.AbstractBaseEntity;
+import io.feedback.core.entity.AbstractEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,12 +12,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 
 @Entity
-public class Page extends AbstractBaseEntity {
+public class Page extends AbstractEntity {
 
     private String name;
     private String title;
     private Integer position = 0;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "survey_id")
     private Survey survey;
     @OneToMany(mappedBy = "page", fetch = FetchType.EAGER)
