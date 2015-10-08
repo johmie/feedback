@@ -2,8 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <div class="question">
     <h2>${question.title}</h2>
-    <form:errors
-            path="questionModels[${question.id}]"/>
+    <form:errors path="questionModels[${question.id}]"/>
     <c:forEach items="${question.answers}" var="answer" varStatus="statusLoopAnswers">
         <c:set var="answer" value="${answer}" scope="request"/>
         <c:set var="statusLoopAnswers" value="${statusLoopAnswers}" scope="request"/>
@@ -18,7 +17,5 @@
                 MATRIX
             </c:when>
         </c:choose>
-        <form:errors
-                path="questionModels[${question.id}].results[${statusLoopAnswers.index}].freeText"/>
     </c:forEach>
 </div>

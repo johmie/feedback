@@ -3,7 +3,6 @@ package io.feedback.survey.web.controller;
 import io.feedback.survey.entity.Page;
 import io.feedback.survey.service.SurveyService;
 import io.feedback.survey.web.model.PageModel;
-import io.feedback.survey.web.validator.PageModelValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,8 +18,6 @@ public class SurveyController {
 
     private SurveyService surveyService;
 
-    private PageModelValidator pageModelValidator;
-
     public SurveyService getSurveyService() {
         return surveyService;
     }
@@ -28,15 +25,6 @@ public class SurveyController {
     @Autowired
     public void setSurveyService(SurveyService surveyService) {
         this.surveyService = surveyService;
-    }
-
-    @Autowired
-    public void setPageModelValidator(PageModelValidator pageModelValidator) {
-        this.pageModelValidator = pageModelValidator;
-    }
-    
-    public PageModelValidator getPageModelValidator() {
-        return pageModelValidator;
     }
 
     @RequestMapping(value = "/survey/{surveyId}/{pageNumber}", method = RequestMethod.GET)
@@ -55,18 +43,10 @@ public class SurveyController {
             @PathVariable Long surveyId,
             @PathVariable Integer pageNumber,
             @ModelAttribute("pageModel") PageModel pageModel,
-            BindingResult result,
+            BindingResult bindingResult,
             Model model) {
         Page page = getSurveyService().loadPage(surveyId, pageNumber);
-
-        getPageModelValidator().validate(pageModel, result);
-        if (result.hasErrors()) {
-            System.out.println("Errors exist");
-        }
-        else {
-            System.out.println("No errors");
-        }
-
+        getSurveyService().saveResultsIfValid(pageModel, bindingResult);
         model.addAttribute("page", page);
         return "survey/page";
     }

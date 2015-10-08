@@ -18,17 +18,21 @@ public class QuestionModelValidator {
     private ResultValidator resultValidator;
 
     public void validate(QuestionModel questionModel, Errors errors, Question question) {
-        boolean valid = false;
+        int countSelectedAnswers = 0;
+        boolean invalidResultExists = false;
         List<Result> results = questionModel.getResults();
         Iterator<Result> resultsIterator = results.iterator();
         while (resultsIterator.hasNext()) {
             Result result = resultsIterator.next();
-            if (resultValidator.isValid(result)) {
-                valid = true;
+            if (!resultValidator.isValid(result)) {
+                invalidResultExists = true;
                 break;
             }
+            else if (result.getAnswer() != null && result.getAnswer().getId() != null) {
+                countSelectedAnswers++;
+            }
         }
-        if (!valid) {
+        if (invalidResultExists || countSelectedAnswers < 1) {
             errors.rejectValue("questionModels[" + question.getId() + "]", "", "No answer selected");
         }
     }

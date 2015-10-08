@@ -23,6 +23,9 @@ public class ResultValidator {
                 return true;
             }
         }
+        else if (result.getAnswer() != null && result.getAnswer().getId() == null) {
+            return true;
+        }
         return false;
     }
 }
