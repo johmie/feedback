@@ -10,10 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class PageRepository extends AbstractRepository<Page> {
 
-    public PageRepository() {
-        super(Page.class);
-    }
-
     public Page findBySurveyIdAndPageNumber(Long surveyId, Integer pageNumber) {
         Query query = getEntityManager().createQuery(
                 "from Page p " +

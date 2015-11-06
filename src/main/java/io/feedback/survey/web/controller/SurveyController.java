@@ -1,9 +1,10 @@
 package io.feedback.survey.web.controller;
 
 import io.feedback.survey.entity.Page;
-import io.feedback.survey.service.SurveyService;
+import io.feedback.survey.service.PageService;
 import io.feedback.survey.web.model.PageModel;
 
+import io.feedback.survey.web.service.ResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,15 +17,26 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class SurveyController {
 
-    private SurveyService surveyService;
+    private PageService pageService;
 
-    public SurveyService getSurveyService() {
-        return surveyService;
+    private ResultService resultService;
+
+    public PageService getPageService() {
+        return pageService;
     }
 
     @Autowired
-    public void setSurveyService(SurveyService surveyService) {
-        this.surveyService = surveyService;
+    public void setPageService(PageService pageService) {
+        this.pageService = pageService;
+    }
+
+    public ResultService getResultService() {
+        return resultService;
+    }
+
+    @Autowired
+    public void setResultService(ResultService resultService) {
+        this.resultService = resultService;
     }
 
     @RequestMapping(value = "/survey/{surveyId}/{pageNumber}", method = RequestMethod.GET)
@@ -33,7 +45,7 @@ public class SurveyController {
             @PathVariable Integer pageNumber,
             @ModelAttribute("pageModel") PageModel pageModel,
             Model model) {
-        Page page = getSurveyService().loadPage(surveyId, pageNumber);
+        Page page = getPageService().loadPage(surveyId, pageNumber);
         model.addAttribute("page", page);
         return "survey/page";
     }
@@ -45,8 +57,8 @@ public class SurveyController {
             @ModelAttribute("pageModel") PageModel pageModel,
             BindingResult bindingResult,
             Model model) {
-        Page page = getSurveyService().loadPage(surveyId, pageNumber);
-        getSurveyService().saveResultsIfValid(pageModel, bindingResult);
+        getResultService().saveResultsIfValid(pageModel, bindingResult);
+        Page page = getPageService().loadPage(surveyId, pageNumber);
         model.addAttribute("page", page);
         return "survey/page";
     }

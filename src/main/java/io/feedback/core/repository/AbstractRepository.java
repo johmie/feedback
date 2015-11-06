@@ -5,17 +5,13 @@ import io.feedback.core.entity.AbstractEntity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.core.GenericTypeResolver;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(propagation = Propagation.REQUIRED)
-public abstract class AbstractRepository<T> {
-
-    private Class<T> clazz;
-
-    public AbstractRepository(Class<T> clazz) {
-        this.clazz = clazz;
-    }
+public abstract class
+        AbstractRepository<T> {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -29,7 +25,7 @@ public abstract class AbstractRepository<T> {
     }
 
     public T findById(Long id) {
-        T entity = getEntityManager().find(clazz, id);
+        T entity = getEntityManager().find((Class<T>) GenericTypeResolver.resolveTypeArgument(getClass(), AbstractRepository.class), id);
         return entity;
     }
 

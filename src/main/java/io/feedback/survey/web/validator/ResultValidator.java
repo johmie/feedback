@@ -15,8 +15,7 @@ public class ResultValidator {
 
     public Boolean isValid(Result result) {
         if (result.getAnswer() != null && result.getAnswer().getId() != null) {
-            Answer answer = answerRepository.findById(result.getAnswer()
-                    .getId());
+            Answer answer = answerRepository.findById(result.getAnswer().getId());
             if (answer.getValueType() == Answer.ValueType.CHOICE
                     || answer.getValueType() == Answer.ValueType.FREE_TEXT
                     && result.getFreeText().length() != 0) {

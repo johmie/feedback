@@ -12,10 +12,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ResultRepository extends AbstractRepository<Result> {
 
-    public ResultRepository() {
-        super(Result.class);
-    }
-
     public void saveResults(List<Result> results) {
         Iterator<Result> resultsIterator = results.iterator();
         while (resultsIterator.hasNext()) {

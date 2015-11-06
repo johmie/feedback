@@ -16,11 +16,15 @@ public class PageService {
     }
 
     @Autowired
-    public void setProjectRepository(PageRepository pageRepository) {
+    public void setPageRepository(PageRepository pageRepository) {
         this.pageRepository = pageRepository;
     }
 
     public void savePage(Page page) {
         getPageRepository().insertOrUpdate(page);
+    }
+
+    public Page loadPage(Long surveyId, Integer pageNumber) {
+        return getPageRepository().findBySurveyIdAndPageNumber(surveyId, pageNumber);
     }
 }

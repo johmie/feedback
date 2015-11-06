@@ -8,7 +8,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class SurveyRepository extends AbstractRepository<Survey> {
 
-    public SurveyRepository() {
-        super(Survey.class);
-    }
 }

@@ -4,9 +4,6 @@ import io.feedback.survey.entity.Question;
 import io.feedback.survey.entity.Result;
 import io.feedback.survey.web.model.QuestionModel;
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -20,10 +17,7 @@ public class QuestionModelValidator {
     public void validate(QuestionModel questionModel, Errors errors, Question question) {
         int countSelectedAnswers = 0;
         boolean invalidResultExists = false;
-        List<Result> results = questionModel.getResults();
-        Iterator<Result> resultsIterator = results.iterator();
-        while (resultsIterator.hasNext()) {
-            Result result = resultsIterator.next();
+        for (Result result : questionModel.getResults()) {
             if (!resultValidator.isValid(result)) {
                 invalidResultExists = true;
                 break;
@@ -34,5 +28,9 @@ public class QuestionModelValidator {
         if (invalidResultExists || countSelectedAnswers < 1) {
             errors.rejectValue("questionModels[" + question.getId() + "]", "", "No answer selected");
         }
+    }
+
+    private boolean resultIsSelected(Result result) {
+        return true;
     }
 }
