@@ -29,10 +29,8 @@ public class ResultServiceTest {
     @Before
     public void setUp() {
         resultService = new ResultService();
-        PageModelValidator pageModelValidatorMock = mock(PageModelValidator.class);
-        resultService.setPageModelValidator(pageModelValidatorMock);
-        ResultRepository resultRepositoryMock = mock(ResultRepository.class);
-        resultService.setResultRepository(resultRepositoryMock);
+        resultService.setPageModelValidator(mock(PageModelValidator.class));
+        resultService.setResultRepository(mock(ResultRepository.class));
     }
 
     @Test

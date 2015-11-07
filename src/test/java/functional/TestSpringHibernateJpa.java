@@ -67,18 +67,20 @@ public class TestSpringHibernateJpa {
     public void createPages(Survey survey) {
 
         Page page = new Page();
+        page.setPosition(0);
         page.setName("Page #1");
         page.setTitle("Page #1");
         page.setSurvey(survey);
         pageService.savePage(page);
         System.out.println("Page #1: " + page + " added successfully");
 
-//        Page page2 = new Page();
-//        page2.setName("Page #2");
-//        page2.setTitle("Page #2");
-//        page2.setSurvey(survey);
-//        pageService.addPage(page2);
-//        System.out.println("Page #2: " + page2 + " added successfully");
+        Page page2 = new Page();
+        page2.setPosition(1);
+        page2.setName("Page #2");
+        page2.setTitle("Page #2");
+        page2.setSurvey(survey);
+        pageService.savePage(page2);
+        System.out.println("Page #2: " + page2 + " added successfully");
 //        
 //        Page page3 = new Page();
 //        page3.setName("Page #3");

@@ -1,7 +1,7 @@
 package io.feedback.core.repository;
 
 import io.feedback.core.entity.AbstractEntity;
-import io.feedback.core.wrapper.org.springframework.core.GenericTypeResolver;
+import io.feedback.wrapper.org.springframework.core.GenericTypeResolver;
 import junitparams.JUnitParamsRunner;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,10 +28,8 @@ public class AbstractRepositoryTest {
     @Before
     public void setUp() {
         abstractRepository = mock(AbstractRepository.class, Mockito.CALLS_REAL_METHODS);
-        EntityManager entityManagerMock = mock(EntityManager.class);
-        abstractRepository.setEntityManager(entityManagerMock);
-        GenericTypeResolver genericTypeResolver = mock(GenericTypeResolver.class);
-        abstractRepository.setGenericTypeResolver(genericTypeResolver);
+        abstractRepository.setEntityManager(mock(EntityManager.class));
+        abstractRepository.setGenericTypeResolver(mock(GenericTypeResolver.class));
     }
 
     @Test

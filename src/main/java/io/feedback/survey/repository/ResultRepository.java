@@ -1,6 +1,5 @@
 package io.feedback.survey.repository;
 
-import java.util.Iterator;
 import java.util.List;
 
 import io.feedback.core.repository.AbstractRepository;
@@ -13,12 +12,14 @@ import org.springframework.stereotype.Repository;
 public class ResultRepository extends AbstractRepository<Result> {
 
     public void saveResults(List<Result> results) {
-        Iterator<Result> resultsIterator = results.iterator();
-        while (resultsIterator.hasNext()) {
-            Result result = resultsIterator.next();
-            Answer answer = getEntityManager().find(Answer.class, result.getAnswer().getId());
-            result.setAnswer(answer);
+        for (Result result : results) {
+            initializeAnswerOfResult(result);
             insertOrUpdate(result);
         }
+    }
+
+    private void initializeAnswerOfResult(Result result) {
+        Answer answer = getEntityManager().find(Answer.class, result.getAnswer().getId());
+        result.setAnswer(answer);
     }
 }

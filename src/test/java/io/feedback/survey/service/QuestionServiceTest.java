@@ -21,8 +21,7 @@ public class QuestionServiceTest {
     @Before
     public void setUp() {
         questionService = new QuestionService();
-        QuestionRepository questionRepositoryMock = mock(QuestionRepository.class);
-        questionService.setQuestionRepository(questionRepositoryMock);
+        questionService.setQuestionRepository(mock(QuestionRepository.class));
     }
 
     @Test

@@ -1,4 +1,4 @@
-package io.feedback.core.wrapper.org.springframework.core;
+package io.feedback.wrapper.org.springframework.core;
 
 import org.springframework.stereotype.Component;
 

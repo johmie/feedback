@@ -22,10 +22,8 @@ public class SurveyServiceTest {
     @Before
     public void setUp() {
         surveyService = new SurveyService();
-        SurveyRepository surveyRepositoryMock = mock(SurveyRepository.class);
-        surveyService.setSurveyRepository(surveyRepositoryMock);
-        PageRepository pageRepositoryMock = mock(PageRepository.class);
-        surveyService.setPageRepository(pageRepositoryMock);
+        surveyService.setSurveyRepository(mock(SurveyRepository.class));
+        surveyService.setPageRepository(mock(PageRepository.class));
     }
 
     @Test

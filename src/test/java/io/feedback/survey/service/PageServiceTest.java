@@ -21,8 +21,7 @@ public class PageServiceTest {
     @Before
     public void setUp() {
         pageService = new PageService();
-        PageRepository pageRepositoryMock = mock(PageRepository.class);
-        pageService.setPageRepository(pageRepositoryMock);
+        pageService.setPageRepository(mock(PageRepository.class));
     }
 
     @Test
