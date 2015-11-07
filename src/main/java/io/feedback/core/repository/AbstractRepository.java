@@ -5,16 +5,19 @@ import io.feedback.core.entity.AbstractEntity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.springframework.core.GenericTypeResolver;
+import io.feedback.core.wrapper.org.springframework.core.GenericTypeResolver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(propagation = Propagation.REQUIRED)
 public abstract class
-        AbstractRepository<T> {
+        AbstractRepository<T extends AbstractEntity> {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    private GenericTypeResolver genericTypeResolver;
 
     public EntityManager getEntityManager() {
         return entityManager;
@@ -24,16 +27,22 @@ public abstract class
         this.entityManager = entityManager;
     }
 
+    public GenericTypeResolver getGenericTypeResolver() {
+        return genericTypeResolver;
+    }
+
+    @Autowired
+    public void setGenericTypeResolver(GenericTypeResolver genericTypeResolver) {
+        this.genericTypeResolver = genericTypeResolver;
+    }
+
     public T findById(Long id) {
-        T entity = getEntityManager().find((Class<T>) GenericTypeResolver.resolveTypeArgument(getClass(), AbstractRepository.class), id);
-        return entity;
+        Class<T> entityClass = getGenericTypeResolver().resolveTypeArgument(getClass(), AbstractRepository.class);
+        return getEntityManager().find(entityClass, id);
     }
 
     public void insertOrUpdate(T entity) {
-        if (!(entity instanceof AbstractEntity)) {
-            throw new RuntimeException("Entity is not extending AbstractBaseEntity");
-        }
-        if (((AbstractEntity) entity).getId() == null) {
+        if (entity.getId() == null) {
             getEntityManager().persist(entity);
         } else {
             getEntityManager().merge(entity);
@@ -41,9 +50,6 @@ public abstract class
     }
 
     public void delete(T entity) {
-        if (!(entity instanceof AbstractEntity)) {
-            throw new RuntimeException("Entity is not extending AbstractBaseEntity");
-        }
         getEntityManager().remove(entity);
     }
 }

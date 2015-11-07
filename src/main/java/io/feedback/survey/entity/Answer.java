@@ -16,7 +16,7 @@ import javax.persistence.OneToMany;
 @Entity
 public class Answer extends AbstractEntity {
 
-    public static enum ValueType {
+    public enum ValueType {
         CHOICE,
         FREE_TEXT
     }
