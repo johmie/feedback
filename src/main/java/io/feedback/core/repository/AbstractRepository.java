@@ -11,8 +11,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(propagation = Propagation.REQUIRED)
-public abstract class
-        AbstractRepository<T extends AbstractEntity> {
+public abstract class AbstractRepository<T extends AbstractEntity> {
 
     @PersistenceContext
     private EntityManager entityManager;
