@@ -7,7 +7,9 @@ import io.feedback.survey.web.validator.PageModelValidator;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.validation.BindingResult;
@@ -48,6 +50,15 @@ public class ResultServiceTest {
     }
 
     @Test
+    public void saveResultsIfValidThrowsExceptionWhenPageModelContainsNoQuestionModel() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("PageModel must contain at least one QuestionModel");
+        PageModel pageModelMock = mock(PageModel.class);
+        when(pageModelMock.getQuestionModels()).thenReturn(null);
+        resultService.saveResultsIfValid(pageModelMock, mock(BindingResult.class));
+    }
+
+    @Test
     @Parameters(method = "parametersForSaveResultsIfValid")
     public void saveResultsIfValidValidates(PageModel pageModelMock, BindingResult bindingResultMock) {
         when(bindingResultMock.hasErrors()).thenReturn(false);
@@ -85,9 +96,21 @@ public class ResultServiceTest {
     }
 
     @Test
+    public void extractResultsFromPageModelThrowsExceptionWhenPageModelContainsNoQuestionModel() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("PageModel must contain at least one QuestionModel");
+        PageModel pageModelMock = mock(PageModel.class);
+        when(pageModelMock.getQuestionModels()).thenReturn(null);
+        resultService.extractResultsFromPageModel(pageModelMock);
+    }
+
+    @Test
     @Parameters(source = PageModelProvider.class, method = "provideForCountResults")
     public void extractResultsFromPageModelExtractsCorrectCount(PageModel pageModelMock, int countOfResults) {
         List<Result> results = resultService.extractResultsFromPageModel(pageModelMock);
         assertEquals(countOfResults, results.size());
     }
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 }

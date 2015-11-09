@@ -24,7 +24,7 @@ public class PageModelValidator {
 
     public void validate(PageModel pageModel, Errors errors) {
         if (pageModel.getQuestionModels() == null) {
-            throw new IllegalArgumentException("PageModel requires at least one QuestionModel");
+            throw new IllegalArgumentException("PageModel must contain at least one QuestionModel");
         }
         Map<Long, QuestionModel> questionModels = pageModel.getQuestionModels();
         Iterator<Entry<Long, QuestionModel>> questionModelsIterator = questionModels.entrySet().iterator();
