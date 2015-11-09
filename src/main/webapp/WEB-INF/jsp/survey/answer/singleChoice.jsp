@@ -7,3 +7,4 @@
         <jsp:include page="singleChoice/freeText.jsp"></jsp:include>
     </c:when>
 </c:choose>
+<br/>

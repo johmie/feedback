@@ -38,6 +38,9 @@ public class ResultService {
     }
 
     public boolean saveResultsIfValid(PageModel pageModel, BindingResult bindingResult) {
+        if (pageModel.getQuestionModels() == null) {
+            throw new IllegalArgumentException("PageModel requires at least one QuestionModel");
+        }
         getPageModelValidator().validate(pageModel, bindingResult);
         if (bindingResult.hasErrors()) {
             return false;
@@ -52,6 +55,9 @@ public class ResultService {
     }
 
     public List<Result> extractResultsFromPageModel(PageModel pageModel) {
+        if (pageModel.getQuestionModels() == null) {
+            throw new IllegalArgumentException("PageModel requires at least one QuestionModel");
+        }
         List<Result> resultsFromPageModel = new ArrayList<>();
         for (QuestionModel questionModel : pageModel.getQuestionModels().values()) {
             for (Result result : questionModel.getResults()) {

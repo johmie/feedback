@@ -29,8 +29,4 @@ public class QuestionModelValidator {
             errors.rejectValue("questionModels[" + question.getId() + "]", "", "No answer selected");
         }
     }
-
-    private boolean resultIsSelected(Result result) {
-        return true;
-    }
 }

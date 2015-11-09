@@ -69,25 +69,37 @@ public class TestSpringHibernateJpa {
         Page page = new Page();
         page.setPosition(0);
         page.setName("Page #1");
-        page.setTitle("Page #1");
+        page.setTitle("Hallo und willkommen");
         page.setSurvey(survey);
+        page.setPosition(1);
         pageService.savePage(page);
         System.out.println("Page #1: " + page + " added successfully");
 
         Page page2 = new Page();
         page2.setPosition(1);
         page2.setName("Page #2");
-        page2.setTitle("Page #2");
+        page2.setTitle("Jetzt mal ehrlich!");
         page2.setSurvey(survey);
+        page2.setPosition(2);
         pageService.savePage(page2);
         System.out.println("Page #2: " + page2 + " added successfully");
-//        
-//        Page page3 = new Page();
-//        page3.setName("Page #3");
-//        page3.setTitle("Page #3");
-//        page3.setSurvey(survey);
-//        pageService.addPage(page3);
-//        System.out.println("Page #3: " + page3 + " added successfully");
+
+        Page page3 = new Page();
+        page3.setName("Page #3");
+        page3.setTitle("Sehr gut");
+        page3.setSurvey(survey);
+        page3.setPosition(3);
+        pageService.savePage(page3);
+        System.out.println("Page #3: " + page3 + " added successfully");
+
+        Page page4 = new Page();
+        page4.setName("Page #4");
+        page4.setTitle("1000 Dank!");
+        page4.setSurvey(survey);
+        page4.setType(Page.Type.END);
+        page4.setPosition(4);
+        pageService.savePage(page4);
+        System.out.println("Page #4: " + page4 + " added successfully");
 
         createQuestions(page);
         System.out.println("Questions added to Page #1");

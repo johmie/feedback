@@ -4,15 +4,17 @@ import java.util.Set;
 
 import io.feedback.core.entity.AbstractEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
+import javax.persistence.*;
 
 @Entity
 public class Page extends AbstractEntity {
+
+    public enum Type {
+        ASK,
+        END
+    }
+    @Enumerated(EnumType.STRING)
+    private Type type = Type.ASK;
 
     private String name;
 
@@ -27,6 +29,14 @@ public class Page extends AbstractEntity {
     @OneToMany(mappedBy = "page", fetch = FetchType.EAGER)
     @OrderBy("position ASC")
     private Set<Question> questions;
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
 
     public Set<Question> getQuestions() {
         return questions;

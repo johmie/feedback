@@ -2,4 +2,5 @@
 <form:checkbox
         path="questionModels[${question.id}].results[${statusLoopAnswers.index}].answer.id"
         value="${answer.id}"/>
-<form:input path="questionModels[${question.id}].results[${statusLoopAnswers.index}].freeText"/><br/>
+<form:input path="questionModels[${question.id}].results[${statusLoopAnswers.index}].freeText"
+            class="form-control"/>
