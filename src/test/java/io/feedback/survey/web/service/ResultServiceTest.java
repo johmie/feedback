@@ -108,7 +108,7 @@ public class ResultServiceTest {
     @Parameters(source = PageModelProvider.class, method = "provideForCountResults")
     public void extractResultsFromPageModelExtractsCorrectCount(PageModel pageModelMock, int countOfResults) {
         List<Result> results = resultService.extractResultsFromPageModel(pageModelMock);
-        assertEquals((int) countOfResults, results.size());
+        assertEquals(countOfResults, results.size());
     }
 
     @Rule
