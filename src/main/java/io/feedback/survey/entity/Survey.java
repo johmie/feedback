@@ -1,12 +1,11 @@
 package io.feedback.survey.entity;
 
-import java.util.Set;
-
 import io.feedback.core.entity.AbstractEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import java.util.Set;
 
 @Entity
 public class Survey extends AbstractEntity {

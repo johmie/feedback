@@ -1,12 +1,11 @@
 package io.feedback.survey.repository;
 
-import java.util.List;
-
 import io.feedback.core.repository.AbstractRepository;
 import io.feedback.survey.entity.Answer;
 import io.feedback.survey.entity.Result;
-
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class ResultRepository extends AbstractRepository<Result> {

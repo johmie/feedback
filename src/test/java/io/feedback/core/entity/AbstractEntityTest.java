@@ -7,9 +7,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.test.context.ContextConfiguration;
 
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 
 @RunWith(JUnitParamsRunner.class)
 @ContextConfiguration(locations = {"/test-spring-config.xml"})

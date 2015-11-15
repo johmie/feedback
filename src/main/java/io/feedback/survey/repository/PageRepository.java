@@ -2,10 +2,9 @@ package io.feedback.survey.repository;
 
 import io.feedback.core.repository.AbstractRepository;
 import io.feedback.survey.entity.Page;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
-
-import org.springframework.stereotype.Repository;
 
 @Repository
 public class PageRepository extends AbstractRepository<Page> {

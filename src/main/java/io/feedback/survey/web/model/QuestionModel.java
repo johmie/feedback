@@ -1,8 +1,8 @@
 package io.feedback.survey.web.model;
 
-import java.util.List;
-
 import io.feedback.survey.entity.Result;
+
+import java.util.List;
 
 public class QuestionModel {
 

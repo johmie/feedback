@@ -2,7 +2,6 @@ package io.feedback.survey.service;
 
 import io.feedback.survey.entity.Question;
 import io.feedback.survey.repository.QuestionRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

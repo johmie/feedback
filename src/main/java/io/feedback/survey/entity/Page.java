@@ -1,18 +1,20 @@
 package io.feedback.survey.entity;
 
-import java.util.Set;
-
 import io.feedback.core.entity.AbstractEntity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import java.util.Set;
 
 @Entity
 public class Page extends AbstractEntity {
 
-    public enum Type {
-        ASK,
-        END
-    }
     @Enumerated(EnumType.STRING)
     private Type type = Type.ASK;
 
@@ -76,5 +78,10 @@ public class Page extends AbstractEntity {
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    public enum Type {
+        ASK,
+        END
     }
 }

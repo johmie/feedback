@@ -10,7 +10,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
 
 @RunWith(JUnitParamsRunner.class)
 @ContextConfiguration(locations = {"/test-spring-config.xml"})

@@ -1,8 +1,5 @@
 package functional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import io.feedback.survey.entity.Answer;
 import io.feedback.survey.entity.Page;
 import io.feedback.survey.entity.Question;
@@ -11,10 +8,12 @@ import io.feedback.survey.service.AnswerService;
 import io.feedback.survey.service.PageService;
 import io.feedback.survey.service.QuestionService;
 import io.feedback.survey.service.SurveyService;
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 @Component
 @Transactional

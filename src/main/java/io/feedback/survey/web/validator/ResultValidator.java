@@ -1,11 +1,10 @@
 package io.feedback.survey.web.validator;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import io.feedback.survey.entity.Answer;
 import io.feedback.survey.entity.Result;
 import io.feedback.survey.repository.AnswerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ResultValidator {

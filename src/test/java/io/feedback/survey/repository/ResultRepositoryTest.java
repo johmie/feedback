@@ -1,20 +1,22 @@
 package io.feedback.survey.repository;
 
+import io.feedback.survey.entity.Answer;
 import io.feedback.survey.entity.Result;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import io.feedback.survey.entity.Answer;
 import org.springframework.test.context.ContextConfiguration;
 
 import javax.persistence.EntityManager;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(JUnitParamsRunner.class)
 @ContextConfiguration(locations = {"/test-spring-config.xml"})

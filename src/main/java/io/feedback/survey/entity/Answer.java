@@ -1,7 +1,5 @@
 package io.feedback.survey.entity;
 
-import java.util.Set;
-
 import io.feedback.core.entity.AbstractEntity;
 
 import javax.persistence.Column;
@@ -12,14 +10,11 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import java.util.Set;
 
 @Entity
 public class Answer extends AbstractEntity {
 
-    public enum ValueType {
-        CHOICE,
-        FREE_TEXT
-    }
     @Enumerated(EnumType.STRING)
     @Column(name = "value_type")
     private ValueType valueType = ValueType.CHOICE;
@@ -36,6 +31,9 @@ public class Answer extends AbstractEntity {
     @JoinColumn(name = "question_id")
     private Question question;
 
+    @OneToMany(mappedBy = "answer")
+    private Set<Result> results;
+
     public Set<Result> getResults() {
         return results;
     }
@@ -43,9 +41,6 @@ public class Answer extends AbstractEntity {
     public void setResults(Set<Result> results) {
         this.results = results;
     }
-
-    @OneToMany(mappedBy = "answer")
-    private Set<Result> results;
 
     public ValueType getValueType() {
         return valueType;
@@ -93,5 +88,10 @@ public class Answer extends AbstractEntity {
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    public enum ValueType {
+        CHOICE,
+        FREE_TEXT
     }
 }

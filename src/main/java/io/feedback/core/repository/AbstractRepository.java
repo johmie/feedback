@@ -1,14 +1,13 @@
 package io.feedback.core.repository;
 
 import io.feedback.core.entity.AbstractEntity;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import io.feedback.wrapper.org.springframework.core.GenericTypeResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 @Transactional(propagation = Propagation.REQUIRED)
 public abstract class AbstractRepository<T extends AbstractEntity> {

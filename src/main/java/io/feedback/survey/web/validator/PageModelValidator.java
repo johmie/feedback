@@ -4,14 +4,13 @@ import io.feedback.survey.entity.Question;
 import io.feedback.survey.repository.QuestionRepository;
 import io.feedback.survey.web.model.PageModel;
 import io.feedback.survey.web.model.QuestionModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.Errors;
 
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.validation.Errors;
 
 @Component
 public class PageModelValidator {

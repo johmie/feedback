@@ -26,6 +26,9 @@ import static org.mockito.Mockito.when;
 @ContextConfiguration(locations = {"/test-spring-config.xml"})
 public class ResultServiceTest {
 
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     private ResultService resultService;
 
     @Before
@@ -110,7 +113,4 @@ public class ResultServiceTest {
         List<Result> results = resultService.extractResultsFromPageModel(pageModelMock);
         assertEquals(countOfResults, results.size());
     }
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 }

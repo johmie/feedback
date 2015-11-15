@@ -1,7 +1,5 @@
 package io.feedback.survey.entity;
 
-import java.util.Set;
-
 import io.feedback.core.entity.AbstractEntity;
 
 import javax.persistence.Entity;
@@ -12,15 +10,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import java.util.Set;
 
 @Entity
 public class Question extends AbstractEntity {
 
-    public enum Type {
-        SINGLE_CHOICE,
-        MULTIPLE_CHOICE,
-        MATRIX
-    }
     @Enumerated(EnumType.STRING)
     private Type type;
 
@@ -84,5 +78,11 @@ public class Question extends AbstractEntity {
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    public enum Type {
+        SINGLE_CHOICE,
+        MULTIPLE_CHOICE,
+        MATRIX
     }
 }
