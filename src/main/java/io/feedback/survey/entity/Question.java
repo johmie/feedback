@@ -28,7 +28,7 @@ public class Question extends AbstractEntity {
 
     private String title;
 
-    private Integer position = 0;
+    private int position;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "page_id")
@@ -78,11 +78,11 @@ public class Question extends AbstractEntity {
         this.title = title;
     }
 
-    public Integer getPosition() {
+    public int getPosition() {
         return position;
     }
 
-    public void setPosition(Integer position) {
+    public void setPosition(int position) {
         this.position = position;
     }
 }

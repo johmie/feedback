@@ -27,14 +27,14 @@ public class SurveyServiceTest {
     }
 
     @Test
-    public void getAndSetSurveyRepositoryWorks() {
+    public void getAndSetSurveyRepository() {
         SurveyRepository surveyRepositoryMock = mock(SurveyRepository.class);
         surveyService.setSurveyRepository(surveyRepositoryMock);
         assertEquals(surveyRepositoryMock, surveyService.getSurveyRepository());
     }
 
     @Test
-    public void getAndSetPageRepositoryWorks() {
+    public void getAndSetPageRepository() {
         PageRepository pageRepositoryMock = mock(PageRepository.class);
         surveyService.setPageRepository(pageRepositoryMock);
         assertEquals(pageRepositoryMock, surveyService.getPageRepository());

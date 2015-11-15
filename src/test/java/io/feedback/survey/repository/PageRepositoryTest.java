@@ -2,7 +2,6 @@ package io.feedback.survey.repository;
 
 import io.feedback.survey.entity.Page;
 import junitparams.JUnitParamsRunner;
-import junitparams.Parameters;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,15 +22,19 @@ public class PageRepositoryTest {
 
     private PageRepository pageRepository;
 
+    private Query queryMock;
+
     @Before
     public void setUp() {
         pageRepository = new PageRepository();
         pageRepository.setEntityManager(mock(EntityManager.class));
+
+        queryMock = mock(Query.class);
+        when(pageRepository.getEntityManager().createQuery(anyString())).thenReturn(queryMock);
     }
 
     @Test
     public void findBySurveyIdAndPageNumberUsesCorrectQuery() {
-        createQueryMock();
         pageRepository.findBySurveyIdAndPageNumber(1L, 1);
         verify(pageRepository.getEntityManager()).createQuery(
                 "from Page p " +
@@ -43,40 +46,30 @@ public class PageRepositoryTest {
 
     @Test
     public void findBySurveyIdAndPageNumberUsesCorrectSurveyId() {
-        Query queryMock = createQueryMock();
-        long surveyId = 1L;
+        Long surveyId = 1L;
         pageRepository.findBySurveyIdAndPageNumber(surveyId, 1);
         verify(queryMock).setParameter("surveyId", surveyId);
     }
 
     @Test
     public void findBySurveyIdAndPageNumberSetsFirstResultCorrect() {
-        Query queryMock = createQueryMock();
-        int pageNumber = 1;
-        int firstResult = pageNumber - 1;
+        Integer pageNumber = 1;
+        Integer firstResult = pageNumber - 1;
         pageRepository.findBySurveyIdAndPageNumber(1L, pageNumber);
         verify(queryMock).setFirstResult(firstResult);
     }
 
     @Test
     public void findBySurveyIdAndPageNumberSetsMaxResultsToOne() {
-        Query queryMock = createQueryMock();
         pageRepository.findBySurveyIdAndPageNumber(1L, 1);
         verify(queryMock).setMaxResults(1);
     }
 
     @Test
     public void findBySurveyIdAndPageNumberReturnsPage() {
-        Query queryMock = createQueryMock();
         Page pageMock = mock(Page.class);
         when(queryMock.getSingleResult()).thenReturn(pageMock);
         Page page = pageRepository.findBySurveyIdAndPageNumber(1L, 1);
         assertEquals(pageMock, page);
-    }
-
-    private Query createQueryMock() {
-        Query queryMock = mock(Query.class);
-        when(pageRepository.getEntityManager().createQuery(anyString())).thenReturn(queryMock);
-        return queryMock;
     }
 }

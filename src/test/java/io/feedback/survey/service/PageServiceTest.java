@@ -25,7 +25,7 @@ public class PageServiceTest {
     }
 
     @Test
-    public void getAndSetPageRepositoryWorks() {
+    public void getAndSetPageRepository() {
         PageRepository pageRepositoryMock = mock(PageRepository.class);
         pageService.setPageRepository(pageRepositoryMock);
         assertEquals(pageRepositoryMock, pageService.getPageRepository());

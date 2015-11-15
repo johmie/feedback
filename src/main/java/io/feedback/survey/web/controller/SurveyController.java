@@ -42,8 +42,8 @@ public class SurveyController {
 
     @RequestMapping(value = "/survey/{surveyId}/{pageNumber}", method = RequestMethod.GET)
     public String page(
-            @PathVariable long surveyId,
-            @PathVariable int pageNumber,
+            @PathVariable Long surveyId,
+            @PathVariable Integer pageNumber,
             @ModelAttribute("pageModel") PageModel pageModel,
             Model model) {
         try {
@@ -55,8 +55,8 @@ public class SurveyController {
 
     @RequestMapping(value = "/survey/{surveyId}/{pageNumber}", method = RequestMethod.POST)
     public String page(
-            @PathVariable long surveyId,
-            @PathVariable int pageNumber,
+            @PathVariable Long surveyId,
+            @PathVariable Integer pageNumber,
             @ModelAttribute("pageModel") PageModel pageModel,
             BindingResult bindingResult,
             Model model) {
@@ -73,7 +73,7 @@ public class SurveyController {
         }
     }
 
-    private String modelAndViewPage(long surveyId, int pageNumber, Model model) {
+    private String modelAndViewPage(Long surveyId, Integer pageNumber, Model model) {
         Page page = getPageService().loadPage(surveyId, pageNumber);
         if (page.getType() == Page.Type.END) {
             return "survey/page/end";

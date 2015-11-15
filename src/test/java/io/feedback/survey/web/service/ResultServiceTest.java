@@ -36,14 +36,14 @@ public class ResultServiceTest {
     }
 
     @Test
-    public void getAndSetPageModelValidatorWorks() {
+    public void getAndSetPageModelValidator() {
         PageModelValidator pageModelValidatorMock = mock(PageModelValidator.class);
         resultService.setPageModelValidator(pageModelValidatorMock);
         assertEquals(pageModelValidatorMock, resultService.getPageModelValidator());
     }
 
     @Test
-    public void getAndSetResultRepositoryWorks() {
+    public void getAndSetResultRepository() {
         ResultRepository resultRepositoryMock = mock(ResultRepository.class);
         resultService.setResultRepository(resultRepositoryMock);
         assertEquals(resultRepositoryMock, resultService.getResultRepository());
@@ -108,7 +108,7 @@ public class ResultServiceTest {
     @Parameters(source = PageModelProvider.class, method = "provideForCountResults")
     public void extractResultsFromPageModelExtractsCorrectCount(PageModel pageModelMock, int countOfResults) {
         List<Result> results = resultService.extractResultsFromPageModel(pageModelMock);
-        assertEquals(countOfResults, results.size());
+        assertEquals((int) countOfResults, results.size());
     }
 
     @Rule

@@ -33,14 +33,14 @@ public class AbstractRepositoryTest {
     }
 
     @Test
-    public void getAndSetEntityManagerWorks() {
+    public void getAndSetEntityManager() {
         EntityManager entityManagerMock = mock(EntityManager.class);
         abstractRepository.setEntityManager(entityManagerMock);
         assertEquals(entityManagerMock, abstractRepository.getEntityManager());
     }
 
     @Test
-    public void getAndSetGenericTypeResolverWorks() {
+    public void getAndSetGenericTypeResolver() {
         GenericTypeResolver genericTypeResolver = mock(GenericTypeResolver.class);
         abstractRepository.setGenericTypeResolver(genericTypeResolver);
         assertEquals(genericTypeResolver, abstractRepository.getGenericTypeResolver());

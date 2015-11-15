@@ -30,11 +30,19 @@ public class Answer extends AbstractEntity {
 
     private String value;
 
-    private Integer position = 0;
+    private int position;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
     private Question question;
+
+    public Set<Result> getResults() {
+        return results;
+    }
+
+    public void setResults(Set<Result> results) {
+        this.results = results;
+    }
 
     @OneToMany(mappedBy = "answer")
     private Set<Result> results;
@@ -79,11 +87,11 @@ public class Answer extends AbstractEntity {
         this.value = value;
     }
 
-    public Integer getPosition() {
+    public int getPosition() {
         return position;
     }
 
-    public void setPosition(Integer position) {
+    public void setPosition(int position) {
         this.position = position;
     }
 }

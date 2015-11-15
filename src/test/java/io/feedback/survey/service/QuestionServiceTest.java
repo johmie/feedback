@@ -25,7 +25,7 @@ public class QuestionServiceTest {
     }
 
     @Test
-    public void getAndSetQuestionRepositoryWorks() {
+    public void getAndSetQuestionRepository() {
         QuestionRepository questionRepositoryMock = mock(QuestionRepository.class);
         questionService.setQuestionRepository(questionRepositoryMock);
         assertEquals(questionRepositoryMock, questionService.getQuestionRepository());
