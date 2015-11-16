@@ -132,7 +132,6 @@ public class SurveyControllerTest {
         surveyController.page(surveyId, pageNumber, pageModelMock, bindingResultMock, mock(Model.class));
     }
 
-
     @Test
     public void pageThrowsExceptionOnIllegalArgumentWithRequestMethodGet() {
         thrown.expect(NotFoundException.class);
