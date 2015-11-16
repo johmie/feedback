@@ -23,13 +23,15 @@ public class AbstractEntityTest {
 
     @Test
     public void getAndSetIdWorks() {
-        abstractEntity.setId(1L);
-        assertEquals(1L, (long) abstractEntity.getId());
+        long version = 1L;
+        abstractEntity.setId(version);
+        assertEquals(version, (long) abstractEntity.getId());
     }
 
     @Test
     public void getAndSetVersionWorks() {
-        abstractEntity.setVersion(1L);
-        assertEquals(1L, (long) abstractEntity.getVersion());
+        long version = 1L;
+        abstractEntity.setVersion(version);
+        assertEquals(version, (long) abstractEntity.getVersion());
     }
 }

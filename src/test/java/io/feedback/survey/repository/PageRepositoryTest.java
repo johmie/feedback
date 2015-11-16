@@ -52,7 +52,7 @@ public class PageRepositoryTest {
     }
 
     @Test
-    public void findBySurveyIdAndPageNumberSetsFirstResultCorrect() {
+    public void findBySurveyIdAndPageNumberSetsFirstResultCorrectly() {
         Integer pageNumber = 1;
         Integer firstResult = pageNumber - 1;
         pageRepository.findBySurveyIdAndPageNumber(1L, pageNumber);

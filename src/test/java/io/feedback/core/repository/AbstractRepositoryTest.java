@@ -48,9 +48,10 @@ public class AbstractRepositoryTest {
 
     @Test
     public void findByIdReturnsEntity() {
+        long id = 1L;
         AbstractEntity entityMock = mock(AbstractEntity.class);
-        when(abstractRepository.getEntityManager().find(this.anyClass(), eq(1L))).thenReturn(entityMock);
-        AbstractEntity entity = abstractRepository.findById(1L);
+        when(abstractRepository.getEntityManager().find(this.anyClass(), eq(id))).thenReturn(entityMock);
+        AbstractEntity entity = abstractRepository.findById(id);
         assertEquals(entityMock, entity);
     }
 
