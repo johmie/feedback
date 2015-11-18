@@ -1,10 +1,9 @@
-package io.feedback.survey.web.validator;
+package io.feedback.survey.validator;
 
 import io.feedback.survey.entity.Answer;
 import io.feedback.survey.entity.Result;
 import io.feedback.survey.entity.ResultProvider;
 import io.feedback.survey.repository.AnswerRepository;
-import io.feedback.survey.validator.ResultValidator;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Before;
