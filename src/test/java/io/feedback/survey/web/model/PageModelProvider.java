@@ -1,9 +1,7 @@
-package io.feedback.survey.web.service;
+package io.feedback.survey.web.model;
 
 import io.feedback.survey.entity.Answer;
 import io.feedback.survey.entity.Result;
-import io.feedback.survey.web.model.PageModel;
-import io.feedback.survey.web.model.QuestionModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +19,13 @@ public class PageModelProvider {
                 new Object[]{createMockWithTwoResults(), 2},
                 new Object[]{createMockWithTwoResultsInTwoQuestions(), 2},
                 new Object[]{createMockWithEmptyResults(), 0},
+        };
+    }
+
+    public Object[] provideForCountQuestions() {
+        return new Object[]{
+                new Object[]{createMockWithTwoResults(), 1},
+                new Object[]{createMockWithTwoResultsInTwoQuestions(), 2},
         };
     }
 

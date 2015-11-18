@@ -10,6 +10,8 @@ import java.io.IOException;
 
 public class CharsetFilter implements Filter {
 
+    private String encoding;
+
     public String getEncoding() {
         return encoding;
     }
@@ -17,8 +19,6 @@ public class CharsetFilter implements Filter {
     public void setEncoding(String encoding) {
         this.encoding = encoding;
     }
-
-    private String encoding;
 
     public void init(FilterConfig config) throws ServletException {
         encoding = config.getInitParameter("requestEncoding");

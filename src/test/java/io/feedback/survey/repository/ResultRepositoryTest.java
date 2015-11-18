@@ -2,6 +2,7 @@ package io.feedback.survey.repository;
 
 import io.feedback.survey.entity.Answer;
 import io.feedback.survey.entity.Result;
+import io.feedback.survey.entity.ResultProvider;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Before;
@@ -31,7 +32,7 @@ public class ResultRepositoryTest {
     }
 
     @Test
-    @Parameters(source = ResultProvider.class, method = "provideForSaveResults")
+    @Parameters(source = ResultProvider.class, method = "provideWithoutId")
     public void saveResultsInitializesAnswerOfResult(List<Result> resultMocks) {
         resultRepository.saveResults(resultMocks);
         for (Result resultMock : resultMocks) {
@@ -40,7 +41,7 @@ public class ResultRepositoryTest {
     }
 
     @Test
-    @Parameters(source = ResultProvider.class, method = "provideForSaveResults")
+    @Parameters(source = ResultProvider.class, method = "provideWithoutId")
     public void saveResultsSetsInitializedAnswerOfResult(List<Result> resultMocks) {
         List<Answer> answerMocks = new ArrayList<>();
         for (int i = 0; i < resultMocks.size(); i++) {
@@ -52,6 +53,24 @@ public class ResultRepositoryTest {
         resultRepository.saveResults(resultMocks);
         for (int i = 0; i < resultMocks.size(); i++) {
             verify(resultMocks.get(i)).setAnswer(answerMocks.get(i));
+        }
+    }
+
+    @Test
+    @Parameters(source = ResultProvider.class, method = "provideWithoutId")
+    public void saveResultsCallsInsertMethodForAnyResultWithoutId(List<Result> resultMocks) {
+        resultRepository.saveResults(resultMocks);
+        for (Result resultMock : resultMocks) {
+            verify(resultRepository.getEntityManager(), times(1)).persist(resultMock);
+        }
+    }
+
+    @Test
+    @Parameters(source = ResultProvider.class, method = "provideWithId")
+    public void saveResultsCallsUpdateMethodForAnyResultWithId(List<Result> resultMocks) {
+        resultRepository.saveResults(resultMocks);
+        for (Result resultMock : resultMocks) {
+            verify(resultRepository.getEntityManager(), times(1)).merge(resultMock);
         }
     }
 }

@@ -15,11 +15,27 @@ import java.util.Map.Entry;
 @Component
 public class PageModelValidator {
 
-    @Autowired
     private QuestionRepository questionRepository;
 
-    @Autowired
     private QuestionModelValidator questionModelValidator;
+
+    public QuestionRepository getQuestionRepository() {
+        return questionRepository;
+    }
+
+    @Autowired
+    public void setQuestionRepository(QuestionRepository questionRepository) {
+        this.questionRepository = questionRepository;
+    }
+
+    public QuestionModelValidator getQuestionModelValidator() {
+        return questionModelValidator;
+    }
+
+    @Autowired
+    public void setQuestionModelValidator(QuestionModelValidator questionModelValidator) {
+        this.questionModelValidator = questionModelValidator;
+    }
 
     public void validate(PageModel pageModel, Errors errors) {
         if (pageModel.getQuestionModels() == null) {

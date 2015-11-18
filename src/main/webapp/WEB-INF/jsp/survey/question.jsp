@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<jsp:include page="question/errors.jsp"></jsp:include>
+<jsp:include page="question/error.jsp"></jsp:include>
 <div class="question panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">${question.title}</h3>

@@ -9,7 +9,7 @@
                 <c:set var="question" value="${question}" scope="request"/>
                 <jsp:include page="../question.jsp"></jsp:include>
             </c:forEach>
-            <input type="submit" class="btn btn-default pull-right" value="weiter"/>
+            <input type="submit" class="btn btn-default pull-right" value="next"/>
         </form:form>
     </tiles:putAttribute>
 </tiles:insertDefinition>
