@@ -2,7 +2,6 @@ package io.feedback.survey.web.controller;
 
 import io.feedback.survey.entity.Page;
 import io.feedback.survey.service.PageService;
-import io.feedback.survey.web.exception.BadRequestException;
 import io.feedback.survey.web.exception.NotFoundException;
 import io.feedback.survey.web.model.PageModel;
 import io.feedback.survey.web.service.ResultService;
@@ -50,7 +49,8 @@ public class SurveyController {
             @ModelAttribute("pageModel") PageModel pageModel,
             Model model) {
         try {
-            return modelAndViewPage(surveyId, pageNumber, model);
+            Page page = getPageService().loadPage(surveyId, pageNumber);
+            return modelAndViewPage(page, model);
         } catch (NoResultException noResultException) {
             throw new NotFoundException();
         }
@@ -64,30 +64,23 @@ public class SurveyController {
             BindingResult bindingResult,
             Model model) {
         try {
-            if (getResultService().saveResultsIfValid(pageModel, bindingResult)) {
+            Page page = getPageService().loadPage(surveyId, pageNumber);
+            if (getResultService().saveResultsIfValid(pageModel, bindingResult, page)) {
                 return "redirect:/survey/" + surveyId + "/" + (pageNumber + 1);
             } else {
-                return modelAndViewPage(surveyId, pageNumber, model);
+                return modelAndViewPage(page, model);
             }
-        } catch (IllegalArgumentException illegalArgumentException) {
-            throw new BadRequestException();
         } catch (NoResultException noResultException) {
             throw new NotFoundException();
         }
     }
 
-    private String modelAndViewPage(Long surveyId, Integer pageNumber, Model model) {
-        Page page = getPageService().loadPage(surveyId, pageNumber);
+    private String modelAndViewPage(Page page, Model model) {
         if (page.getType() == Page.Type.END) {
             return "survey/page/end";
         }
         model.addAttribute("page", page);
         return "survey/page/ask";
-    }
-
-    @ExceptionHandler(BadRequestException.class)
-    public String handleBadRequestException() {
-        return "error/400";
     }
 
     @ExceptionHandler(NotFoundException.class)

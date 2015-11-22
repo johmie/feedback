@@ -3,7 +3,6 @@ package io.feedback.survey.web.validator;
 import io.feedback.survey.entity.Question;
 import io.feedback.survey.entity.Result;
 import io.feedback.survey.entity.ResultProvider;
-import io.feedback.survey.validator.ResultValidator;
 import io.feedback.survey.web.model.QuestionModel;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;

@@ -1,4 +1,4 @@
-package io.feedback.survey.validator;
+package io.feedback.survey.web.validator;
 
 import io.feedback.survey.entity.Answer;
 import io.feedback.survey.entity.Result;

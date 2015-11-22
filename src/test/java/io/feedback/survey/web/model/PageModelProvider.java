@@ -1,12 +1,16 @@
 package io.feedback.survey.web.model;
 
 import io.feedback.survey.entity.Answer;
+import io.feedback.survey.entity.Page;
+import io.feedback.survey.entity.Question;
 import io.feedback.survey.entity.Result;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -26,6 +30,20 @@ public class PageModelProvider {
         return new Object[]{
                 new Object[]{createMockWithTwoResults(), 1},
                 new Object[]{createMockWithTwoResultsInTwoQuestions(), 2},
+        };
+    }
+
+    public Object[] provideForNoQuestionAnswered() {
+        return new Object[]{
+                new Object[]{createMockWithEmptyResults(), createPageMockForNoQuestionAnsweredWithOneQuestion()},
+                new Object[]{createMockWithEmptyResults(), createPageMockForNoQuestionAnsweredWithThreeQuestions()}
+        };
+    }
+
+    public Object[] provideForNoQuestionAnsweredWithCountOfQuestions() {
+        return new Object[]{
+                new Object[]{createMockWithEmptyResults(), createPageMockForNoQuestionAnsweredWithOneQuestion(), 1},
+                new Object[]{createMockWithEmptyResults(), createPageMockForNoQuestionAnsweredWithThreeQuestions(), 3}
         };
     }
 
@@ -128,5 +146,37 @@ public class PageModelProvider {
         when(pageModelMock.getQuestionModels()).thenReturn(questionModelMocks);
 
         return pageModelMock;
+    }
+
+    private Page createPageMockForNoQuestionAnsweredWithOneQuestion() {
+        Question questionMock = mock(Question.class);
+        when(questionMock.getId()).thenReturn(1L);
+
+        Set<Question> questionMocks = new HashSet<>();
+        questionMocks.add(questionMock);
+
+        Page pageMock = mock(Page.class);
+        when(pageMock.getQuestions()).thenReturn(questionMocks);
+
+        return pageMock;
+    }
+
+    private Page createPageMockForNoQuestionAnsweredWithThreeQuestions() {
+        Question questionMockOne = mock(Question.class);
+        when(questionMockOne.getId()).thenReturn(1L);
+        Question questionMockTwo = mock(Question.class);
+        when(questionMockTwo.getId()).thenReturn(2L);
+        Question questionMockThree = mock(Question.class);
+        when(questionMockThree.getId()).thenReturn(3L);
+
+        Set<Question> questionMocks = new HashSet<>();
+        questionMocks.add(questionMockOne);
+        questionMocks.add(questionMockTwo);
+        questionMocks.add(questionMockThree);
+
+        Page pageMock = mock(Page.class);
+        when(pageMock.getQuestions()).thenReturn(questionMocks);
+
+        return pageMock;
     }
 }

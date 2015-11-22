@@ -7,7 +7,7 @@
         <c:if test="${not empty errors}">
             class="has-error"
         </c:if>
-        >
+>
 <form:radiobutton
         path="questionModels[${question.id}].results[0].answer.id"
         value="${answer.id}"/>

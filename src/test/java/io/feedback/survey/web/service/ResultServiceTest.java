@@ -1,5 +1,6 @@
 package io.feedback.survey.web.service;
 
+import io.feedback.survey.entity.Page;
 import io.feedback.survey.entity.Result;
 import io.feedback.survey.repository.ResultRepository;
 import io.feedback.survey.web.model.PageModel;
@@ -54,39 +55,32 @@ public class ResultServiceTest {
     }
 
     @Test
-    public void saveResultsIfValidThrowsExceptionWhenPageModelContainsNoQuestionModel() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("PageModel must contain at least one QuestionModel");
-        PageModel pageModelMock = mock(PageModel.class);
-        when(pageModelMock.getQuestionModels()).thenReturn(null);
-        resultService.saveResultsIfValid(pageModelMock, mock(BindingResult.class));
-    }
-
-    @Test
     @Parameters(method = "parametersForSaveResultsIfValid")
-    public void saveResultsIfValidValidates(PageModel pageModelMock, BindingResult bindingResultMock) {
+    public void saveResultsIfValidValidates(PageModel pageModelMock, BindingResult bindingResultMock, Page pageMock) {
         when(bindingResultMock.hasErrors()).thenReturn(false);
-        resultService.saveResultsIfValid(pageModelMock, bindingResultMock);
-        verify(resultService.getPageModelValidator()).validate(pageModelMock, bindingResultMock);
+        resultService.saveResultsIfValid(pageModelMock, bindingResultMock, pageMock);
+        verify(resultService.getPageModelValidator()).validate(pageModelMock, bindingResultMock, pageMock);
     }
 
     @Test
     @Parameters(method = "parametersForSaveResultsIfValid")
-    public void saveResultsIfValidSavesWithoutErrors(PageModel pageModelMock, BindingResult bindingResultMock) {
+    public void saveResultsIfValidSavesWithoutErrors(PageModel pageModelMock, BindingResult bindingResultMock,
+                                                     Page pageMock) {
         when(bindingResultMock.hasErrors()).thenReturn(false);
-        assertEquals(true, resultService.saveResultsIfValid(pageModelMock, bindingResultMock));
+        assertEquals(true, resultService.saveResultsIfValid(pageModelMock, bindingResultMock, pageMock));
     }
 
     @Test
     @Parameters(method = "parametersForSaveResultsIfValid")
-    public void saveResultsIfValidSavesNotWithErrors(PageModel pageModelMock, BindingResult bindingResultMock) {
+    public void saveResultsIfValidSavesNotWithErrors(PageModel pageModelMock, BindingResult bindingResultMock,
+                                                     Page pageMock) {
         when(bindingResultMock.hasErrors()).thenReturn(true);
-        assertEquals(false, resultService.saveResultsIfValid(pageModelMock, bindingResultMock));
+        assertEquals(false, resultService.saveResultsIfValid(pageModelMock, bindingResultMock, pageMock));
     }
 
     private Object[] parametersForSaveResultsIfValid() {
         return new Object[]{
-                new Object[]{mock(PageModel.class), mock(BindingResult.class)},
+                new Object[]{mock(PageModel.class), mock(BindingResult.class), mock(Page.class)},
         };
     }
 
@@ -100,18 +94,17 @@ public class ResultServiceTest {
     }
 
     @Test
-    public void extractResultsFromPageModelThrowsExceptionWhenPageModelContainsNoQuestionModel() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("PageModel must contain at least one QuestionModel");
-        PageModel pageModelMock = mock(PageModel.class);
-        when(pageModelMock.getQuestionModels()).thenReturn(null);
-        resultService.extractResultsFromPageModel(pageModelMock);
-    }
-
-    @Test
     @Parameters(source = PageModelProvider.class, method = "provideForCountResults")
     public void extractResultsFromPageModelExtractsCorrectCount(PageModel pageModelMock, int countOfResults) {
         List<Result> results = resultService.extractResultsFromPageModel(pageModelMock);
         assertEquals(countOfResults, results.size());
+    }
+
+    @Test
+    public void extractResultsFromPageModelExtractsEmptyListWhenNoQuestionIsAnswered() {
+        PageModel pageModelMock = mock(PageModel.class);
+        when(pageModelMock.getQuestionModels()).thenReturn(null);
+        List<Result> results = resultService.extractResultsFromPageModel(pageModelMock);
+        assertEquals(0, results.size());
     }
 }

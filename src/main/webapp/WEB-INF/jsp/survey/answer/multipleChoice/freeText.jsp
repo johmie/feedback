@@ -7,7 +7,7 @@
         <c:if test="${not empty errors}">
             class="has-error"
         </c:if>
-        >
+>
 <form:checkbox
         path="questionModels[${question.id}].results[${statusLoopAnswers.index}].answer.id"
         value="${answer.id}"/>

@@ -1,5 +1,6 @@
 package io.feedback.survey.web.validator;
 
+import io.feedback.survey.entity.Page;
 import io.feedback.survey.entity.Question;
 import io.feedback.survey.repository.QuestionRepository;
 import io.feedback.survey.web.model.PageModel;
@@ -37,11 +38,21 @@ public class PageModelValidator {
         this.questionModelValidator = questionModelValidator;
     }
 
-    public void validate(PageModel pageModel, Errors errors) {
+    public void validate(PageModel pageModel, Errors errors, Page page) {
         if (pageModel.getQuestionModels() == null) {
-            throw new IllegalArgumentException("PageModel must contain at least one QuestionModel");
+            handleNoQuestionAnswered(page, errors);
+        } else {
+            validateQuestions(pageModel.getQuestionModels(), errors);
         }
-        Map<Long, QuestionModel> questionModels = pageModel.getQuestionModels();
+    }
+
+    private void handleNoQuestionAnswered(Page page, Errors errors) {
+        for (Question question : page.getQuestions()) {
+            errors.rejectValue("questionModels[" + question.getId() + "]", "", "No answer selected");
+        }
+    }
+
+    private void validateQuestions(Map<Long, QuestionModel> questionModels, Errors errors) {
         Iterator<Entry<Long, QuestionModel>> questionModelsIterator = questionModels.entrySet().iterator();
         while (questionModelsIterator.hasNext()) {
             Entry<Long, QuestionModel> questionModelEntry = questionModelsIterator.next();

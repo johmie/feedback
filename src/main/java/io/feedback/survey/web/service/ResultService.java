@@ -1,5 +1,6 @@
 package io.feedback.survey.web.service;
 
+import io.feedback.survey.entity.Page;
 import io.feedback.survey.entity.Result;
 import io.feedback.survey.repository.ResultRepository;
 import io.feedback.survey.web.model.PageModel;
@@ -37,11 +38,8 @@ public class ResultService {
         this.resultRepository = resultRepository;
     }
 
-    public boolean saveResultsIfValid(PageModel pageModel, BindingResult bindingResult) {
-        if (pageModel.getQuestionModels() == null) {
-            throw new IllegalArgumentException("PageModel must contain at least one QuestionModel");
-        }
-        getPageModelValidator().validate(pageModel, bindingResult);
+    public boolean saveResultsIfValid(PageModel pageModel, BindingResult bindingResult, Page page) {
+        getPageModelValidator().validate(pageModel, bindingResult, page);
         if (bindingResult.hasErrors()) {
             return false;
         } else {
@@ -55,10 +53,10 @@ public class ResultService {
     }
 
     public List<Result> extractResultsFromPageModel(PageModel pageModel) {
-        if (pageModel.getQuestionModels() == null) {
-            throw new IllegalArgumentException("PageModel must contain at least one QuestionModel");
-        }
         List<Result> resultsFromPageModel = new ArrayList<>();
+        if (pageModel.getQuestionModels() == null) {
+            return resultsFromPageModel;
+        }
         for (QuestionModel questionModel : pageModel.getQuestionModels().values()) {
             for (Result result : questionModel.getResults()) {
                 if (result.getAnswer().getId() != null) {

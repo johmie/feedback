@@ -2,7 +2,6 @@ package io.feedback.survey.web.controller;
 
 import io.feedback.survey.entity.Page;
 import io.feedback.survey.service.PageService;
-import io.feedback.survey.web.exception.BadRequestException;
 import io.feedback.survey.web.exception.NotFoundException;
 import io.feedback.survey.web.model.PageModel;
 import io.feedback.survey.web.service.ResultService;
@@ -93,7 +92,9 @@ public class SurveyControllerTest {
         int pageNumber = 1;
         PageModel pageModelMock = mock(PageModel.class);
         BindingResult bindingResultMock = mock(BindingResult.class);
-        when(surveyController.getResultService().saveResultsIfValid(pageModelMock, bindingResultMock)).thenReturn(true);
+        Page pageMock = mock(Page.class);
+        when(surveyController.getPageService().loadPage(surveyId, pageNumber)).thenReturn(pageMock);
+        when(surveyController.getResultService().saveResultsIfValid(pageModelMock, bindingResultMock, pageMock)).thenReturn(true);
         String actualView = surveyController.page(surveyId, pageNumber, pageModelMock, bindingResultMock,
                 mock(Model.class));
         String expectedView = "redirect:/survey/" + surveyId + "/" + (pageNumber + 1);
@@ -121,18 +122,6 @@ public class SurveyControllerTest {
     }
 
     @Test
-    public void pageThrowsExceptionOnIllegalArgument() {
-        thrown.expect(BadRequestException.class);
-        long surveyId = 1L;
-        int pageNumber = 1;
-        PageModel pageModelMock = mock(PageModel.class);
-        BindingResult bindingResultMock = mock(BindingResult.class);
-        when(surveyController.getResultService().saveResultsIfValid(pageModelMock, bindingResultMock))
-                .thenThrow(IllegalArgumentException.class);
-        surveyController.page(surveyId, pageNumber, pageModelMock, bindingResultMock, mock(Model.class));
-    }
-
-    @Test
     public void pageThrowsExceptionOnIllegalArgumentWithRequestMethodGet() {
         thrown.expect(NotFoundException.class);
         long surveyId = 1L;
@@ -149,11 +138,6 @@ public class SurveyControllerTest {
         when(surveyController.getPageService().loadPage(surveyId, pageNumber)).thenThrow(NoResultException.class);
         surveyController.page(surveyId, pageNumber, mock(PageModel.class), mock(BindingResult.class),
                 mock(Model.class));
-    }
-
-    @Test
-    public void handleBadRequestExceptionReturnsCorrectView() {
-        assertEquals("error/400", surveyController.handleBadRequestException());
     }
 
     @Test

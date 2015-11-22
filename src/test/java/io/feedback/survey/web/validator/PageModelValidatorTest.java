@@ -1,5 +1,6 @@
 package io.feedback.survey.web.validator;
 
+import io.feedback.survey.entity.Page;
 import io.feedback.survey.entity.Question;
 import io.feedback.survey.repository.QuestionRepository;
 import io.feedback.survey.web.model.PageModel;
@@ -18,7 +19,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -53,18 +57,31 @@ public class PageModelValidatorTest {
     }
 
     @Test
-    public void validateThrowsExceptionWhenPageModelContainsNoQuestionModel() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("PageModel must contain at least one QuestionModel");
-        PageModel pageModelMock = mock(PageModel.class);
+    @Parameters(source = PageModelProvider.class, method = "provideForNoQuestionAnswered")
+    public void validateSetsCorrectErrorsWhenNoQuestionIsAnswered(PageModel pageModelMock, Page pageMock) {
+        Errors errorsMock = mock(Errors.class);
         when(pageModelMock.getQuestionModels()).thenReturn(null);
-        pageModelValidator.validate(pageModelMock, mock(Errors.class));
+        pageModelValidator.validate(pageModelMock, errorsMock, pageMock);
+        for (Question questionMock : pageMock.getQuestions()) {
+            verify(errorsMock, times(1))
+                    .rejectValue("questionModels[" + questionMock.getId() + "]", "", "No answer selected");
+        }
+    }
+
+    @Test
+    @Parameters(source = PageModelProvider.class, method = "provideForNoQuestionAnsweredWithCountOfQuestions")
+    public void validateSetsErrorForAnyQuestionOnPageWhenNoQuestionIsAnswered(PageModel pageModelMock, Page pageMock,
+                                                                              int countOfQuestions) {
+        Errors errorsMock = mock(Errors.class);
+        when(pageModelMock.getQuestionModels()).thenReturn(null);
+        pageModelValidator.validate(pageModelMock, errorsMock, pageMock);
+        verify(errorsMock, times(countOfQuestions)).rejectValue(anyString(), eq(""), eq("No answer selected"));
     }
 
     @Test
     @Parameters(source = PageModelProvider.class, method = "provideForCountQuestions")
     public void validateLoadsAnyQuestionFromPage(PageModel pageModelMock, int countOfQuestions) {
-        pageModelValidator.validate(pageModelMock, mock(Errors.class));
+        pageModelValidator.validate(pageModelMock, mock(Errors.class), mock(Page.class));
         for (long i = 1; i <= countOfQuestions; i++) {
             verify(pageModelValidator.getQuestionRepository()).findById(i);
         }
@@ -80,7 +97,7 @@ public class PageModelValidatorTest {
             questionMocks.put(i, questionMock);
             when(pageModelValidator.getQuestionRepository().findById(i)).thenReturn(questionMock);
         }
-        pageModelValidator.validate(pageModelMock, errorsMock);
+        pageModelValidator.validate(pageModelMock, errorsMock, mock(Page.class));
         for (long i = 1; i <= countOfQuestions; i++) {
             verify(pageModelValidator.getQuestionModelValidator())
                     .validate(pageModelMock.getQuestionModels().get(i), errorsMock, questionMocks.get(i));
