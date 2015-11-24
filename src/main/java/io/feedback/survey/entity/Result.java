@@ -11,12 +11,26 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Result extends AbstractEntity {
 
+    @Column(name = "participation_identifier")
+    private String participationIdentifier;
+
     @Column(name = "free_text")
     private String freeText;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "answer_id")
     private Answer answer;
+
+    @Column(name = "remote_address")
+    private String remoteAddress;
+
+    public String getParticipationIdentifier() {
+        return participationIdentifier;
+    }
+
+    public void setParticipationIdentifier(String participationIdentifier) {
+        this.participationIdentifier = participationIdentifier;
+    }
 
     public String getFreeText() {
         return freeText;
@@ -32,5 +46,13 @@ public class Result extends AbstractEntity {
 
     public void setAnswer(Answer answer) {
         this.answer = answer;
+    }
+
+    public String getRemoteAddress() {
+        return remoteAddress;
+    }
+
+    public void setRemoteAddress(String remoteAddress) {
+        this.remoteAddress = remoteAddress;
     }
 }

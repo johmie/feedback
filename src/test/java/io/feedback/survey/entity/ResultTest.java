@@ -21,6 +21,13 @@ public class ResultTest {
     }
 
     @Test
+    public void getAndSetParticipationIdentifier() {
+        String participationIdentifier = "Participation identifier";
+        result.setParticipationIdentifier(participationIdentifier);
+        assertEquals(participationIdentifier, result.getParticipationIdentifier());
+    }
+
+    @Test
     public void getAndSetFreeText() {
         String freeText = "Free text";
         result.setFreeText(freeText);
@@ -32,5 +39,12 @@ public class ResultTest {
         Answer answerMock = mock(Answer.class);
         result.setAnswer(answerMock);
         assertEquals(answerMock, result.getAnswer());
+    }
+
+    @Test
+    public void getAndSetRemoteAddress() {
+        String remoteAddress = "127.0.0.1";
+        result.setRemoteAddress(remoteAddress);
+        assertEquals(remoteAddress, result.getRemoteAddress());
     }
 }

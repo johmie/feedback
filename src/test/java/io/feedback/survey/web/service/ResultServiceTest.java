@@ -3,15 +3,15 @@ package io.feedback.survey.web.service;
 import io.feedback.survey.entity.Page;
 import io.feedback.survey.entity.Result;
 import io.feedback.survey.repository.ResultRepository;
+import io.feedback.survey.web.dto.PageFormDto;
+import io.feedback.survey.web.dto.ParticipationDto;
 import io.feedback.survey.web.model.PageModel;
 import io.feedback.survey.web.model.PageModelProvider;
 import io.feedback.survey.web.validator.PageModelValidator;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.validation.BindingResult;
@@ -27,9 +27,6 @@ import static org.mockito.Mockito.when;
 @RunWith(JUnitParamsRunner.class)
 @ContextConfiguration(locations = {"/test-spring-config.xml"})
 public class ResultServiceTest {
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 
     private ResultService resultService;
 
@@ -56,31 +53,40 @@ public class ResultServiceTest {
 
     @Test
     @Parameters(method = "parametersForSaveResultsIfValid")
-    public void saveResultsIfValidValidates(PageModel pageModelMock, BindingResult bindingResultMock, Page pageMock) {
-        when(bindingResultMock.hasErrors()).thenReturn(false);
-        resultService.saveResultsIfValid(pageModelMock, bindingResultMock, pageMock);
+    public void saveResultsIfValidValidates(PageFormDto pageFormDtoMock, ParticipationDto participationDtoMock) {
+        PageModel pageModelMock = pageFormDtoMock.getPageModel();
+        BindingResult bindingResultMock = pageFormDtoMock.getBindingResult();
+        Page pageMock = pageFormDtoMock.getPage();
+        when(pageFormDtoMock.getBindingResult().hasErrors()).thenReturn(false);
+        resultService.saveResultsIfValid(pageFormDtoMock, participationDtoMock);
         verify(resultService.getPageModelValidator()).validate(pageModelMock, bindingResultMock, pageMock);
     }
 
     @Test
     @Parameters(method = "parametersForSaveResultsIfValid")
-    public void saveResultsIfValidSavesWithoutErrors(PageModel pageModelMock, BindingResult bindingResultMock,
-                                                     Page pageMock) {
+    public void saveResultsIfValidSavesWithoutErrors(PageFormDto pageFormDtoMock,
+                                                     ParticipationDto participationDtoMock) {
+        BindingResult bindingResultMock = pageFormDtoMock.getBindingResult();
         when(bindingResultMock.hasErrors()).thenReturn(false);
-        assertEquals(true, resultService.saveResultsIfValid(pageModelMock, bindingResultMock, pageMock));
+        assertEquals(true, resultService.saveResultsIfValid(pageFormDtoMock, participationDtoMock));
     }
 
     @Test
     @Parameters(method = "parametersForSaveResultsIfValid")
-    public void saveResultsIfValidSavesNotWithErrors(PageModel pageModelMock, BindingResult bindingResultMock,
-                                                     Page pageMock) {
+    public void saveResultsIfValidSavesNotWithErrors(PageFormDto pageFormDtoMock,
+                                                     ParticipationDto participationDtoMock) {
+        BindingResult bindingResultMock = pageFormDtoMock.getBindingResult();
         when(bindingResultMock.hasErrors()).thenReturn(true);
-        assertEquals(false, resultService.saveResultsIfValid(pageModelMock, bindingResultMock, pageMock));
+        assertEquals(false, resultService.saveResultsIfValid(pageFormDtoMock, participationDtoMock));
     }
 
     private Object[] parametersForSaveResultsIfValid() {
+        PageFormDto pageFormDtoMock = mock(PageFormDto.class);
+        when(pageFormDtoMock.getPageModel()).thenReturn(mock(PageModel.class));
+        when(pageFormDtoMock.getBindingResult()).thenReturn(mock(BindingResult.class));
+        when(pageFormDtoMock.getPage()).thenReturn(mock(Page.class));
         return new Object[]{
-                new Object[]{mock(PageModel.class), mock(BindingResult.class), mock(Page.class)},
+                new Object[]{pageFormDtoMock, mock(ParticipationDto.class)},
         };
     }
 
@@ -89,8 +95,32 @@ public class ResultServiceTest {
         Result resultMock = mock(Result.class);
         List<Result> resultMocks = new ArrayList<>();
         resultMocks.add(resultMock);
-        resultService.saveResults(resultMocks);
+        resultService.saveResultsWithParticipationData(resultMocks, mock(ParticipationDto.class));
         verify(resultService.getResultRepository()).saveResults(resultMocks);
+    }
+
+    @Test
+    public void saveResultsSetsParticipationIdentifier() {
+        String participationIdentifier = "Participation identifier";
+        ParticipationDto participationDtoMock = mock(ParticipationDto.class);
+        when(participationDtoMock.getIdentifier()).thenReturn(participationIdentifier);
+        Result resultMock = mock(Result.class);
+        List<Result> resultMocks = new ArrayList<>();
+        resultMocks.add(resultMock);
+        resultService.saveResultsWithParticipationData(resultMocks, participationDtoMock);
+        verify(resultMock).setParticipationIdentifier(participationIdentifier);
+    }
+
+    @Test
+    public void saveResultsSetsRemoteAddress() {
+        String remoteAddress = "127.0.0.1";
+        ParticipationDto participationDtoMock = mock(ParticipationDto.class);
+        when(participationDtoMock.getRemoteAddress()).thenReturn(remoteAddress);
+        Result resultMock = mock(Result.class);
+        List<Result> resultMocks = new ArrayList<>();
+        resultMocks.add(resultMock);
+        resultService.saveResultsWithParticipationData(resultMocks, participationDtoMock);
+        verify(resultMock).setRemoteAddress(remoteAddress);
     }
 
     @Test
