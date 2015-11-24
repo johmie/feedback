@@ -12,8 +12,7 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <context:component-scan base-package="io.feedback"/>
 
-    <bean id="entityManagerFactory"
-          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml"/>
         <property name="persistenceUnitName" value="surveyPersistenceUnit"/>
         <property name="dataSource" ref="dataSource"/>
@@ -21,13 +20,11 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
         <property name="jpaDialect" ref="jpaDialect"/>
     </bean>
 
-    <bean id="jpaVendorAdapter"
-          class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+    <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
         <property name="database" value="MYSQL"/>
     </bean>
 
-    <bean id="jpaDialect"
-          class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
+    <bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
 
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
@@ -37,13 +34,17 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
-    <bean id="dataSource"
-          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="url"
                   value="jdbc:mysql://192.168.99.100:3306/feedback"/>
         <property name="username" value="admin"/>
         <property name="password" value="changeme"/>
+    </bean>
+
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="translation"/>
+        <property name="defaultEncoding" value="UTF-8"/>
     </bean>
 
 </beans>

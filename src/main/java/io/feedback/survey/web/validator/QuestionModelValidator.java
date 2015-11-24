@@ -26,13 +26,14 @@ public class QuestionModelValidator {
         for (int i = 0; i < questionModel.getResults().size(); i++) {
             Result result = questionModel.getResults().get(i);
             if (!resultValidator.isValid(result)) {
-                errors.rejectValue("questionModels[" + question.getId() + "].results[" + i + "]", "", "Invalid answer");
+                errors.rejectValue("questionModels[" + question.getId() + "].results[" + i + "]",
+                        "error.answer_is_invalid");
             } else if (isAnswerSelected(result)) {
                 countSelectedValidAnswers++;
             }
         }
         if (countSelectedValidAnswers < 1) {
-            errors.rejectValue("questionModels[" + question.getId() + "]", "", "No answer selected");
+            errors.rejectValue("questionModels[" + question.getId() + "]", "error.question_not_answered");
         }
     }
 

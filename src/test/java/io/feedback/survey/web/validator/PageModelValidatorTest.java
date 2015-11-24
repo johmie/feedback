@@ -64,7 +64,7 @@ public class PageModelValidatorTest {
         pageModelValidator.validate(pageModelMock, errorsMock, pageMock);
         for (Question questionMock : pageMock.getQuestions()) {
             verify(errorsMock, times(1))
-                    .rejectValue("questionModels[" + questionMock.getId() + "]", "", "No answer selected");
+                    .rejectValue("questionModels[" + questionMock.getId() + "]", "error.question_not_answered");
         }
     }
 
@@ -75,7 +75,7 @@ public class PageModelValidatorTest {
         Errors errorsMock = mock(Errors.class);
         when(pageModelMock.getQuestionModels()).thenReturn(null);
         pageModelValidator.validate(pageModelMock, errorsMock, pageMock);
-        verify(errorsMock, times(countOfQuestions)).rejectValue(anyString(), eq(""), eq("No answer selected"));
+        verify(errorsMock, times(countOfQuestions)).rejectValue(anyString(), eq("error.question_not_answered"));
     }
 
     @Test

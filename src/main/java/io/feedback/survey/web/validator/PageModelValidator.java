@@ -48,7 +48,7 @@ public class PageModelValidator {
 
     private void handleNoQuestionAnswered(Page page, Errors errors) {
         for (Question question : page.getQuestions()) {
-            errors.rejectValue("questionModels[" + question.getId() + "]", "", "No answer selected");
+            errors.rejectValue("questionModels[" + question.getId() + "]", "error.question_not_answered");
         }
     }
 

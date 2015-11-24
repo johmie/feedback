@@ -58,7 +58,8 @@ public class QuestionModelValidatorTest {
         }
         questionModelValidator.validate(questionModelMock, errorsMock, questionMock);
         for (int i = 0; i < resultMocks.size(); i++) {
-            verify(errorsMock).rejectValue("questionModels[" + questionMock.getId() + "].results[" + i + "]", "", "Invalid answer");
+            verify(errorsMock).rejectValue("questionModels[" + questionMock.getId() + "].results[" + i + "]",
+                    "error.answer_is_invalid");
         }
     }
 
@@ -70,7 +71,7 @@ public class QuestionModelValidatorTest {
             when(questionModelValidator.getResultValidator().isValid(resultMock)).thenReturn(true);
         }
         questionModelValidator.validate(questionModelMock, errorsMock, questionMock);
-        verify(errorsMock).rejectValue("questionModels[" + questionMock.getId() + "]", "", "No answer selected");
+        verify(errorsMock).rejectValue("questionModels[" + questionMock.getId() + "]", "error.question_not_answered");
     }
 
     @Test
