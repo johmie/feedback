@@ -6,6 +6,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.sql.Timestamp;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
@@ -39,6 +41,13 @@ public class ResultTest {
         Answer answerMock = mock(Answer.class);
         result.setAnswer(answerMock);
         assertEquals(answerMock, result.getAnswer());
+    }
+
+    @Test
+    public void getAndSetCreated() {
+        Timestamp created = mock(Timestamp.class);
+        result.setCreated(created);
+        assertEquals(created, result.getCreated());
     }
 
     @Test

@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.sql.Timestamp;
 
 @Entity
 public class Result extends AbstractEntity {
@@ -20,6 +21,8 @@ public class Result extends AbstractEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "answer_id")
     private Answer answer;
+
+    private Timestamp created;
 
     @Column(name = "remote_address")
     private String remoteAddress;
@@ -46,6 +49,14 @@ public class Result extends AbstractEntity {
 
     public void setAnswer(Answer answer) {
         this.answer = answer;
+    }
+
+    public Timestamp getCreated() {
+        return created;
+    }
+
+    public void setCreated(Timestamp created) {
+        this.created = created;
     }
 
     public String getRemoteAddress() {
