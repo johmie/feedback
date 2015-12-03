@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.argThat;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -53,7 +54,7 @@ public class AbstractRepositoryTest {
     public void findById_SomeId_EntityIsReturned() {
         Long id = 1L;
         AbstractEntity entityMock = mock(AbstractEntity.class);
-        when(abstractRepository.getEntityManager().find(anyClass(), id)).thenReturn(entityMock);
+        when(abstractRepository.getEntityManager().find(anyClass(), eq(id))).thenReturn(entityMock);
 
         AbstractEntity entity = abstractRepository.findById(id);
 
