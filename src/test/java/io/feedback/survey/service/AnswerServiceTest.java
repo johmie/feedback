@@ -25,23 +25,29 @@ public class AnswerServiceTest {
     }
 
     @Test
-    public void getAndSetAnswerRepository() {
+    public void setAnswerRepository_SomeAnswerRepository_SameValueIsReturnedByGetAnswerRepository() {
         AnswerRepository answerRepositoryMock = mock(AnswerRepository.class);
+
         answerService.setAnswerRepository(answerRepositoryMock);
+
         assertEquals(answerRepositoryMock, answerService.getAnswerRepository());
     }
 
     @Test
-    public void saveAnswerCallsSaveMethodInRepository() {
+    public void saveAnswer_SomeAnswer_SaveMethodOfAnswerRepositoryIsCalled() {
         Answer answerMock = mock(Answer.class);
+
         answerService.saveAnswer(answerMock);
+
         verify(answerService.getAnswerRepository()).insertOrUpdate(answerMock);
     }
 
     @Test
-    public void deleteAnswerCallsDeleteMethodInRepository() {
+    public void deleteAnswer_SomeAnswer_DeleteMethodOfAnswerRepositoryIsCalled() {
         Answer answerMock = mock(Answer.class);
+
         answerService.deleteAnswer(answerMock);
+
         verify(answerService.getAnswerRepository()).delete(answerMock);
     }
 }

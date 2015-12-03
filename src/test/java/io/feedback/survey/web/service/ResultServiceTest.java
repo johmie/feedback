@@ -6,7 +6,7 @@ import io.feedback.survey.repository.ResultRepository;
 import io.feedback.survey.web.dto.PageFormDto;
 import io.feedback.survey.web.dto.ParticipationDto;
 import io.feedback.survey.web.model.PageModel;
-import io.feedback.survey.web.model.PageModelProvider;
+import io.feedback.survey.web.model.PageModelMockProvider;
 import io.feedback.survey.web.validator.PageModelValidator;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
@@ -38,46 +38,116 @@ public class ResultServiceTest {
     }
 
     @Test
-    public void getAndSetPageModelValidator() {
+    public void setPageModelValidator_SomePageModelValidator_SameValueIsReturnedByGetPageModelValidator() {
         PageModelValidator pageModelValidatorMock = mock(PageModelValidator.class);
+
         resultService.setPageModelValidator(pageModelValidatorMock);
+
         assertEquals(pageModelValidatorMock, resultService.getPageModelValidator());
     }
 
     @Test
-    public void getAndSetResultRepository() {
+    public void setResultRepository_SomeResultRepository_SameValueIsReturnedByGetResultRepository() {
         ResultRepository resultRepositoryMock = mock(ResultRepository.class);
+
         resultService.setResultRepository(resultRepositoryMock);
+
         assertEquals(resultRepositoryMock, resultService.getResultRepository());
     }
 
     @Test
     @Parameters(method = "parametersForSaveResultsIfValid")
-    public void saveResultsIfValidValidates(PageFormDto pageFormDtoMock, ParticipationDto participationDtoMock) {
+    public void saveResultsIfValid_SomeArguments_ValidateMethodOfPageModelValidatorIsCalled(
+            PageFormDto pageFormDtoMock,
+            ParticipationDto participationDtoMock) {
         PageModel pageModelMock = pageFormDtoMock.getPageModel();
         BindingResult bindingResultMock = pageFormDtoMock.getBindingResult();
         Page pageMock = pageFormDtoMock.getPage();
-        when(pageFormDtoMock.getBindingResult().hasErrors()).thenReturn(false);
+
         resultService.saveResultsIfValid(pageFormDtoMock, participationDtoMock);
+
         verify(resultService.getPageModelValidator()).validate(pageModelMock, bindingResultMock, pageMock);
     }
 
     @Test
     @Parameters(method = "parametersForSaveResultsIfValid")
-    public void saveResultsIfValidSavesWithoutErrors(PageFormDto pageFormDtoMock,
-                                                     ParticipationDto participationDtoMock) {
+    public void saveResultsIfValid_NoErrorsExist_ResultsAreSaved(PageFormDto pageFormDtoMock,
+                                                                 ParticipationDto participationDtoMock) {
         BindingResult bindingResultMock = pageFormDtoMock.getBindingResult();
         when(bindingResultMock.hasErrors()).thenReturn(false);
-        assertEquals(true, resultService.saveResultsIfValid(pageFormDtoMock, participationDtoMock));
+
+        boolean saved = resultService.saveResultsIfValid(pageFormDtoMock, participationDtoMock);
+
+        assertEquals(true, saved);
     }
 
     @Test
     @Parameters(method = "parametersForSaveResultsIfValid")
-    public void saveResultsIfValidSavesNotWithErrors(PageFormDto pageFormDtoMock,
-                                                     ParticipationDto participationDtoMock) {
+    public void saveResultsIfValid_ErrorsExist_ResultsAreNotSaved(PageFormDto pageFormDtoMock,
+                                                                  ParticipationDto participationDtoMock) {
         BindingResult bindingResultMock = pageFormDtoMock.getBindingResult();
         when(bindingResultMock.hasErrors()).thenReturn(true);
+
         assertEquals(false, resultService.saveResultsIfValid(pageFormDtoMock, participationDtoMock));
+    }
+
+    @Test
+    public void saveResultsWithParticipationData_SomeResults_SaveResultsMethodOfResultRepositoryIsCalled() {
+        Result resultMock = mock(Result.class);
+        List<Result> resultMocks = new ArrayList<>();
+        resultMocks.add(resultMock);
+
+        resultService.saveResultsWithParticipationData(resultMocks, mock(ParticipationDto.class));
+
+        verify(resultService.getResultRepository()).saveResults(resultMocks);
+    }
+
+    @Test
+    public void saveResultsWithParticipationData_SomeResultsAndSomeParticipationIdentifier_ParticipationIdentifierIsSetForResults() {
+        String participationIdentifier = "Participation identifier";
+        ParticipationDto participationDtoMock = mock(ParticipationDto.class);
+        when(participationDtoMock.getIdentifier()).thenReturn(participationIdentifier);
+        Result resultMock = mock(Result.class);
+        List<Result> resultMocks = new ArrayList<>();
+        resultMocks.add(resultMock);
+
+        resultService.saveResultsWithParticipationData(resultMocks, participationDtoMock);
+
+        verify(resultMock).setParticipationIdentifier(participationIdentifier);
+    }
+
+    @Test
+    public void saveResultsWithParticipationData_SomeResultsAndSomeRemoteAddress_RemoteAddressIsSetForResults() {
+        String remoteAddress = "127.0.0.1";
+        ParticipationDto participationDtoMock = mock(ParticipationDto.class);
+        when(participationDtoMock.getRemoteAddress()).thenReturn(remoteAddress);
+        Result resultMock = mock(Result.class);
+        List<Result> resultMocks = new ArrayList<>();
+        resultMocks.add(resultMock);
+
+        resultService.saveResultsWithParticipationData(resultMocks, participationDtoMock);
+
+        verify(resultMock).setRemoteAddress(remoteAddress);
+    }
+
+    @Test
+    @Parameters(source = PageModelMockProvider.class, method = "provideOneWithCountOfResults")
+    public void extractResultsFromPageModel_PageModelWithResults_CorrectCountOfResultsIsExtracted(
+            PageModel pageModelMock,
+            int countOfResults) {
+        List<Result> results = resultService.extractResultsFromPageModel(pageModelMock);
+
+        assertEquals(countOfResults, results.size());
+    }
+
+    @Test
+    public void extractResultsFromPageModel_PageModelWithoutAnyQuestionModel_EmptyListIsExtracted() {
+        PageModel pageModelMock = mock(PageModel.class);
+        when(pageModelMock.getQuestionModels()).thenReturn(null);
+
+        List<Result> results = resultService.extractResultsFromPageModel(pageModelMock);
+
+        assertEquals(0, results.size());
     }
 
     private Object[] parametersForSaveResultsIfValid() {
@@ -88,53 +158,5 @@ public class ResultServiceTest {
         return new Object[]{
                 new Object[]{pageFormDtoMock, mock(ParticipationDto.class)},
         };
-    }
-
-    @Test
-    public void saveResultsCallsSaveMethodInRepository() {
-        Result resultMock = mock(Result.class);
-        List<Result> resultMocks = new ArrayList<>();
-        resultMocks.add(resultMock);
-        resultService.saveResultsWithParticipationData(resultMocks, mock(ParticipationDto.class));
-        verify(resultService.getResultRepository()).saveResults(resultMocks);
-    }
-
-    @Test
-    public void saveResultsSetsParticipationIdentifier() {
-        String participationIdentifier = "Participation identifier";
-        ParticipationDto participationDtoMock = mock(ParticipationDto.class);
-        when(participationDtoMock.getIdentifier()).thenReturn(participationIdentifier);
-        Result resultMock = mock(Result.class);
-        List<Result> resultMocks = new ArrayList<>();
-        resultMocks.add(resultMock);
-        resultService.saveResultsWithParticipationData(resultMocks, participationDtoMock);
-        verify(resultMock).setParticipationIdentifier(participationIdentifier);
-    }
-
-    @Test
-    public void saveResultsSetsRemoteAddress() {
-        String remoteAddress = "127.0.0.1";
-        ParticipationDto participationDtoMock = mock(ParticipationDto.class);
-        when(participationDtoMock.getRemoteAddress()).thenReturn(remoteAddress);
-        Result resultMock = mock(Result.class);
-        List<Result> resultMocks = new ArrayList<>();
-        resultMocks.add(resultMock);
-        resultService.saveResultsWithParticipationData(resultMocks, participationDtoMock);
-        verify(resultMock).setRemoteAddress(remoteAddress);
-    }
-
-    @Test
-    @Parameters(source = PageModelProvider.class, method = "provideForCountResults")
-    public void extractResultsFromPageModelExtractsCorrectCount(PageModel pageModelMock, int countOfResults) {
-        List<Result> results = resultService.extractResultsFromPageModel(pageModelMock);
-        assertEquals(countOfResults, results.size());
-    }
-
-    @Test
-    public void extractResultsFromPageModelExtractsEmptyListWhenNoQuestionIsAnswered() {
-        PageModel pageModelMock = mock(PageModel.class);
-        when(pageModelMock.getQuestionModels()).thenReturn(null);
-        List<Result> results = resultService.extractResultsFromPageModel(pageModelMock);
-        assertEquals(0, results.size());
     }
 }

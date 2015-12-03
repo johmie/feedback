@@ -23,23 +23,29 @@ public class SurveyTest {
     }
 
     @Test
-    public void getAndSetPages() {
+    public void setPages_SomePages_SameValueIsReturnedByGetPages() {
         Set<Page> pageMocks = new HashSet<>();
+
         survey.setPages(pageMocks);
+
         assertEquals(pageMocks, survey.getPages());
     }
 
     @Test
-    public void getAndSetName() {
+    public void setName_SomeName_SameValueIsReturnedByGetName() {
         String name = "Name";
+
         survey.setName(name);
+
         assertEquals(name, survey.getName());
     }
 
     @Test
-    public void getAndSetTitle() {
+    public void setTitle_SomeTitle_SameValueIsReturnedByGetTitle() {
         String title = "Title";
+
         survey.setTitle(title);
+
         assertEquals(title, survey.getTitle());
     }
 }

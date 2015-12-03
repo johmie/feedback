@@ -25,16 +25,20 @@ public class QuestionServiceTest {
     }
 
     @Test
-    public void getAndSetQuestionRepository() {
+    public void setQuestionRepository_SomeQuestionRepository_SameValueIsReturnedByGetQuestionRepository() {
         QuestionRepository questionRepositoryMock = mock(QuestionRepository.class);
+
         questionService.setQuestionRepository(questionRepositoryMock);
+
         assertEquals(questionRepositoryMock, questionService.getQuestionRepository());
     }
 
     @Test
-    public void saveQuestionCallsSaveMethodInRepository() {
+    public void saveQuestion_SomeQuestion_SaveMethodOfQuestionRepositoryIsCalled() {
         Question questionMock = mock(Question.class);
+
         questionService.saveQuestion(questionMock);
+
         verify(questionService.getQuestionRepository()).insertOrUpdate(questionMock);
     }
 }

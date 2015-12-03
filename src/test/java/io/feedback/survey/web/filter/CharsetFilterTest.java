@@ -31,19 +31,23 @@ public class CharsetFilterTest {
     }
 
     @Test
-    public void getAndSetEncoding() {
+    public void setEncoding_SomeEncoding_SameValueIsReturnedByGetEncoding() {
         String encoding = "ISO-8859-1";
+
         charsetFilter.setEncoding(encoding);
+
         assertEquals(encoding, charsetFilter.getEncoding());
     }
 
     @Test
-    public void initSetsEncodingByFilterConfig() {
+    public void init_FilterConfigWithRequestEncoding_EncodingIsSetByFilterConfig() {
         String encoding = "ISO-8859-1";
         FilterConfig filterConfigMock = mock(FilterConfig.class);
         when(filterConfigMock.getInitParameter("requestEncoding")).thenReturn(encoding);
+
         try {
             charsetFilter.init(filterConfigMock);
+
             assertEquals(encoding, charsetFilter.getEncoding());
         } catch (ServletException servletException) {
             fail();
@@ -51,11 +55,13 @@ public class CharsetFilterTest {
     }
 
     @Test
-    public void initSetsDefaultEncodingCorrectly() {
+    public void init_FilterConfigWithoutRequestEncoding_DefaultEncodingIsSetCorrectly() {
         FilterConfig filterConfigMock = mock(FilterConfig.class);
         when(filterConfigMock.getInitParameter("requestEncoding")).thenReturn(null);
+
         try {
             charsetFilter.init(filterConfigMock);
+
             assertEquals("UTF-8", charsetFilter.getEncoding());
         } catch (ServletException servletException) {
             fail();
@@ -63,58 +69,58 @@ public class CharsetFilterTest {
     }
 
     @Test
-    public void doFilterSetsDefaultEncodingInRequest() {
+    public void doFilter_EncodingIsSetAndNoEncodingIsSetInRequest_SameEncodingIsSetInRequest() {
+        String encoding = "UTF-8";
+        ServletRequest requestMock = mock(ServletRequest.class);
+        when(requestMock.getCharacterEncoding()).thenReturn(null);
+        charsetFilter.setEncoding(encoding);
+
         try {
-            String defaultEncoding = "UTF-8";
-            ServletRequest requestMock = mock(ServletRequest.class);
-            when(requestMock.getCharacterEncoding()).thenReturn(null);
-            charsetFilter.setEncoding(defaultEncoding);
             charsetFilter.doFilter(requestMock, mock(ServletResponse.class), mock(FilterChain.class));
-            verify(requestMock).setCharacterEncoding(defaultEncoding);
-        } catch (IOException ioException) {
-            fail();
-        } catch (ServletException servletException) {
+
+            verify(requestMock).setCharacterEncoding(encoding);
+        } catch (IOException | ServletException exception) {
             fail();
         }
     }
 
     @Test
-    public void doFilterSetsContentTypeInResponse() {
+    public void doFilter_SomeResponse_ContentTypeIsSetInResponse() {
+        ServletResponse responseMock = mock(ServletResponse.class);
+
         try {
-            ServletResponse responseMock = mock(ServletResponse.class);
             charsetFilter.doFilter(mock(ServletRequest.class), responseMock, mock(FilterChain.class));
+
             verify(responseMock).setContentType("text/html; charset=UTF-8");
-        } catch (IOException ioException) {
-            fail();
-        } catch (ServletException servletException) {
+        } catch (IOException | ServletException exception) {
             fail();
         }
     }
 
     @Test
-    public void doFilterSetsCharacterEncodingInResponse() {
+    public void doFilter_SomeResponse_CharacterEncodingIsSetInResponse() {
+        ServletResponse responseMock = mock(ServletResponse.class);
+
         try {
-            ServletResponse responseMock = mock(ServletResponse.class);
             charsetFilter.doFilter(mock(ServletRequest.class), responseMock, mock(FilterChain.class));
+
             verify(responseMock).setCharacterEncoding("UTF-8");
-        } catch (IOException ioException) {
-            fail();
-        } catch (ServletException servletException) {
+        } catch (IOException | ServletException exception) {
             fail();
         }
     }
 
     @Test
-    public void doFilterTriggersNextFilterInChain() {
+    public void doFilter_SomeArguments_NextInFilterChainIsTriggered() {
+        ServletRequest requestMock = mock(ServletRequest.class);
+        ServletResponse responseMock = mock(ServletResponse.class);
+        FilterChain filterChainMock = mock(FilterChain.class);
+
         try {
-            ServletRequest requestMock = mock(ServletRequest.class);
-            ServletResponse responseMock = mock(ServletResponse.class);
-            FilterChain filterChainMock = mock(FilterChain.class);
             charsetFilter.doFilter(requestMock, responseMock, filterChainMock);
+
             verify(filterChainMock).doFilter(requestMock, responseMock);
-        } catch (IOException ioException) {
-            fail();
-        } catch (ServletException servletException) {
+        } catch (IOException | ServletException exception) {
             fail();
         }
     }

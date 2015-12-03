@@ -20,16 +20,20 @@ public class ParticipationDtoTest {
     }
 
     @Test
-    public void getAndSetIdentifier() {
+    public void setIdentifier_SomeIdentifier_SameValueIsReturnedByGetIdentifier() {
         String identifier = "Participation identifier";
+
         participationDto.setIdentifier(identifier);
+
         assertEquals(identifier, participationDto.getIdentifier());
     }
 
     @Test
-    public void getAndSetRemoteAddress() {
+    public void setRemoteAddress_SomeRemoteAddress_SameValueIsReturnedByGetRemoteAddress() {
         String remoteAddress = "127.0.0.1";
+
         participationDto.setRemoteAddress(remoteAddress);
+
         assertEquals(remoteAddress, participationDto.getRemoteAddress());
     }
 }

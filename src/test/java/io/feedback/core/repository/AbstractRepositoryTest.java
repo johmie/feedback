@@ -14,7 +14,6 @@ import javax.persistence.EntityManager;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.argThat;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -33,48 +32,60 @@ public class AbstractRepositoryTest {
     }
 
     @Test
-    public void getAndSetEntityManager() {
+    public void setEntityManager_SomeEntityManager_SameValueIsReturnedByGetEntityManager() {
         EntityManager entityManagerMock = mock(EntityManager.class);
+
         abstractRepository.setEntityManager(entityManagerMock);
+
         assertEquals(entityManagerMock, abstractRepository.getEntityManager());
     }
 
     @Test
-    public void getAndSetGenericTypeResolver() {
+    public void setGenericTypeResolver_SomeGenericTypeResolver_SameValueIsReturnedByGetGenericTypeResolver() {
         GenericTypeResolver genericTypeResolver = mock(GenericTypeResolver.class);
+
         abstractRepository.setGenericTypeResolver(genericTypeResolver);
+
         assertEquals(genericTypeResolver, abstractRepository.getGenericTypeResolver());
     }
 
     @Test
-    public void findByIdReturnsEntity() {
-        long id = 1L;
+    public void findById_SomeId_EntityIsReturned() {
+        Long id = 1L;
         AbstractEntity entityMock = mock(AbstractEntity.class);
-        when(abstractRepository.getEntityManager().find(anyClass(), eq(id))).thenReturn(entityMock);
+        when(abstractRepository.getEntityManager().find(anyClass(), id)).thenReturn(entityMock);
+
         AbstractEntity entity = abstractRepository.findById(id);
+
         assertEquals(entityMock, entity);
     }
 
     @Test
-    public void insertOrUpdateEntityWithoutIdentifierCallsPersistOfEntityManager() {
+    public void insertOrUpdate_EntityWithoutId_PersistMethodOfEntityManagerIsCalled() {
         AbstractEntity entityMock = mock(AbstractEntity.class);
         when(entityMock.getId()).thenReturn(null);
+
         abstractRepository.insertOrUpdate(entityMock);
+
         verify(abstractRepository.getEntityManager()).persist(entityMock);
     }
 
     @Test
-    public void insertOrUpdateEntityWithIdentifierCallsMergeOfEntityManager() {
+    public void insertOrUpdate_EntityWithId_MergeMethodOfEntityManagerIsCalled() {
         AbstractEntity entityMock = mock(AbstractEntity.class);
         when(entityMock.getId()).thenReturn(1L);
+
         abstractRepository.insertOrUpdate(entityMock);
+
         verify(abstractRepository.getEntityManager()).merge(entityMock);
     }
 
     @Test
-    public void deleteCallsRemoveMethodOfEntityManager() {
+    public void delete_SomeEntity_RemoveMethodOfEntityManagerIsCalled() {
         AbstractEntity entityMock = mock(AbstractEntity.class);
+
         abstractRepository.delete(entityMock);
+
         verify(abstractRepository.getEntityManager()).remove(entityMock);
     }
 

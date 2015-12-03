@@ -16,7 +16,7 @@ import java.util.Set;
 public class Page extends AbstractEntity {
 
     @Enumerated(EnumType.STRING)
-    private Type type = Type.ASK;
+    private Type type;
 
     private String name;
 
@@ -33,6 +33,9 @@ public class Page extends AbstractEntity {
     private Set<Question> questions;
 
     public Type getType() {
+        if (type == null) {
+            type = Type.ASK;
+        }
         return type;
     }
 

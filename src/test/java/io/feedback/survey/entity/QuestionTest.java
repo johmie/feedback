@@ -24,43 +24,56 @@ public class QuestionTest {
     }
 
     @Test
-    public void getAndSetType() {
-        question.setType(Question.Type.SINGLE_CHOICE);
-        assertEquals(Question.Type.SINGLE_CHOICE, question.getType());
+    public void setType_SomeType_SameValueIsReturnedByGetType() {
+        Question.Type type = Question.Type.SINGLE_CHOICE;
+
+        question.setType(type);
+
+        assertEquals(type, question.getType());
     }
 
     @Test
-    public void getAndSetAnswers() {
+    public void setAnswers_SomeAnswers_SameValueIsReturnedByGetAnswers() {
         Set<Answer> answerMocks = new HashSet<>();
+
         question.setAnswers(answerMocks);
+
         assertEquals(answerMocks, question.getAnswers());
     }
 
     @Test
-    public void getAndSetPage() {
+    public void setPage_SomePage_SameValueIsReturnedByGetPage() {
         Page pageMock = mock(Page.class);
+
         question.setPage(pageMock);
+
         assertEquals(pageMock, question.getPage());
     }
 
     @Test
-    public void getAndSetName() {
+    public void setName_SomeName_SameValueIsReturnedByGetName() {
         String name = "Name";
+
         question.setName(name);
+
         assertEquals(name, question.getName());
     }
 
     @Test
-    public void getAndSetTitle() {
+    public void setTitle_SomeTitle_SameValueIsReturnedByGetTitle() {
         String title = "Title";
+
         question.setTitle(title);
+
         assertEquals(title, question.getTitle());
     }
 
     @Test
-    public void getAndSetPosition() {
+    public void setPosition_SomePosition_SameValueIsReturnedByGetPosition() {
         int position = 1;
+
         question.setPosition(position);
+
         assertEquals(position, question.getPosition());
     }
 }

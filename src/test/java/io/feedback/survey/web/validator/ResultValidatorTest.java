@@ -2,7 +2,7 @@ package io.feedback.survey.web.validator;
 
 import io.feedback.survey.entity.Answer;
 import io.feedback.survey.entity.Result;
-import io.feedback.survey.entity.ResultProvider;
+import io.feedback.survey.entity.ResultMockProvider;
 import io.feedback.survey.repository.AnswerRepository;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
@@ -30,35 +30,46 @@ public class ResultValidatorTest {
     }
 
     @Test
-    public void getAndSetAnswerRepository() {
+    public void setAnswerRepository_SomeAnswerRepository_SameValueIsReturnedByGetAnswerRepository() {
         AnswerRepository answerRepositoryMock = mock(AnswerRepository.class);
+
         resultValidator.setAnswerRepository(answerRepositoryMock);
+
         assertEquals(answerRepositoryMock, resultValidator.getAnswerRepository());
     }
 
     @Test
-    @Parameters(source = ResultProvider.class, method = "provideForFreeTextValidator")
-    public void isValidWithFreeTextAnswers(Result resultMock, boolean isValid) {
+    @Parameters(source = ResultMockProvider.class, method = "provideOneWithValidAndInvalidFreeText")
+    public void isValid_ValidAndInvalidFreeTextResults_ResultsAreValidatedCorrectly(Result resultMock,
+                                                                                    boolean expectedIsValid) {
         Answer answerMock = mock(Answer.class);
         when(answerMock.getValueType()).thenReturn(Answer.ValueType.FREE_TEXT);
         when(resultValidator.getAnswerRepository().findById(resultMock.getAnswer().getId())).thenReturn(answerMock);
-        assertEquals(isValid, resultValidator.isValid(resultMock));
+
+        boolean actualIsValid = resultValidator.isValid(resultMock);
+
+        assertEquals(expectedIsValid, actualIsValid);
     }
 
     @Test
-    @Parameters(source = ResultProvider.class, method = "provideForChoiceValidator")
-    public void isValidWithChoiceAnswers(Result resultMock, boolean isValid) {
+    @Parameters(source = ResultMockProvider.class, method = "provideOneWithSelectedAndUnselectedAnswer")
+    public void isValid_SelectedAndUnselectedChoiceResults_AnyResultIsValid(Result resultMock, boolean expectedIsValid) {
         Answer answerMock = mock(Answer.class);
         when(answerMock.getValueType()).thenReturn(Answer.ValueType.CHOICE);
         when(resultValidator.getAnswerRepository().findById(resultMock.getAnswer().getId())).thenReturn(answerMock);
-        assertEquals(isValid, resultValidator.isValid(resultMock));
+
+        boolean actualIsValid = resultValidator.isValid(resultMock);
+
+        assertEquals(expectedIsValid, actualIsValid);
     }
 
     @Test
-    @Parameters(source = ResultProvider.class, method = "provideWithoutAnswer")
-    public void isValidWithUnselectedAnswers(List<Result> resultMocks) {
+    @Parameters(source = ResultMockProvider.class, method = "provideListWithoutAnswer")
+    public void isValid_ResultsWithoutAnswer_AnyResultIsValid(List<Result> resultMocks) {
         for (Result resultMock : resultMocks) {
-            assertEquals(true, resultValidator.isValid(resultMock));
+            boolean isValid = resultValidator.isValid(resultMock);
+
+            assertEquals(true, isValid);
         }
     }
 }

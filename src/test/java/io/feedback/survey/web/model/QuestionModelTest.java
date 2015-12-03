@@ -24,9 +24,11 @@ public class QuestionModelTest {
     }
 
     @Test
-    public void getAndSetResults() {
+    public void setResults_SomeResults_SameValueIsReturnedByGetResults() {
         List<Result> resultMocks = new ArrayList<>();
+
         questionModel.setResults(resultMocks);
+
         assertEquals(resultMocks, questionModel.getResults());
     }
 }

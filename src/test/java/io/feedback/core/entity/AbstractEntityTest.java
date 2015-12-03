@@ -22,16 +22,20 @@ public class AbstractEntityTest {
     }
 
     @Test
-    public void getAndSetIdWorks() {
-        long version = 1L;
-        abstractEntity.setId(version);
-        assertEquals(version, (long) abstractEntity.getId());
+    public void setId_SomeId_SameValueIsReturnedByGetId() {
+        Long id = 1L;
+
+        abstractEntity.setId(id);
+
+        assertEquals(id, abstractEntity.getId());
     }
 
     @Test
-    public void getAndSetVersionWorks() {
-        long version = 1L;
+    public void setVersion_SomeVersion_SameValueIsReturnedByGetVersion() {
+        Long version = 1L;
+
         abstractEntity.setVersion(version);
-        assertEquals(version, (long) abstractEntity.getVersion());
+
+        assertEquals(version, abstractEntity.getVersion());
     }
 }

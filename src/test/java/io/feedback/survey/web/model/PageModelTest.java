@@ -23,9 +23,11 @@ public class PageModelTest {
     }
 
     @Test
-    public void getAndSetQuestionModels() {
+    public void setQuestionModels_SomeQuestionModels_SameValueIsReturnedByGetQuestionModels() {
         Map<Long, QuestionModel> questionModelMocks = new HashMap<>();
+
         pageModel.setQuestionModels(questionModelMocks);
+
         assertEquals(questionModelMocks, pageModel.getQuestionModels());
     }
 }

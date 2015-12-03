@@ -17,7 +17,7 @@ public class Answer extends AbstractEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "value_type")
-    private ValueType valueType = ValueType.CHOICE;
+    private ValueType valueType;
 
     private String name;
 
@@ -43,6 +43,9 @@ public class Answer extends AbstractEntity {
     }
 
     public ValueType getValueType() {
+        if (valueType == null) {
+            valueType = ValueType.CHOICE;
+        }
         return valueType;
     }
 

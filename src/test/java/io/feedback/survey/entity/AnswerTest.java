@@ -24,55 +24,72 @@ public class AnswerTest {
     }
 
     @Test
-    public void defaultValueOfValueType() {
-        assertEquals(Answer.ValueType.CHOICE, answer.getValueType());
+    public void getValueType_InstantiatedAnswer_DefaultValueIsReturned() {
+        Answer.ValueType valueType = answer.getValueType();
+
+        assertEquals(Answer.ValueType.CHOICE, valueType);
     }
 
     @Test
-    public void getAndSetValueType() {
-        answer.setValueType(Answer.ValueType.FREE_TEXT);
-        assertEquals(Answer.ValueType.FREE_TEXT, answer.getValueType());
+    public void setValueType_SomeValueType_SameValueIsReturnedByGetValueType() {
+        Answer.ValueType valueType = Answer.ValueType.FREE_TEXT;
+
+        answer.setValueType(valueType);
+
+        assertEquals(valueType, answer.getValueType());
     }
 
     @Test
-    public void getAndSetResults() {
+    public void setResults_SomeResults_SameValueIsReturnedByGetResults() {
         Set<Result> resultMocks = new HashSet<>();
+
         answer.setResults(resultMocks);
+
         assertEquals(resultMocks, answer.getResults());
     }
 
     @Test
-    public void getAndSetQuestion() {
+    public void setQuestion_SomeQuestion_SameValueIsReturnedByGetQuestion() {
         Question questionMock = mock(Question.class);
+
         answer.setQuestion(questionMock);
+
         assertEquals(questionMock, answer.getQuestion());
     }
 
     @Test
-    public void getAndSetValue() {
+    public void setValue_SomeValue_SameValueIsReturnedByGetValue() {
         String value = "Value";
+
         answer.setValue(value);
+
         assertEquals(value, answer.getValue());
     }
 
     @Test
-    public void getAndSetName() {
+    public void setName_SomeName_SameValueIsReturnedByGetName() {
         String name = "Name";
+
         answer.setName(name);
+
         assertEquals(name, answer.getName());
     }
 
     @Test
-    public void getAndSetTitle() {
+    public void setTitle_SomeTitle_SameValueIsReturnedByGetTitle() {
         String title = "Title";
+
         answer.setTitle(title);
+
         assertEquals(title, answer.getTitle());
     }
 
     @Test
-    public void getAndSetPosition() {
+    public void setPosition_SomePosition_SameValueIsReturnedByGetPosition() {
         int position = 1;
+
         answer.setPosition(position);
+
         assertEquals(position, answer.getPosition());
     }
 }

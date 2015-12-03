@@ -2,7 +2,7 @@ package io.feedback.survey.web.validator;
 
 import io.feedback.survey.entity.Question;
 import io.feedback.survey.entity.Result;
-import io.feedback.survey.entity.ResultProvider;
+import io.feedback.survey.entity.ResultMockProvider;
 import io.feedback.survey.web.model.QuestionModel;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
@@ -43,20 +43,24 @@ public class QuestionModelValidatorTest {
     }
 
     @Test
-    public void getAndSetResultValidator() {
+    public void setResultValidator_SomeResultValidator_SameValueIsReturnedByGetResultValidator() {
         ResultValidator resultValidatorMock = mock(ResultValidator.class);
+
         questionModelValidator.setResultValidator(resultValidatorMock);
+
         assertEquals(resultValidatorMock, questionModelValidator.getResultValidator());
     }
 
     @Test
-    @Parameters(source = ResultProvider.class, method = "provideWithoutId")
-    public void validateSetsErrorForAnyInvalidResult(List<Result> resultMocks) {
+    @Parameters(source = ResultMockProvider.class, method = "provideListWithoutId")
+    public void validate_InvalidResults_InvalidAnswerErrorIsSetForAnyInvalidResult(List<Result> resultMocks) {
         when(questionModelMock.getResults()).thenReturn(resultMocks);
         for (Result resultMock : resultMocks) {
             when(questionModelValidator.getResultValidator().isValid(resultMock)).thenReturn(false);
         }
+
         questionModelValidator.validate(questionModelMock, errorsMock, questionMock);
+
         for (int i = 0; i < resultMocks.size(); i++) {
             verify(errorsMock).rejectValue("questionModels[" + questionMock.getId() + "].results[" + i + "]",
                     "error.answer_is_invalid");
@@ -64,37 +68,42 @@ public class QuestionModelValidatorTest {
     }
 
     @Test
-    @Parameters(source = ResultProvider.class, method = "provideWithoutAnswer")
-    public void validateSetsErrorIfNoAnswerIsSelected(List<Result> resultMocks) {
+    @Parameters(source = ResultMockProvider.class, method = "provideListWithoutAnswer")
+    public void validate_ValidResults_NotAnsweredErrorIsSetForQuestion(List<Result> resultMocks) {
         when(questionModelMock.getResults()).thenReturn(resultMocks);
         for (Result resultMock : resultMocks) {
             when(questionModelValidator.getResultValidator().isValid(resultMock)).thenReturn(true);
         }
+
         questionModelValidator.validate(questionModelMock, errorsMock, questionMock);
+
         verify(errorsMock).rejectValue("questionModels[" + questionMock.getId() + "]", "error.question_not_answered");
     }
 
     @Test
-    @Parameters(source = ResultProvider.class, method = "provideWithoutId")
-    public void validateSetsNoQuestionErrorIfAnswersAreValid(List<Result> resultMocks) {
+    @Parameters(source = ResultMockProvider.class, method = "provideListWithoutId")
+    public void validate_ValidResults_NotAnsweredErrorIsNeverSet(List<Result> resultMocks) {
         when(questionModelMock.getResults()).thenReturn(resultMocks);
         for (Result resultMock : resultMocks) {
             when(questionModelValidator.getResultValidator().isValid(resultMock)).thenReturn(true);
         }
+
         questionModelValidator.validate(questionModelMock, errorsMock, questionMock);
+
         verify(errorsMock, never())
-                .rejectValue("questionModels[" + questionMock.getId() + "]", "",
-                        "No answer selected");
+                .rejectValue("questionModels[" + questionMock.getId() + "]", "", "No answer selected");
     }
 
     @Test
-    @Parameters(source = ResultProvider.class, method = "provideWithoutId")
-    public void validateSetsNoResultErrorIfAnswersAreValid(List<Result> resultMocks) {
+    @Parameters(source = ResultMockProvider.class, method = "provideListWithoutId")
+    public void validate_ValidResults_InvalidAnswerErrorIsNeverSet(List<Result> resultMocks) {
         when(questionModelMock.getResults()).thenReturn(resultMocks);
         for (Result resultMock : resultMocks) {
             when(questionModelValidator.getResultValidator().isValid(resultMock)).thenReturn(true);
         }
+
         questionModelValidator.validate(questionModelMock, errorsMock, questionMock);
+
         for (int i = 0; i < resultMocks.size(); i++) {
             verify(errorsMock, never())
                     .rejectValue("questionModels[" + questionMock.getId() + "].results[" + i + "]", "",

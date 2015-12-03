@@ -34,42 +34,50 @@ public class PageRepositoryTest {
     }
 
     @Test
-    public void findBySurveyIdAndPageNumberUsesCorrectQuery() {
+    public void findBySurveyIdAndPageNumber_CorrectQuery_QueryIsUsedByCreateQueryMethodOfEntityManager() {
+        String query = "from Page p " +
+                "left join fetch p.questions q " +
+                "left join fetch q.answers a " +
+                "where p.survey.id = :surveyId " +
+                "order by p.position, q.position, a.position";
+
         pageRepository.findBySurveyIdAndPageNumber(1L, 1);
-        verify(pageRepository.getEntityManager()).createQuery(
-                "from Page p " +
-                        "left join fetch p.questions q " +
-                        "left join fetch q.answers a " +
-                        "where p.survey.id = :surveyId " +
-                        "order by p.position, q.position, a.position");
+
+        verify(pageRepository.getEntityManager()).createQuery(query);
     }
 
     @Test
-    public void findBySurveyIdAndPageNumberUsesCorrectSurveyId() {
+    public void findBySurveyIdAndPageNumber_SomeSurveyId_SurveyIdIsUsedAsQueryParameter() {
         Long surveyId = 1L;
+
         pageRepository.findBySurveyIdAndPageNumber(surveyId, 1);
+
         verify(queryMock).setParameter("surveyId", surveyId);
     }
 
     @Test
-    public void findBySurveyIdAndPageNumberSetsFirstResultCorrectly() {
+    public void findBySurveyIdAndPageNumber_SomePageNumber_SetFirstResultMethodOfQueryIsCalledWithCorrectStartPosition() {
         Integer pageNumber = 1;
-        Integer firstResult = pageNumber - 1;
+
         pageRepository.findBySurveyIdAndPageNumber(1L, pageNumber);
-        verify(queryMock).setFirstResult(firstResult);
+
+        verify(queryMock).setFirstResult(pageNumber - 1);
     }
 
     @Test
-    public void findBySurveyIdAndPageNumberSetsMaxResultsToOne() {
+    public void findBySurveyIdAndPageNumber_SomeArguments_SetMaxResultsMethodOfQueryIsCalledWithValueOfOne() {
         pageRepository.findBySurveyIdAndPageNumber(1L, 1);
+
         verify(queryMock).setMaxResults(1);
     }
 
     @Test
-    public void findBySurveyIdAndPageNumberReturnsPage() {
+    public void findBySurveyIdAndPageNumber_SomeArguments_PageIsReturned() {
         Page pageMock = mock(Page.class);
         when(queryMock.getSingleResult()).thenReturn(pageMock);
+
         Page page = pageRepository.findBySurveyIdAndPageNumber(1L, 1);
+
         assertEquals(pageMock, page);
     }
 }
