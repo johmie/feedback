@@ -7,7 +7,7 @@
     <scm>
         <connection>scm:git:johmie@miemietz.de:/home/johmie/git/feedback.io</connection>
         <developerConnection>scm:git:johmie@miemietz.de:/home/johmie/git/feedback.io</developerConnection>
-        <url>johmie@miemietz.de:/home/johmie/git/feedback.io</url>
+        <url>ssh://johmie@miemietz.de:/home/johmie/git/feedback.io</url>
       <tag>v0.1</tag>
   </scm>
     <dependencies>
