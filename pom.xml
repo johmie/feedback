@@ -1,15 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.feedback</groupId>
     <artifactId>feedback-suite</artifactId>
     <version>0.1.0</version>
     <packaging>war</packaging>
-    <scm>
-        <connection>scm:git:ssh://johmie@miemietz.de:/home/johmie/git/feedback.io</connection>
-        <developerConnection>scm:git:ssh://johmie@miemietz.de:/home/johmie/git/feedback.io</developerConnection>
-        <url>ssh://johmie@miemietz.de:/home/johmie/git/feedback.io</url>
-      <tag>v0.1</tag>
-  </scm>
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -133,16 +128,6 @@
             <version>3.0.0</version>
         </dependency>
     </dependencies>
-    <distributionManagement>
-        <snapshotRepository>
-            <id>feedback-suite-snapshots</id>
-            <url>http://miemietz.de/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>feedback-suite-releases</id>
-            <url>http://miemietz.de/releases</url>
-        </repository>
-    </distributionManagement>
     <build>
         <plugins>
             <plugin>
@@ -185,27 +170,18 @@
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                                     <resource>META-INF/spring.handlers</resource>
                                 </transformer>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                                     <resource>META-INF/spring.schemas</resource>
                                 </transformer>
                             </transformers>
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.3</version>
-                <configuration>
-                    <tagNameFormat>v0.1</tagNameFormat>
-                    <checkModificationExcludes>
-                        <checkModificationExclude>pom.xml</checkModificationExclude>
-                    </checkModificationExcludes>
-                </configuration>
             </plugin>
         </plugins>
     </build>
