@@ -4,14 +4,11 @@
              version="1.0">
     <persistence-unit name="surveyPersistenceUnit"
                       transaction-type="RESOURCE_LOCAL">
-        <class>io.feedback.survey.entity.Survey
-        </class>
-        <class>io.feedback.survey.entity.Page
-        </class>
-        <class>io.feedback.survey.entity.Question
-        </class>
-        <class>io.feedback.survey.entity.Result
-        </class>
+        <class>io.feedback.survey.entity.Answer</class>
+        <class>io.feedback.survey.entity.Page</class>
+        <class>io.feedback.survey.entity.Question</class>
+        <class>io.feedback.survey.entity.Result</class>
+        <class>io.feedback.survey.entity.Survey</class>
         <properties>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
