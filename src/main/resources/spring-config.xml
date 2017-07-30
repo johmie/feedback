@@ -35,7 +35,7 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-        <property name="jndiName" value="java:comp/env/jdbc/feedback"/>
+        <property name="jndiName" value="java:comp/env/jdbc/feedback-suite"/>
     </bean>
 
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
