@@ -1,0 +1,43 @@
+version: '3.1'
+services:
+  tomcat:
+    restart: always
+    container_name: tomcat
+    build:
+      context: .
+      dockerfile: ./docker/tomcat/Dockerfile
+    ports:
+      - 8080:8080
+    volumes:
+      - type: bind
+        source: ./docker/tomcat/tomcat-users.xml
+        target: /usr/local/tomcat/conf/tomcat-users.xml
+      - type: bind
+        source: ./docker/tomcat/context.xml
+        target: /usr/local/tomcat/conf/context.xml
+      - type: bind
+        source: ./docker/tomcat/webapps/manager/context.xml
+        target: /usr/local/tomcat/webapps/manager/META-INF/context.xml
+    environment:
+      TZ: Europe/Berlin
+  mysql:
+    restart: always
+    image: mysql:5.7.22
+    container_name: mysql
+    ports:
+      - 3306:3306
+    environment:
+      TZ: Europe/Berlin
+      MYSQL_ROOT_PASSWORD: password
+    command:
+      --init-file /sql/feedback-suite.sql
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --explicit_defaults_for_timestamp=true
+      --max_allowed_packet=128M
+      --sql-mode="STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION,NO_ZERO_DATE,NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO"
+    volumes:
+      - /usr/local/docker/mysql:/var/lib/mysql
+      - type: bind
+        source: ./feedback-suite.sql
+        target: /sql/feedback-suite.sql

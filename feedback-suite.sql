@@ -1,8 +1,5 @@
--- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
---
--- Host: 192.168.99.100    Database: feedback
--- ------------------------------------------------------
--- Server version	5.5.35-1ubuntu1
+CREATE DATABASE IF NOT EXISTS feedback;
+USE feedback;
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -120,6 +117,56 @@ CREATE TABLE `Survey` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
+--
+-- Dumping data for table `Answer`
+--
+
+LOCK TABLES `Answer` WRITE;
+/*!40000 ALTER TABLE `Answer` DISABLE KEYS */;
+INSERT INTO `Answer` VALUES (1,'CHOICE','männlich','ein Mann','male',0,1,0),(2,'CHOICE','weiblich','eine Frau','female',1,1,0),(3,'CHOICE','Sport','Sport','Sport',1,2,0),(4,'CHOICE','Kunst','Kunst','Kunst',2,2,0),(5,'CHOICE','Andere Kulturen','Andere Kulturen','Andere Kulturen',3,2,0),(6,'CHOICE','Musik','Musik','Musik',4,2,0),(7,'CHOICE','Rhetorik','Rhetorik','Rhetorik',5,2,0),(8,'CHOICE','sarkastisch','sarkastisch','sarkastisch',1,3,0),(9,'CHOICE','sparsam','sparsam','sparsam',2,3,0),(10,'CHOICE','introvertiert','introvertiert','introvertiert',3,3,0),(11,'CHOICE','extrovertiert','extrovertiert','extrovertiert',4,3,0),(12,'CHOICE','pessimistisch','pessimistisch','pessimistisch',5,3,0),(13,'CHOICE','optimistisch','optimistisch','optimistisch',6,3,0),(14,'CHOICE','idealistisch','idealistisch','idealistisch',7,3,0),(15,'FREE_TEXT','Freitext #1','Etwas anderers','???',8,3,0),(16,'FREE_TEXT','Freitext #2','Etwas anderers','???',9,3,0),(17,'FREE_TEXT','Freitext #3','Etwas anderers','???',10,3,0),(18,'CHOICE','Google','Google','Google',1,4,0),(19,'CHOICE','GitHub','GitHub','GitHub',2,4,0),(20,'CHOICE','E-Mail','E-Mail','E-Mail',3,4,0),(21,'CHOICE','miemietz.de','miemietz.de','miemietz.de',4,4,0),(22,'FREE_TEXT','Freitext','Etwas anderes','???',5,4,0);
+/*!40000 ALTER TABLE `Answer` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `Page`
+--
+
+LOCK TABLES `Page` WRITE;
+/*!40000 ALTER TABLE `Page` DISABLE KEYS */;
+INSERT INTO `Page` VALUES (1,'ASK','Page #1','Hallo und willkommen',1,1,0),(2,'ASK','Page #2','Jetzt mal ehrlich!',2,1,0),(3,'ASK','Page #3','Sehr gut',3,1,0),(4,'END','Page #4','1000 Dank!',4,1,0);
+/*!40000 ALTER TABLE `Page` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `Question`
+--
+
+LOCK TABLES `Question` WRITE;
+/*!40000 ALTER TABLE `Question` DISABLE KEYS */;
+INSERT INTO `Question` VALUES (1,'SINGLE_CHOICE','Geschlecht','Du bist ...',1,1,0),(2,'MULTIPLE_CHOICE','Interessen','Was interessiert dich?',0,2,0),(3,'MULTIPLE_CHOICE','Charaktereigenschaften','Welche Eigenschaften treffen auf dich zu?',1,3,0),(4,'SINGLE_CHOICE','Herkunft','Wie bist du hier gelandet?',2,3,0);
+/*!40000 ALTER TABLE `Question` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `Result`
+--
+
+LOCK TABLES `Result` WRITE;
+/*!40000 ALTER TABLE `Result` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Result` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `Survey`
+--
+
+LOCK TABLES `Survey` WRITE;
+/*!40000 ALTER TABLE `Survey` DISABLE KEYS */;
+INSERT INTO `Survey` VALUES (1,'Internal name of my survey','Title of my survey',0);
+/*!40000 ALTER TABLE `Survey` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
@@ -127,5 +174,3 @@ CREATE TABLE `Survey` (
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2015-12-11 14:09:37

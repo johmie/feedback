@@ -5,6 +5,7 @@ import io.feedback.survey.entity.Answer;
 import io.feedback.survey.entity.Result;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
@@ -13,6 +14,9 @@ public class ResultRepository extends AbstractRepository<Result> {
     public void saveResults(List<Result> results) {
         for (Result result : results) {
             initializeAnswerOfResult(result);
+            result.setCreated(
+                    new Timestamp(System.currentTimeMillis())
+            );
             insertOrUpdate(result);
         }
     }

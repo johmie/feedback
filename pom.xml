@@ -17,12 +17,12 @@
 
     <profiles>
         <profile>
-            <id>tomcat-localhost</id>
+            <id>tomcat</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <tomcat-server>tomcat-localhost</tomcat-server>
+                <tomcat-server>tomcat</tomcat-server>
                 <tomcat-path>/feedback-suite</tomcat-path>
                 <tomcat-url>http://localhost:8080/manager/text</tomcat-url>
             </properties>
@@ -163,10 +163,12 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
