@@ -1,0 +1,6 @@
+<div th:if="${#fields.hasErrors('questionModels[__${question.id}__]')}" class="alert alert-danger mt-3" role="alert">
+    <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+    <span class="visually-hidden">Error:</span>
+    <span th:each="error : ${#fields.errors('questionModels[__${question.id}__]')}"
+          th:text="${error}"></span>
+</div>

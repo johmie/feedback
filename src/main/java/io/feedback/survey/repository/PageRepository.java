@@ -4,7 +4,7 @@ import io.feedback.core.repository.AbstractRepository;
 import io.feedback.survey.entity.Page;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.Query;
+import jakarta.persistence.Query;
 
 @Repository
 public class PageRepository extends AbstractRepository<Page> {

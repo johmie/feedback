@@ -1,0 +1,12 @@
+<html layout:decorate="~{survey/layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<section layout:fragment="content">
+    <h1 th:text="${page.title}" class="mt-3"></h1>
+    <form method="post" th:object="${pageModel}">
+        <th:block th:each="question : ${page.questions}"
+                  th:insert="survey/question">
+        </th:block>
+        <button type="submit" th:text="#{label.next}" class="btn btn-primary float-end mt-3 mb-3"></button>
+    </form>
+</section>

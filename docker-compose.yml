@@ -1,4 +1,3 @@
-version: '3.1'
 services:
   tomcat:
     restart: always
@@ -30,7 +29,7 @@ services:
       TZ: Europe/Berlin
       MYSQL_ROOT_PASSWORD: password
     command:
-      --init-file /sql/feedback-suite.sql
+      --init-file /sql/feedback.sql
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_general_ci
       --explicit_defaults_for_timestamp=true
@@ -39,5 +38,5 @@ services:
     volumes:
       - /usr/local/docker/mysql:/var/lib/mysql
       - type: bind
-        source: ./feedback-suite.sql
-        target: /sql/feedback-suite.sql
+        source: ./feedback.sql
+        target: /sql/feedback.sql

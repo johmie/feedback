@@ -1,0 +1,6 @@
+<th:block th:switch="${#strings.toString(answer.valueType)}">
+    <th:block th:case="CHOICE"
+              th:insert="survey/answer/multipleChoice/choice"></th:block>
+    <th:block th:case="FREE_TEXT"
+              th:insert="survey/answer/multipleChoice/freeText"></th:block>
+</th:block>

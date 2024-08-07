@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="col-lg-4 col-md-6">
+        <div class="row align-items-center g-0 mb-1">
+            <div class="col-auto">
+                <input th:field="*{questionModels[__${question.id}__].results[0].answer.id}"
+                       th:value="${answer.id}"
+                       type="radio" class="form-check-input"/>&nbsp;
+            </div>
+            <div class="col">
+                <input th:field="*{questionModels[__${question.id}__].results[0].freeText}"
+                       th:classappend="${#fields.hasErrors('questionModels[__${question.id}__].results[0]')} ? is-invalid"
+                       type="text" class="form-control"/>
+                <div class="invalid-feedback">
+                    <span th:each="error : ${#fields.errors('questionModels[__${question.id}__].results[0]')}"
+                          th:text="${error}"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

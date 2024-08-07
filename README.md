@@ -1,4 +1,4 @@
-# Java Feedback Suite
+# Feedback I/O
 This is still a very basic online survey tool written in Java.
 
 ## Features
@@ -13,9 +13,10 @@ This is still a very basic online survey tool written in Java.
 
 ## Technology
 
- * Spring Framework, Hibernate, Maven
- * JUnit, Mockito, JUnitParams
- * JSP, Apache Tiles, Bootstrap, jQuery
+ * Spring Framework, Jakarta EE, Hibernate
+ * Thymeleaf, Bootstrap
+ * JUnit, JUnitParams, Mockito
+ * MySQL, Tomcat, Docker, Maven
 
 ## Screenshots
 
@@ -44,11 +45,11 @@ This is still a very basic online survey tool written in Java.
 ```
 #### Deploy
 ```
-docker-compose up -d
+docker compose up -d
 ```
 ```
 mvn tomcat7:deploy
 ```
 ## Test your installation
 
-* [Demo survey](http://localhost:8080/feedback-suite/survey/1/1)
+* [Demo survey](http://localhost:8080/feedback/survey/1/1)

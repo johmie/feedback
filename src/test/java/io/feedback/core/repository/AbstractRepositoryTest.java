@@ -6,14 +6,14 @@ import junitparams.JUnitParamsRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Matchers;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.test.context.ContextConfiguration;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -53,7 +53,7 @@ public class AbstractRepositoryTest {
     public void findById_SomeId_EntityIsReturned() {
         Long id = 1L;
         AbstractEntity entityMock = mock(AbstractEntity.class);
-        when(abstractRepository.getEntityManager().find(Matchers.<Class<AbstractEntity>>any(), eq(id))).thenReturn(entityMock);
+        when(abstractRepository.getEntityManager().find(ArgumentMatchers.<Class<AbstractEntity>>any(), eq(id))).thenReturn(entityMock);
 
         AbstractEntity entity = abstractRepository.findById(id);
 

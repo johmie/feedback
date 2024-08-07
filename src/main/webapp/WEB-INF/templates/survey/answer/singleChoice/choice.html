@@ -1,0 +1,6 @@
+<input th:field="*{questionModels[__${question.id}__].results[0].answer.id}"
+       th:value="${answer.id}"
+       type="radio" class="form-check-input"/>
+<label th:for="${#ids.seq('questionModels__${question.id}__.result0.answer.id')}"
+       th:text="${answer.title}" class="form-check-label"></label>
+<br/>

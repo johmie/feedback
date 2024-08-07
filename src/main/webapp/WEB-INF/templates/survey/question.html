@@ -1,0 +1,14 @@
+<th:block th:insert="survey/question/error"></th:block>
+<div class="card mt-3">
+    <h3 th:text="${question.title}" class="card-header"></h3>
+    <div class="card-body">
+        <th:block th:each="answer, statusLoopAnswers : ${question.answers}"
+                  th:switch="${#strings.toString(question.type)}">
+            <th:block th:case="SINGLE_CHOICE"
+                      th:insert="survey/answer/singleChoice"></th:block>
+            <th:block th:case="MULTIPLE_CHOICE"
+                      th:insert="survey/answer/multipleChoice"></th:block>
+            <th:block th:case="MATRIX">MATRIX</th:block>
+        </th:block>
+    </div>
+</div>
