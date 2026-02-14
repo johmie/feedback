@@ -1,7 +1,9 @@
 package io.feedback.survey.web.service;
 
+import io.feedback.survey.entity.Answer;
 import io.feedback.survey.entity.Page;
 import io.feedback.survey.entity.Result;
+import io.feedback.survey.repository.AnswerRepository;
 import io.feedback.survey.repository.ResultRepository;
 import io.feedback.survey.web.dto.PageFormDto;
 import io.feedback.survey.web.dto.ParticipationDto;
@@ -35,6 +37,7 @@ public class ResultServiceTest {
         resultService = new ResultService();
         resultService.setPageModelValidator(mock(PageModelValidator.class));
         resultService.setResultRepository(mock(ResultRepository.class));
+        resultService.setAnswerRepository(mock(AnswerRepository.class));
     }
 
     @Test
@@ -93,13 +96,15 @@ public class ResultServiceTest {
 
     @Test
     public void saveResultsWithParticipationData_SomeResults_SaveResultsMethodOfResultRepositoryIsCalled() {
+        Answer answerMock = mock(Answer.class);
         Result resultMock = mock(Result.class);
+        when(resultMock.getAnswer()).thenReturn(answerMock);
         List<Result> resultMocks = new ArrayList<>();
         resultMocks.add(resultMock);
 
         resultService.saveResultsWithParticipationData(resultMocks, mock(ParticipationDto.class));
 
-        verify(resultService.getResultRepository()).saveResults(resultMocks);
+        verify(resultService.getResultRepository()).save(resultMock);
     }
 
     @Test
@@ -107,7 +112,9 @@ public class ResultServiceTest {
         String participationIdentifier = "Participation identifier";
         ParticipationDto participationDtoMock = mock(ParticipationDto.class);
         when(participationDtoMock.getIdentifier()).thenReturn(participationIdentifier);
+        Answer answerMock = mock(Answer.class);
         Result resultMock = mock(Result.class);
+        when(resultMock.getAnswer()).thenReturn(answerMock);
         List<Result> resultMocks = new ArrayList<>();
         resultMocks.add(resultMock);
 
@@ -121,7 +128,9 @@ public class ResultServiceTest {
         String remoteAddress = "127.0.0.1";
         ParticipationDto participationDtoMock = mock(ParticipationDto.class);
         when(participationDtoMock.getRemoteAddress()).thenReturn(remoteAddress);
+        Answer answerMock = mock(Answer.class);
         Result resultMock = mock(Result.class);
+        when(resultMock.getAnswer()).thenReturn(answerMock);
         List<Result> resultMocks = new ArrayList<>();
         resultMocks.add(resultMock);
 

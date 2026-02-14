@@ -5,6 +5,8 @@ import io.feedback.core.entity.AbstractEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
+
 import java.util.Set;
 
 @Entity
@@ -14,7 +16,8 @@ public class Survey extends AbstractEntity {
 
     private String title;
 
-    @OneToMany(mappedBy = "survey", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "survey", fetch = FetchType.LAZY)
+    @OrderBy("position")
     private Set<Page> pages;
 
     public Set<Page> getPages() {

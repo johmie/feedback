@@ -1,5 +1,6 @@
 package io.feedback.survey.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.feedback.core.entity.AbstractEntity;
 
 import jakarta.persistence.Column;
@@ -10,6 +11,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+
 import java.util.Set;
 
 @Entity
@@ -29,9 +31,11 @@ public class Answer extends AbstractEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
+    @JsonIgnore
     private Question question;
 
     @OneToMany(mappedBy = "answer")
+    @JsonIgnore
     private Set<Result> results;
 
     public Set<Result> getResults() {

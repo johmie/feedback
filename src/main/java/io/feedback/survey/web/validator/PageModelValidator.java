@@ -12,6 +12,7 @@ import org.springframework.validation.Errors;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 
 @Component
 public class PageModelValidator {
@@ -57,8 +58,8 @@ public class PageModelValidator {
         while (questionModelsIterator.hasNext()) {
             Entry<Long, QuestionModel> questionModelEntry = questionModelsIterator.next();
             QuestionModel questionModel = questionModelEntry.getValue();
-            Question question = questionRepository.findById(questionModelEntry.getKey());
-            questionModelValidator.validate(questionModel, errors, question);
+            Optional<Question> question = questionRepository.findById(questionModelEntry.getKey());
+            questionModelValidator.validate(questionModel, errors, question.get());
         }
     }
 }

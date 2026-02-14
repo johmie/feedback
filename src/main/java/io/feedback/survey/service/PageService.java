@@ -5,6 +5,8 @@ import io.feedback.survey.repository.PageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PageService {
 
@@ -19,11 +21,8 @@ public class PageService {
         this.pageRepository = pageRepository;
     }
 
-    public void savePage(Page page) {
-        getPageRepository().insertOrUpdate(page);
-    }
-
     public Page loadPage(Long surveyId, Integer pageNumber) {
-        return getPageRepository().findBySurveyIdAndPageNumber(surveyId, pageNumber);
+        List<Page> pages = getPageRepository().findBySurveyId(surveyId);
+        return pages.isEmpty() ? null : pages.get(pageNumber - 1);
     }
 }

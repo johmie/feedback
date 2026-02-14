@@ -17,6 +17,7 @@ import org.springframework.validation.Errors;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -77,7 +78,12 @@ public class PageModelValidatorTest {
     @Parameters(source = PageModelMockProvider.class, method = "provideOneWithCountOfQuestions")
     public void validate_PageModelWithResults_AnyQuestionFromPageIsLoaded(PageModel pageModelMock,
                                                                           int countOfQuestions) {
-        pageModelValidator.validate(pageModelMock, mock(Errors.class), mock(Page.class));
+        Errors errorsMock = mock(Errors.class);
+        for (long i = 1; i <= countOfQuestions; i++) {
+            Question questionMock = mock(Question.class);
+            when(pageModelValidator.getQuestionRepository().findById(i)).thenReturn(Optional.of(questionMock));
+        }
+        pageModelValidator.validate(pageModelMock, errorsMock, mock(Page.class));
 
         for (long i = 1; i <= countOfQuestions; i++) {
             verify(pageModelValidator.getQuestionRepository()).findById(i);
@@ -93,7 +99,7 @@ public class PageModelValidatorTest {
         for (long i = 1; i <= countOfQuestions; i++) {
             Question questionMock = mock(Question.class);
             questionMocks.put(i, questionMock);
-            when(pageModelValidator.getQuestionRepository().findById(i)).thenReturn(questionMock);
+            when(pageModelValidator.getQuestionRepository().findById(i)).thenReturn(Optional.of(questionMock));
         }
 
         pageModelValidator.validate(pageModelMock, errorsMock, mock(Page.class));

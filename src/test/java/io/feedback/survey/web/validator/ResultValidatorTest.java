@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -44,7 +45,7 @@ public class ResultValidatorTest {
                                                                                     boolean expectedIsValid) {
         Answer answerMock = mock(Answer.class);
         when(answerMock.getValueType()).thenReturn(Answer.ValueType.FREE_TEXT);
-        when(resultValidator.getAnswerRepository().findById(resultMock.getAnswer().getId())).thenReturn(answerMock);
+        when(resultValidator.getAnswerRepository().findById(resultMock.getAnswer().getId())).thenReturn(Optional.of(answerMock));
 
         boolean actualIsValid = resultValidator.isValid(resultMock);
 
@@ -56,7 +57,7 @@ public class ResultValidatorTest {
     public void isValid_SelectedAndUnselectedChoiceResults_AnyResultIsValid(Result resultMock, boolean expectedIsValid) {
         Answer answerMock = mock(Answer.class);
         when(answerMock.getValueType()).thenReturn(Answer.ValueType.CHOICE);
-        when(resultValidator.getAnswerRepository().findById(resultMock.getAnswer().getId())).thenReturn(answerMock);
+        when(resultValidator.getAnswerRepository().findById(resultMock.getAnswer().getId())).thenReturn(Optional.of(answerMock));
 
         boolean actualIsValid = resultValidator.isValid(resultMock);
 

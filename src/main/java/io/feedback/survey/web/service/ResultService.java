@@ -1,7 +1,9 @@
 package io.feedback.survey.web.service;
 
+import io.feedback.survey.entity.Answer;
 import io.feedback.survey.entity.Page;
 import io.feedback.survey.entity.Result;
+import io.feedback.survey.repository.AnswerRepository;
 import io.feedback.survey.repository.ResultRepository;
 import io.feedback.survey.web.dto.PageFormDto;
 import io.feedback.survey.web.dto.ParticipationDto;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +24,8 @@ public class ResultService {
     private PageModelValidator pageModelValidator;
 
     private ResultRepository resultRepository;
+
+    private AnswerRepository answerRepository;
 
     public PageModelValidator getPageModelValidator() {
         return pageModelValidator;
@@ -38,6 +43,15 @@ public class ResultService {
     @Autowired
     public void setResultRepository(ResultRepository resultRepository) {
         this.resultRepository = resultRepository;
+    }
+
+    public AnswerRepository getAnswerRepository() {
+        return answerRepository;
+    }
+
+    @Autowired
+    public void setAnswerRepository(AnswerRepository answerRepository) {
+        this.answerRepository = answerRepository;
     }
 
     public boolean saveResultsIfValid(PageFormDto pageFormDto, ParticipationDto participationDto) {
@@ -59,7 +73,16 @@ public class ResultService {
             result.setParticipationIdentifier(participationDto.getIdentifier());
             result.setRemoteAddress(participationDto.getRemoteAddress());
         }
-        getResultRepository().saveResults(results);
+        saveResults(results);
+    }
+
+    private void saveResults(List<Result> results) {
+        for (Result result : results) {
+            Answer answer = getAnswerRepository().getReferenceById(result.getAnswer().getId());
+            result.setAnswer(answer);
+            result.setCreated(new Timestamp(System.currentTimeMillis()));
+            getResultRepository().save(result);
+        }
     }
 
     public List<Result> extractResultsFromPageModel(PageModel pageModel) {

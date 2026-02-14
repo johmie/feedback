@@ -39,6 +39,6 @@ public class SurveyServiceTest {
 
         surveyService.saveSurvey(surveyMock);
 
-        verify(surveyService.getSurveyRepository()).insertOrUpdate(surveyMock);
+        verify(surveyService.getSurveyRepository()).save(surveyMock);
     }
 }

@@ -6,6 +6,8 @@ import io.feedback.survey.repository.AnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class ResultValidator {
 
@@ -22,8 +24,8 @@ public class ResultValidator {
 
     public boolean isValid(Result result) {
         if (isAnswerSelected(result)) {
-            Answer answer = answerRepository.findById(result.getAnswer().getId());
-            if (isChoice(answer) || isFreeTextAndNotEmpty(answer, result)) {
+            Optional<Answer> answer = answerRepository.findById(result.getAnswer().getId());
+            if (isChoice(answer.get()) || isFreeTextAndNotEmpty(answer.get(), result)) {
                 return true;
             }
         } else if (isAnswerNotSelected(result)) {

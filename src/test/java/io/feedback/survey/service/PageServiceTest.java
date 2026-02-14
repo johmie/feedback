@@ -8,9 +8,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(JUnitParamsRunner.class)
@@ -35,20 +37,13 @@ public class PageServiceTest {
     }
 
     @Test
-    public void savePage_SomePage_SaveMethodOfPageRepositoryIsCalled() {
-        Page pageMock = mock(Page.class);
-
-        pageService.savePage(pageMock);
-
-        verify(pageService.getPageRepository()).insertOrUpdate(pageMock);
-    }
-
-    @Test
     public void loadPage_SomeArguments_PageIsReturned() {
         Long surveyId = 1L;
         Integer pageNumber = 1;
         Page pageMock = mock(Page.class);
-        when(pageService.getPageRepository().findBySurveyIdAndPageNumber(surveyId, pageNumber)).thenReturn(pageMock);
+        List<Page> pages = new ArrayList<>();
+        pages.add(pageMock);
+        when(pageService.getPageRepository().findBySurveyId(surveyId)).thenReturn(pages);
 
         Page page = pageService.loadPage(surveyId, pageNumber);
 

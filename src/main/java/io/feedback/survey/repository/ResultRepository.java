@@ -1,28 +1,9 @@
 package io.feedback.survey.repository;
 
-import io.feedback.core.repository.AbstractRepository;
-import io.feedback.survey.entity.Answer;
 import io.feedback.survey.entity.Result;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
-import java.util.List;
-
 @Repository
-public class ResultRepository extends AbstractRepository<Result> {
-
-    public void saveResults(List<Result> results) {
-        for (Result result : results) {
-            initializeAnswerOfResult(result);
-            result.setCreated(
-                    new Timestamp(System.currentTimeMillis())
-            );
-            insertOrUpdate(result);
-        }
-    }
-
-    private void initializeAnswerOfResult(Result result) {
-        Answer answer = getEntityManager().find(Answer.class, result.getAnswer().getId());
-        result.setAnswer(answer);
-    }
+public interface ResultRepository extends JpaRepository<Result, Long> {
 }
