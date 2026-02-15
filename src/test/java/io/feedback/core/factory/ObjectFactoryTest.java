@@ -7,12 +7,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
 
 import static org.junit.Assert.assertTrue;
 
 @RunWith(JUnitParamsRunner.class)
-@ContextConfiguration(locations = {"/test-spring-config.xml"})
 public class ObjectFactoryTest {
 
     @Rule

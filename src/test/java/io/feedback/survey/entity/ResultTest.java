@@ -4,7 +4,6 @@ import junitparams.JUnitParamsRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
 
 import java.sql.Timestamp;
 
@@ -12,7 +11,6 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
 @RunWith(JUnitParamsRunner.class)
-@ContextConfiguration(locations = {"/test-spring-config.xml"})
 public class ResultTest {
 
     private Result result;

@@ -6,17 +6,16 @@ import junitparams.JUnitParamsRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(JUnitParamsRunner.class)
-@ContextConfiguration(locations = {"/test-spring-config.xml"})
 public class PageServiceTest {
 
     private PageService pageService;
@@ -48,5 +47,17 @@ public class PageServiceTest {
         Page page = pageService.loadPage(surveyId, pageNumber);
 
         assertEquals(pageMock, page);
+    }
+
+    @Test
+    public void loadPage_WhenNoPages_ReturnsNull() {
+        Long surveyId = 1L;
+        Integer pageNumber = 1;
+        List<Page> pages = new ArrayList<>();
+        when(pageService.getPageRepository().findBySurveyId(surveyId)).thenReturn(pages);
+
+        Page page = pageService.loadPage(surveyId, pageNumber);
+
+        assertNull(page);
     }
 }

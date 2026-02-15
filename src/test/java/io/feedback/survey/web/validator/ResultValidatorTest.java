@@ -9,7 +9,6 @@ import junitparams.Parameters;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +18,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(JUnitParamsRunner.class)
-@ContextConfiguration(locations = {"/test-spring-config.xml"})
 public class ResultValidatorTest {
 
     private ResultValidator resultValidator;
@@ -72,5 +70,27 @@ public class ResultValidatorTest {
 
             assertEquals(true, isValid);
         }
+    }
+
+    @Test
+    public void isValid_AnswerPresentWithNullId_ReturnsTrue() {
+        Answer answerMock = mock(Answer.class);
+        when(answerMock.getId()).thenReturn(null);
+        Result resultMock = mock(Result.class);
+        when(resultMock.getAnswer()).thenReturn(answerMock);
+
+        boolean isValid = resultValidator.isValid(resultMock);
+
+        assertEquals(true, isValid);
+    }
+
+    @Test
+    public void isValid_AnswerIsNull_ReturnsTrue() {
+        Result resultMock = mock(Result.class);
+        when(resultMock.getAnswer()).thenReturn(null);
+
+        boolean isValid = resultValidator.isValid(resultMock);
+
+        assertEquals(true, isValid);
     }
 }
