@@ -15,11 +15,11 @@ import java.util.Set;
 public class Survey extends AbstractEntity {
 
     @NotBlank(message = "Name may not be blank")
-    @Size(min = 2, max = 50, message = "Name must be between 10 and 200 characters")
+    @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
     private String name;
 
-    @NotBlank(message = "Name may not be blank")
-    @Size(min = 2, max = 150, message = "Name must be between 10 and 200 characters")
+    @NotBlank(message = "Title may not be blank")
+    @Size(min = 2, max = 150, message = "Title must be between 2 and 150 characters")
     private String title;
 
     @OneToMany(mappedBy = "survey", fetch = FetchType.LAZY)
