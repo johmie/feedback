@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,7 +65,7 @@ public class SurveyApiController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Survey>> createSurvey(@RequestBody Survey survey) {
+    public ResponseEntity<ApiResponse<Survey>> createSurvey(@Valid @RequestBody Survey survey) {
         try {
             surveyService.saveSurvey(survey);
             return ResponseEntity.status(
@@ -79,7 +85,7 @@ public class SurveyApiController {
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<Survey>> updateSurvey(
             @PathVariable Long id,
-            @RequestBody Survey survey) {
+            @Valid @RequestBody Survey survey) {
         Optional<Survey> existingSurvey = surveyService.getSurveyRepository().findById(id);
         if (existingSurvey.isPresent()) {
             try {
@@ -128,5 +134,21 @@ public class SurveyApiController {
                     ApiResponse.error("Survey not found with id: " + id)
             );
         }
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse<Survey>> handleValidationExceptions(
+            MethodArgumentNotValidException ex) {
+        List<String> errors = new ArrayList<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.add(fieldName + ": " + errorMessage);
+        });
+        return ResponseEntity.status(
+                HttpStatus.BAD_REQUEST
+        ).body(
+                ApiResponse.error("Validation failed", errors)
+        );
     }
 }

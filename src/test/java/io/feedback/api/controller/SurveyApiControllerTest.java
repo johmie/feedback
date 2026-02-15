@@ -11,6 +11,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,6 +27,7 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -49,7 +53,7 @@ public class SurveyApiControllerTest {
         Survey survey = new Survey();
         survey.setId(1L);
         survey.setName("Test Survey");
-        List<Survey> surveys = Arrays.asList(survey);
+        List<Survey> surveys = List.of(survey);
         when(surveyService.findAll()).thenReturn(surveys);
 
         ResponseEntity<ApiResponse<List<Survey>>> response = controller.getAllSurveys();
@@ -192,5 +196,43 @@ public class SurveyApiControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNotNull(response.getBody());
         assertFalse(response.getBody().isSuccess());
+    }
+
+    @Test
+    public void handleValidationExceptions_Returns400WithErrors() {
+        BindingResult bindingResult = mock(BindingResult.class);
+        FieldError nameError = new FieldError("survey", "name", "Name may not be blank");
+        FieldError titleError = new FieldError("survey", "title", "Title may not be blank");
+        when(bindingResult.getAllErrors()).thenReturn(Arrays.asList(nameError, titleError));
+        MethodArgumentNotValidException exception = mock(MethodArgumentNotValidException.class);
+        when(exception.getBindingResult()).thenReturn(bindingResult);
+
+        ResponseEntity<ApiResponse<Survey>> response = controller.handleValidationExceptions(exception);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertFalse(response.getBody().isSuccess());
+        assertEquals("Validation failed", response.getBody().getMessage());
+        assertEquals(2, response.getBody().getErrors().size());
+        assertTrue(response.getBody().getErrors().contains("name: Name may not be blank"));
+        assertTrue(response.getBody().getErrors().contains("title: Title may not be blank"));
+    }
+
+    @Test
+    public void handleValidationExceptions_WithSingleError_Returns400WithSingleError() {
+        BindingResult bindingResult = mock(BindingResult.class);
+        FieldError nameError = new FieldError("survey", "name", "Name must be between 10 and 200 characters");
+        when(bindingResult.getAllErrors()).thenReturn(List.of(nameError));
+        MethodArgumentNotValidException exception = mock(MethodArgumentNotValidException.class);
+        when(exception.getBindingResult()).thenReturn(bindingResult);
+
+        ResponseEntity<ApiResponse<Survey>> response = controller.handleValidationExceptions(exception);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertFalse(response.getBody().isSuccess());
+        assertEquals("Validation failed", response.getBody().getMessage());
+        assertEquals(1, response.getBody().getErrors().size());
+        assertEquals("name: Name must be between 10 and 200 characters", response.getBody().getErrors().get(0));
     }
 }

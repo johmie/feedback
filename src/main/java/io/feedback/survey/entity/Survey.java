@@ -6,14 +6,20 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.util.Set;
 
 @Entity
 public class Survey extends AbstractEntity {
 
+    @NotBlank(message = "Name may not be blank")
+    @Size(min = 2, max = 50, message = "Name must be between 10 and 200 characters")
     private String name;
 
+    @NotBlank(message = "Name may not be blank")
+    @Size(min = 2, max = 150, message = "Name must be between 10 and 200 characters")
     private String title;
 
     @OneToMany(mappedBy = "survey", fetch = FetchType.LAZY)
