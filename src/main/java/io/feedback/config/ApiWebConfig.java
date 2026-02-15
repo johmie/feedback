@@ -20,7 +20,6 @@ public class ApiWebConfig implements WebMvcConfigurer {
         configurer
                 .defaultContentType(MediaType.APPLICATION_JSON)
                 .favorParameter(false)
-                .favorPathExtension(false)
                 .ignoreAcceptHeader(false)
                 .useRegisteredExtensionsOnly(false)
                 .mediaType("json", MediaType.APPLICATION_JSON);

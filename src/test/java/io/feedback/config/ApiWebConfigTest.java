@@ -21,7 +21,6 @@ public class ApiWebConfigTest {
         ContentNegotiationConfigurer mockConfigurer = mock(ContentNegotiationConfigurer.class, withSettings().lenient());
         when(mockConfigurer.defaultContentType(any(MediaType.class))).thenReturn(mockConfigurer);
         when(mockConfigurer.favorParameter(anyBoolean())).thenReturn(mockConfigurer);
-        when(mockConfigurer.favorPathExtension(anyBoolean())).thenReturn(mockConfigurer);
         when(mockConfigurer.ignoreAcceptHeader(anyBoolean())).thenReturn(mockConfigurer);
         when(mockConfigurer.useRegisteredExtensionsOnly(anyBoolean())).thenReturn(mockConfigurer);
         when(mockConfigurer.mediaType(anyString(), any(MediaType.class))).thenReturn(mockConfigurer);
@@ -30,7 +29,6 @@ public class ApiWebConfigTest {
 
         verify(mockConfigurer).defaultContentType(MediaType.APPLICATION_JSON);
         verify(mockConfigurer).favorParameter(false);
-        verify(mockConfigurer).favorPathExtension(false);
         verify(mockConfigurer).ignoreAcceptHeader(false);
         verify(mockConfigurer).useRegisteredExtensionsOnly(false);
         verify(mockConfigurer).mediaType("json", MediaType.APPLICATION_JSON);
