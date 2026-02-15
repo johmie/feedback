@@ -12,6 +12,8 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <springframework.version>6.2.16</springframework.version>
+        <bootstrap.version>5.3.8</bootstrap.version>
+        <bootstrap.icons.version>1.13.1</bootstrap.icons.version>
     </properties>
 
     <profiles>
@@ -139,12 +141,12 @@
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>
-            <version>5.3.8</version>
+            <version>${bootstrap.version}</version>
         </dependency>
         <dependency>
             <groupId>org.webjars.npm</groupId>
             <artifactId>bootstrap-icons</artifactId>
-            <version>1.13.1</version>
+            <version>${bootstrap.icons.version}</version>
         </dependency>
 
         <dependency>
@@ -180,6 +182,12 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
