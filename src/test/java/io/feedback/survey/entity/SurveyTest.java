@@ -1,27 +1,24 @@
 package io.feedback.survey.entity;
 
-import junitparams.JUnitParamsRunner;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(JUnitParamsRunner.class)
-public class SurveyTest {
+class SurveyTest {
 
     private Survey survey;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         survey = new Survey();
     }
 
     @Test
-    public void setPages_SomePages_SameValueIsReturnedByGetPages() {
+    void setPages_SomePages_SameValueIsReturnedByGetPages() {
         Set<Page> pageMocks = new HashSet<>();
 
         survey.setPages(pageMocks);
@@ -30,7 +27,7 @@ public class SurveyTest {
     }
 
     @Test
-    public void setName_SomeName_SameValueIsReturnedByGetName() {
+    void setName_SomeName_SameValueIsReturnedByGetName() {
         String name = "Name";
 
         survey.setName(name);
@@ -39,7 +36,7 @@ public class SurveyTest {
     }
 
     @Test
-    public void setTitle_SomeTitle_SameValueIsReturnedByGetTitle() {
+    void setTitle_SomeTitle_SameValueIsReturnedByGetTitle() {
         String title = "Title";
 
         survey.setTitle(title);

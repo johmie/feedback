@@ -2,21 +2,18 @@ package io.feedback.survey.web.dto;
 
 import io.feedback.survey.entity.Page;
 import io.feedback.survey.web.model.PageModel;
-import junitparams.JUnitParamsRunner;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.validation.BindingResult;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
-@RunWith(JUnitParamsRunner.class)
 public class PageFormDtoTest {
 
     private PageFormDto pageFormDto;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         pageFormDto = new PageFormDto();
     }

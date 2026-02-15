@@ -1,24 +1,17 @@
 package io.feedback.core.factory;
 
 import io.feedback.core.exception.ObjectInstantiationException;
-import junitparams.JUnitParamsRunner;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@RunWith(JUnitParamsRunner.class)
 public class ObjectFactoryTest {
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 
     private ObjectFactory objectFactory;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         objectFactory = new ObjectFactory();
     }
@@ -28,17 +21,14 @@ public class ObjectFactoryTest {
         Class<String> stringClass = String.class;
 
         Object stringAsObject = objectFactory.createInstance(stringClass);
-        String string = (String) stringAsObject;
 
-        assertTrue(string instanceof String);
+        assertInstanceOf(String.class, stringAsObject);
     }
 
     @Test
     public void createInstance_ClassOfTypeInteger_ObjectInstantiationExceptionIsThrown() {
         Class<Integer> integerClass = Integer.class;
 
-        thrown.expect(ObjectInstantiationException.class);
-
-        objectFactory.createInstance(integerClass);
+        assertThrows(ObjectInstantiationException.class, () -> objectFactory.createInstance(integerClass));
     }
 }

@@ -1,27 +1,24 @@
 package io.feedback.survey.entity;
 
-import junitparams.JUnitParamsRunner;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.sql.Timestamp;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
-@RunWith(JUnitParamsRunner.class)
-public class ResultTest {
+class ResultTest {
 
     private Result result;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         result = new Result();
     }
 
     @Test
-    public void setParticipationIdentifier_SomeParticipationIdentifier_SameValueIsReturnedByGetParticipationIdentifier() {
+    void setParticipationIdentifier_SomeParticipationIdentifier_SameValueIsReturnedByGetParticipationIdentifier() {
         String participationIdentifier = "Participation identifier";
 
         result.setParticipationIdentifier(participationIdentifier);
@@ -30,7 +27,7 @@ public class ResultTest {
     }
 
     @Test
-    public void setFreeText_SomeFreeText_SameValueIsReturnedByGetFreeText() {
+    void setFreeText_SomeFreeText_SameValueIsReturnedByGetFreeText() {
         String freeText = "Free text";
 
         result.setFreeText(freeText);
@@ -39,7 +36,7 @@ public class ResultTest {
     }
 
     @Test
-    public void setAnswer_SomeAnswer_SameValueIsReturnedByGetAnswer() {
+    void setAnswer_SomeAnswer_SameValueIsReturnedByGetAnswer() {
         Answer answerMock = mock(Answer.class);
 
         result.setAnswer(answerMock);
@@ -48,7 +45,7 @@ public class ResultTest {
     }
 
     @Test
-    public void setCreated_SomeTimestamp_SameValueIsReturnedByGetCreated() {
+    void setCreated_SomeTimestamp_SameValueIsReturnedByGetCreated() {
         Timestamp created = mock(Timestamp.class);
 
         result.setCreated(created);
@@ -57,7 +54,7 @@ public class ResultTest {
     }
 
     @Test
-    public void setRemoteAddress_SomeRemoteAddress_SameValueIsReturnedByGetRemoteAddress() {
+    void setRemoteAddress_SomeRemoteAddress_SameValueIsReturnedByGetRemoteAddress() {
         String remoteAddress = "127.0.0.1";
 
         result.setRemoteAddress(remoteAddress);

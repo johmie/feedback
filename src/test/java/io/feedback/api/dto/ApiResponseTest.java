@@ -1,16 +1,16 @@
 package io.feedback.api.dto;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ApiResponseTest {
 
@@ -37,6 +37,7 @@ public class ApiResponseTest {
     @Test
     public void success_WithData_ReturnsSuccessResponse() {
         String data = "testData";
+
         ApiResponse<String> response = ApiResponse.success(data);
 
         assertTrue(response.isSuccess());
@@ -48,6 +49,7 @@ public class ApiResponseTest {
     public void success_WithMessageAndData_ReturnsSuccessResponse() {
         String message = "Custom message";
         String data = "testData";
+
         ApiResponse<String> response = ApiResponse.success(message, data);
 
         assertTrue(response.isSuccess());
@@ -58,6 +60,7 @@ public class ApiResponseTest {
     @Test
     public void error_WithMessage_ReturnsErrorResponse() {
         String message = "Error message";
+
         ApiResponse<String> response = ApiResponse.error(message);
 
         assertFalse(response.isSuccess());
@@ -69,6 +72,7 @@ public class ApiResponseTest {
     public void error_WithMessageAndErrors_ReturnsErrorResponseWithErrors() {
         String message = "Error message";
         List<String> errors = Arrays.asList("error1", "error2");
+
         ApiResponse<String> response = ApiResponse.error(message, errors);
 
         assertFalse(response.isSuccess());
@@ -80,14 +84,11 @@ public class ApiResponseTest {
     @Test
     public void setters_SetValuesCorrectly() {
         ApiResponse<String> response = new ApiResponse<>();
-
         response.setSuccess(true);
         response.setMessage("message");
         response.setData("data");
-
         List<String> errors = Arrays.asList("error1");
         response.setErrors(errors);
-
         LocalDateTime timestamp = LocalDateTime.now();
         response.setTimestamp(timestamp);
 

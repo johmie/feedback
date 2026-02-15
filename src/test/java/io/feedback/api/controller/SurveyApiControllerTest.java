@@ -4,11 +4,11 @@ import io.feedback.api.dto.ApiResponse;
 import io.feedback.survey.entity.Survey;
 import io.feedback.survey.repository.SurveyRepository;
 import io.feedback.survey.service.SurveyService;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -16,16 +16,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class SurveyApiControllerTest {
 
     @Mock
@@ -36,11 +37,11 @@ public class SurveyApiControllerTest {
 
     private SurveyApiController controller;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         controller = new SurveyApiController();
         controller.setSurveyService(surveyService);
-        when(surveyService.getSurveyRepository()).thenReturn(surveyRepository);
+        lenient().when(surveyService.getSurveyRepository()).thenReturn(surveyRepository);
     }
 
     @Test
@@ -118,7 +119,6 @@ public class SurveyApiControllerTest {
         existingSurvey.setVersion(0L);
         Survey updatedSurvey = new Survey();
         updatedSurvey.setName("Updated Survey");
-
         when(surveyService.getSurveyRepository().findById(1L)).thenReturn(Optional.of(existingSurvey));
         doNothing().when(surveyService).saveSurvey(any(Survey.class));
 

@@ -1,18 +1,15 @@
 package io.feedback.survey.web.dto;
 
-import junitparams.JUnitParamsRunner;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(JUnitParamsRunner.class)
 public class ParticipationDtoTest {
 
     private ParticipationDto participationDto;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         participationDto = new ParticipationDto();
     }

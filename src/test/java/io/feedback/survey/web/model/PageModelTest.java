@@ -1,21 +1,18 @@
 package io.feedback.survey.web.model;
 
-import junitparams.JUnitParamsRunner;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(JUnitParamsRunner.class)
 public class PageModelTest {
 
     private PageModel pageModel;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         pageModel = new PageModel();
     }

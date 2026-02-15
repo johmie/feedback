@@ -2,28 +2,25 @@ package io.feedback.survey.service;
 
 import io.feedback.survey.entity.Survey;
 import io.feedback.survey.repository.SurveyRepository;
-import junitparams.JUnitParamsRunner;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(JUnitParamsRunner.class)
 public class SurveyServiceTest {
 
     private SurveyService surveyService;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         surveyService = new SurveyService();
         surveyService.setSurveyRepository(mock(SurveyRepository.class));

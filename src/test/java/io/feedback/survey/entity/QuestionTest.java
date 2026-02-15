@@ -1,28 +1,25 @@
 package io.feedback.survey.entity;
 
-import junitparams.JUnitParamsRunner;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
-@RunWith(JUnitParamsRunner.class)
-public class QuestionTest {
+class QuestionTest {
 
     private Question question;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         question = new Question();
     }
 
     @Test
-    public void setType_SomeType_SameValueIsReturnedByGetType() {
+    void setType_SomeType_SameValueIsReturnedByGetType() {
         Question.Type type = Question.Type.SINGLE_CHOICE;
 
         question.setType(type);
@@ -31,7 +28,7 @@ public class QuestionTest {
     }
 
     @Test
-    public void setAnswers_SomeAnswers_SameValueIsReturnedByGetAnswers() {
+    void setAnswers_SomeAnswers_SameValueIsReturnedByGetAnswers() {
         Set<Answer> answerMocks = new HashSet<>();
 
         question.setAnswers(answerMocks);
@@ -40,7 +37,7 @@ public class QuestionTest {
     }
 
     @Test
-    public void setPage_SomePage_SameValueIsReturnedByGetPage() {
+    void setPage_SomePage_SameValueIsReturnedByGetPage() {
         Page pageMock = mock(Page.class);
 
         question.setPage(pageMock);
@@ -49,7 +46,7 @@ public class QuestionTest {
     }
 
     @Test
-    public void setName_SomeName_SameValueIsReturnedByGetName() {
+    void setName_SomeName_SameValueIsReturnedByGetName() {
         String name = "Name";
 
         question.setName(name);
@@ -58,7 +55,7 @@ public class QuestionTest {
     }
 
     @Test
-    public void setTitle_SomeTitle_SameValueIsReturnedByGetTitle() {
+    void setTitle_SomeTitle_SameValueIsReturnedByGetTitle() {
         String title = "Title";
 
         question.setTitle(title);
@@ -67,7 +64,7 @@ public class QuestionTest {
     }
 
     @Test
-    public void setPosition_SomePosition_SameValueIsReturnedByGetPosition() {
+    void setPosition_SomePosition_SameValueIsReturnedByGetPosition() {
         int position = 1;
 
         question.setPosition(position);

@@ -1,20 +1,17 @@
 package io.feedback.core.entity;
 
-import junitparams.JUnitParamsRunner;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
-@RunWith(JUnitParamsRunner.class)
 public class AbstractEntityTest {
 
     private AbstractEntity abstractEntity;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         abstractEntity = mock(AbstractEntity.class, Mockito.CALLS_REAL_METHODS);
     }

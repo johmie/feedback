@@ -1,35 +1,32 @@
 package io.feedback.survey.entity;
 
-import junitparams.JUnitParamsRunner;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
-@RunWith(JUnitParamsRunner.class)
-public class PageTest {
+class PageTest {
 
     private Page page;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         page = new Page();
     }
 
     @Test
-    public void getType_InstantiatedPage_DefaultValueIsReturned() {
+    void getType_InstantiatedPage_DefaultValueIsReturned() {
         Page.Type type = page.getType();
 
         assertEquals(Page.Type.ASK, type);
     }
 
     @Test
-    public void setType_SomeType_SameValueIsReturnedByGetType() {
+    void setType_SomeType_SameValueIsReturnedByGetType() {
         Page.Type type = Page.Type.END;
 
         page.setType(type);
@@ -38,7 +35,7 @@ public class PageTest {
     }
 
     @Test
-    public void setQuestions_SomeQuestions_SameValueIsReturnedByGetQuestions() {
+    void setQuestions_SomeQuestions_SameValueIsReturnedByGetQuestions() {
         Set<Question> questionMocks = new HashSet<>();
 
         page.setQuestions(questionMocks);
@@ -47,7 +44,7 @@ public class PageTest {
     }
 
     @Test
-    public void setSurvey_SomeSurvey_SameValueIsReturnedByGetSurvey() {
+    void setSurvey_SomeSurvey_SameValueIsReturnedByGetSurvey() {
         Survey surveyMock = mock(Survey.class);
 
         page.setSurvey(surveyMock);
@@ -56,7 +53,7 @@ public class PageTest {
     }
 
     @Test
-    public void setName_SomeName_SameValueIsReturnedByGetName() {
+    void setName_SomeName_SameValueIsReturnedByGetName() {
         String name = "Name";
 
         page.setName(name);
@@ -65,7 +62,7 @@ public class PageTest {
     }
 
     @Test
-    public void setTitle_SomeTitle_SameValueIsReturnedByGetTitle() {
+    void setTitle_SomeTitle_SameValueIsReturnedByGetTitle() {
         String title = "Title";
 
         page.setTitle(title);
@@ -74,7 +71,7 @@ public class PageTest {
     }
 
     @Test
-    public void setPosition_SomePosition_SameValueIsReturnedByGetPosition() {
+    void setPosition_SomePosition_SameValueIsReturnedByGetPosition() {
         int position = 1;
 
         page.setPosition(position);

@@ -10,27 +10,41 @@ import io.feedback.survey.web.dto.ParticipationDto;
 import io.feedback.survey.web.model.PageModel;
 import io.feedback.survey.web.model.PageModelMockProvider;
 import io.feedback.survey.web.validator.PageModelValidator;
-import junitparams.JUnitParamsRunner;
-import junitparams.Parameters;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.validation.BindingResult;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(JUnitParamsRunner.class)
 public class ResultServiceTest {
 
     private ResultService resultService;
 
-    @Before
+    private static Object[] parametersForSaveResultsIfValid() {
+        PageFormDto pageFormDtoMock = mock(PageFormDto.class);
+        when(pageFormDtoMock.getPageModel()).thenReturn(mock(PageModel.class));
+        when(pageFormDtoMock.getBindingResult()).thenReturn(mock(BindingResult.class));
+        when(pageFormDtoMock.getPage()).thenReturn(mock(Page.class));
+        return new Object[]{
+                new Object[]{pageFormDtoMock, mock(ParticipationDto.class)},
+        };
+    }
+
+    private static Object[] provideOneWithCountOfResults() {
+        return new PageModelMockProvider().provideOneWithCountOfResults();
+    }
+
+    @BeforeEach
     public void setUp() {
         resultService = new ResultService();
         resultService.setPageModelValidator(mock(PageModelValidator.class));
@@ -56,8 +70,8 @@ public class ResultServiceTest {
         assertEquals(resultRepositoryMock, resultService.getResultRepository());
     }
 
-    @Test
-    @Parameters(method = "parametersForSaveResultsIfValid")
+    @ParameterizedTest
+    @MethodSource("parametersForSaveResultsIfValid")
     public void saveResultsIfValid_SomeArguments_ValidateMethodOfPageModelValidatorIsCalled(
             PageFormDto pageFormDtoMock,
             ParticipationDto participationDtoMock) {
@@ -70,8 +84,8 @@ public class ResultServiceTest {
         verify(resultService.getPageModelValidator()).validate(pageModelMock, bindingResultMock, pageMock);
     }
 
-    @Test
-    @Parameters(method = "parametersForSaveResultsIfValid")
+    @ParameterizedTest
+    @MethodSource("parametersForSaveResultsIfValid")
     public void saveResultsIfValid_NoErrorsExist_ResultsAreSaved(PageFormDto pageFormDtoMock,
                                                                  ParticipationDto participationDtoMock) {
         BindingResult bindingResultMock = pageFormDtoMock.getBindingResult();
@@ -79,17 +93,17 @@ public class ResultServiceTest {
 
         boolean saved = resultService.saveResultsIfValid(pageFormDtoMock, participationDtoMock);
 
-        assertEquals(true, saved);
+        assertTrue(saved);
     }
 
-    @Test
-    @Parameters(method = "parametersForSaveResultsIfValid")
+    @ParameterizedTest
+    @MethodSource("parametersForSaveResultsIfValid")
     public void saveResultsIfValid_ErrorsExist_ResultsAreNotSaved(PageFormDto pageFormDtoMock,
                                                                   ParticipationDto participationDtoMock) {
         BindingResult bindingResultMock = pageFormDtoMock.getBindingResult();
         when(bindingResultMock.hasErrors()).thenReturn(true);
 
-        assertEquals(false, resultService.saveResultsIfValid(pageFormDtoMock, participationDtoMock));
+        assertFalse(resultService.saveResultsIfValid(pageFormDtoMock, participationDtoMock));
     }
 
     @Test
@@ -137,8 +151,8 @@ public class ResultServiceTest {
         verify(resultMock).setRemoteAddress(remoteAddress);
     }
 
-    @Test
-    @Parameters(source = PageModelMockProvider.class, method = "provideOneWithCountOfResults")
+    @ParameterizedTest
+    @MethodSource("provideOneWithCountOfResults")
     public void extractResultsFromPageModel_PageModelWithResults_CorrectCountOfResultsIsExtracted(
             PageModel pageModelMock,
             int countOfResults) {
@@ -155,15 +169,5 @@ public class ResultServiceTest {
         List<Result> results = resultService.extractResultsFromPageModel(pageModelMock);
 
         assertEquals(0, results.size());
-    }
-
-    private Object[] parametersForSaveResultsIfValid() {
-        PageFormDto pageFormDtoMock = mock(PageFormDto.class);
-        when(pageFormDtoMock.getPageModel()).thenReturn(mock(PageModel.class));
-        when(pageFormDtoMock.getBindingResult()).thenReturn(mock(BindingResult.class));
-        when(pageFormDtoMock.getPage()).thenReturn(mock(Page.class));
-        return new Object[]{
-                new Object[]{pageFormDtoMock, mock(ParticipationDto.class)},
-        };
     }
 }

@@ -2,25 +2,22 @@ package io.feedback.survey.service;
 
 import io.feedback.survey.entity.Page;
 import io.feedback.survey.repository.PageRepository;
-import junitparams.JUnitParamsRunner;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@RunWith(JUnitParamsRunner.class)
 public class PageServiceTest {
 
     private PageService pageService;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         pageService = new PageService();
         pageService.setPageRepository(mock(PageRepository.class));
