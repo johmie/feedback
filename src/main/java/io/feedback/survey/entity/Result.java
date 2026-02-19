@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Transient;
 
 import java.sql.Timestamp;
 
@@ -22,6 +23,13 @@ public class Result extends AbstractEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "answer_id")
     private Answer answer;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "answer_row_id")
+    private AnswerRow answerRow;
+
+    @Transient
+    private String answerIdAnswerRowId;
 
     private Timestamp created;
 
@@ -50,6 +58,35 @@ public class Result extends AbstractEntity {
 
     public void setAnswer(Answer answer) {
         this.answer = answer;
+    }
+
+    public AnswerRow getAnswerRow() {
+        return answerRow;
+    }
+
+    public void setAnswerRow(AnswerRow answerRow) {
+        this.answerRow = answerRow;
+    }
+
+    public String getAnswerIdAnswerRowId() {
+        return answerIdAnswerRowId;
+    }
+
+    public void setAnswerIdAnswerRowId(String answerIdAnswerRowId) {
+        this.answerIdAnswerRowId = answerIdAnswerRowId;
+        if (answerIdAnswerRowId != null && !answerIdAnswerRowId.isEmpty()) {
+            String[] parts = answerIdAnswerRowId.split("_");
+            if (parts.length == 2) {
+                Long answerId = Long.parseLong(parts[0]);
+                Long answerRowId = Long.parseLong(parts[1]);
+                Answer answer = new Answer();
+                answer.setId(answerId);
+                setAnswer(answer);
+                AnswerRow answerRow = new AnswerRow();
+                answerRow.setId(answerRowId);
+                setAnswerRow(answerRow);
+            }
+        }
     }
 
     public Timestamp getCreated() {

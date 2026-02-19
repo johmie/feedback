@@ -13,6 +13,7 @@ public interface PageRepository extends JpaRepository<Page, Long> {
     @Query("SELECT p FROM Page p " +
             "LEFT JOIN FETCH p.questions q " +
             "LEFT JOIN FETCH q.answers a " +
+            "LEFT JOIN FETCH q.answerRows ar " +
             "WHERE p.survey.id = :surveyId " +
             "ORDER BY p.position, q.position, a.position")
     List<Page> findBySurveyId(Long surveyId);

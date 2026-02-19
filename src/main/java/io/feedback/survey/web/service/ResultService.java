@@ -1,9 +1,11 @@
 package io.feedback.survey.web.service;
 
 import io.feedback.survey.entity.Answer;
+import io.feedback.survey.entity.AnswerRow;
 import io.feedback.survey.entity.Page;
 import io.feedback.survey.entity.Result;
 import io.feedback.survey.repository.AnswerRepository;
+import io.feedback.survey.repository.AnswerRowRepository;
 import io.feedback.survey.repository.ResultRepository;
 import io.feedback.survey.web.dto.PageFormDto;
 import io.feedback.survey.web.dto.ParticipationDto;
@@ -26,6 +28,8 @@ public class ResultService {
     private ResultRepository resultRepository;
 
     private AnswerRepository answerRepository;
+
+    private AnswerRowRepository answerRowRepository;
 
     public PageModelValidator getPageModelValidator() {
         return pageModelValidator;
@@ -54,6 +58,15 @@ public class ResultService {
         this.answerRepository = answerRepository;
     }
 
+    public AnswerRowRepository getAnswerRowRepository() {
+        return answerRowRepository;
+    }
+
+    @Autowired
+    public void setAnswerRowRepository(AnswerRowRepository answerRowRepository) {
+        this.answerRowRepository = answerRowRepository;
+    }
+
     public boolean saveResultsIfValid(PageFormDto pageFormDto, ParticipationDto participationDto) {
         PageModel pageModel = pageFormDto.getPageModel();
         BindingResult bindingResult = pageFormDto.getBindingResult();
@@ -68,6 +81,26 @@ public class ResultService {
         }
     }
 
+    public List<Result> extractResultsFromPageModel(PageModel pageModel) {
+        List<Result> resultsFromPageModel = new ArrayList<>();
+        if (pageModel.getQuestionModels() == null) {
+            return resultsFromPageModel;
+        }
+        for (QuestionModel questionModel : pageModel.getQuestionModels().values()) {
+            for (Result result : questionModel.getResults()) {
+                if (resultHasAnswer(result)) {
+                    resultsFromPageModel.add(result);
+                }
+            }
+        }
+        return resultsFromPageModel;
+    }
+
+    private boolean resultHasAnswer(Result result) {
+        return result.getAnswer() != null
+                && result.getAnswer().getId() != null;
+    }
+
     public void saveResultsWithParticipationData(List<Result> results, ParticipationDto participationDto) {
         for (Result result : results) {
             result.setParticipationIdentifier(participationDto.getIdentifier());
@@ -78,25 +111,23 @@ public class ResultService {
 
     private void saveResults(List<Result> results) {
         for (Result result : results) {
-            Answer answer = getAnswerRepository().getReferenceById(result.getAnswer().getId());
+            Answer answer = getAnswerRepository().getReferenceById(
+                    result.getAnswer().getId()
+            );
             result.setAnswer(answer);
+            if (resultHasAnswerRow(result)) {
+                AnswerRow answerRow = getAnswerRowRepository().getReferenceById(
+                        result.getAnswerRow().getId()
+                );
+                result.setAnswerRow(answerRow);
+            }
             result.setCreated(new Timestamp(System.currentTimeMillis()));
             getResultRepository().save(result);
         }
     }
 
-    public List<Result> extractResultsFromPageModel(PageModel pageModel) {
-        List<Result> resultsFromPageModel = new ArrayList<>();
-        if (pageModel.getQuestionModels() == null) {
-            return resultsFromPageModel;
-        }
-        for (QuestionModel questionModel : pageModel.getQuestionModels().values()) {
-            for (Result result : questionModel.getResults()) {
-                if (result.getAnswer().getId() != null) {
-                    resultsFromPageModel.add(result);
-                }
-            }
-        }
-        return resultsFromPageModel;
+    private boolean resultHasAnswerRow(Result result) {
+        return result.getAnswerRow() != null
+                && result.getAnswerRow().getId() != null;
     }
 }

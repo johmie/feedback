@@ -2,108 +2,201 @@ package io.feedback.survey.web.validator;
 
 import io.feedback.survey.entity.Answer;
 import io.feedback.survey.entity.Result;
-import io.feedback.survey.entity.ResultMockProvider;
 import io.feedback.survey.repository.AnswerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class ResultValidatorTest {
-
-    private static final ResultMockProvider MOCK_PROVIDER = new ResultMockProvider();
+public class ResultValidatorTest {
 
     private ResultValidator resultValidator;
 
-    private static Object[] provideOneWithValidAndInvalidFreeText() {
-        return MOCK_PROVIDER.provideOneWithValidAndInvalidFreeText();
-    }
-
-    private static Object[] provideOneWithSelectedAndUnselectedAnswer() {
-        return MOCK_PROVIDER.provideOneWithSelectedAndUnselectedAnswer();
-    }
-
-    private static Object[] provideListWithoutAnswer() {
-        return MOCK_PROVIDER.provideListWithoutAnswer();
-    }
+    private AnswerRepository answerRepositoryMock;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         resultValidator = new ResultValidator();
-        resultValidator.setAnswerRepository(mock(AnswerRepository.class));
-    }
-
-    @Test
-    void setAnswerRepository_SomeAnswerRepository_SameValueIsReturnedByGetAnswerRepository() {
-        AnswerRepository answerRepositoryMock = mock(AnswerRepository.class);
+        answerRepositoryMock = mock(AnswerRepository.class);
 
         resultValidator.setAnswerRepository(answerRepositoryMock);
-
-        assertEquals(answerRepositoryMock, resultValidator.getAnswerRepository());
-    }
-
-    @ParameterizedTest
-    @MethodSource("provideOneWithValidAndInvalidFreeText")
-    void isValid_ValidAndInvalidFreeTextResults_ResultsAreValidatedCorrectly(Result resultMock,
-                                                                             boolean expectedIsValid) {
-        Answer answerMock = mock(Answer.class);
-        when(answerMock.getValueType()).thenReturn(Answer.ValueType.FREE_TEXT);
-        when(resultValidator.getAnswerRepository().findById(resultMock.getAnswer().getId())).thenReturn(Optional.of(answerMock));
-
-        boolean actualIsValid = resultValidator.isValid(resultMock);
-
-        assertEquals(expectedIsValid, actualIsValid);
-    }
-
-    @ParameterizedTest
-    @MethodSource("provideOneWithSelectedAndUnselectedAnswer")
-    void isValid_SelectedAndUnselectedChoiceResults_AnyResultIsValid(Result resultMock, boolean expectedIsValid) {
-        Answer answerMock = mock(Answer.class);
-        when(answerMock.getValueType()).thenReturn(Answer.ValueType.CHOICE);
-        when(resultValidator.getAnswerRepository().findById(resultMock.getAnswer().getId())).thenReturn(Optional.of(answerMock));
-
-        boolean actualIsValid = resultValidator.isValid(resultMock);
-
-        assertEquals(expectedIsValid, actualIsValid);
-    }
-
-    @ParameterizedTest
-    @MethodSource("provideListWithoutAnswer")
-    void isValid_ResultsWithoutAnswer_AnyResultIsValid(List<Result> resultMocks) {
-        for (Result resultMock : resultMocks) {
-            boolean isValid = resultValidator.isValid(resultMock);
-
-            assertTrue(isValid);
-        }
     }
 
     @Test
-    void isValid_AnswerPresentWithNullId_ReturnsTrue() {
-        Answer answerMock = mock(Answer.class);
-        when(answerMock.getId()).thenReturn(null);
-        Result resultMock = mock(Result.class);
-        when(resultMock.getAnswer()).thenReturn(answerMock);
+    public void isValid_WhenAnswerIsSelected_FoundInDb_IsChoice_ReturnsTrue() {
+        Result result = new Result();
+        Answer answer = new Answer();
+        answer.setId(1L);
+        answer.setValueType(Answer.ValueType.CHOICE);
+        result.setAnswer(answer);
 
-        boolean isValid = resultValidator.isValid(resultMock);
+        when(answerRepositoryMock.findById(1L)).thenReturn(Optional.of(answer));
 
-        assertTrue(isValid);
+        boolean valid = resultValidator.isValid(result);
+
+        assertTrue(valid);
     }
 
     @Test
-    void isValid_AnswerIsNull_ReturnsTrue() {
-        Result resultMock = mock(Result.class);
-        when(resultMock.getAnswer()).thenReturn(null);
+    public void isValid_WhenAnswerIsSelected_FoundInDb_IsFreeTextWithNonEmptyFreeText_ReturnsTrue() {
+        Result result = new Result();
+        Answer answer = new Answer();
+        answer.setId(1L);
+        answer.setValueType(Answer.ValueType.FREE_TEXT);
+        result.setAnswer(answer);
+        result.setFreeText("some feedback");
 
-        boolean isValid = resultValidator.isValid(resultMock);
+        when(answerRepositoryMock.findById(1L)).thenReturn(Optional.of(answer));
 
-        assertTrue(isValid);
+        boolean valid = resultValidator.isValid(result);
+
+        assertTrue(valid);
+    }
+
+    @Test
+    public void isValid_WhenAnswerIsSelected_FoundInDb_IsFreeTextWithEmptyFreeText_ReturnsFalse() {
+        Result result = new Result();
+        Answer answer = new Answer();
+        answer.setId(1L);
+        answer.setValueType(Answer.ValueType.FREE_TEXT);
+        result.setAnswer(answer);
+        result.setFreeText("");
+
+        when(answerRepositoryMock.findById(1L)).thenReturn(Optional.of(answer));
+
+        boolean valid = resultValidator.isValid(result);
+
+        assertFalse(valid);
+    }
+
+    @Test
+    public void isValid_WhenAnswerIsSelected_FoundInDb_IsFreeTextWithNullFreeText_ReturnsTrue() {
+        Result result = new Result();
+        Answer answer = new Answer();
+        answer.setId(1L);
+        answer.setValueType(Answer.ValueType.FREE_TEXT);
+        result.setAnswer(answer);
+        result.setFreeText(null);
+
+        when(answerRepositoryMock.findById(1L)).thenReturn(Optional.of(answer));
+
+        boolean valid = resultValidator.isValid(result);
+
+        assertTrue(valid);
+    }
+
+    @Test
+    public void isValid_WhenAnswerIsSelected_NotFoundInDb_ReturnsFalse() {
+        Result result = new Result();
+        Answer answer = new Answer();
+        answer.setId(1L);
+        result.setAnswer(answer);
+
+        when(answerRepositoryMock.findById(1L)).thenReturn(Optional.empty());
+
+        boolean valid = resultValidator.isValid(result);
+
+        assertFalse(valid);
+    }
+
+    @Test
+    public void isValid_WhenAnswerIsNull_ReturnsTrue() {
+        Result result = new Result();
+        result.setAnswer(null);
+
+        boolean valid = resultValidator.isValid(result);
+
+        assertTrue(valid);
+    }
+
+    @Test
+    public void isValid_WhenAnswerIdIsNull_ReturnsTrue() {
+        Result result = new Result();
+        Answer answer = new Answer();
+        answer.setId(null);
+        result.setAnswer(answer);
+
+        boolean valid = resultValidator.isValid(result);
+
+        assertTrue(valid);
+    }
+
+    @Test
+    public void isValid_WhenAnswerIsNotNullAndIdIsNotNull_NotFoundInDb_ReturnsFalse() {
+        Result result = new Result();
+        Answer answer = new Answer();
+        answer.setId(1L);
+        result.setAnswer(answer);
+
+        when(answerRepositoryMock.findById(1L)).thenReturn(Optional.empty());
+
+        boolean valid = resultValidator.isValid(result);
+
+        assertFalse(valid);
+    }
+
+    @Test
+    public void isValid_WhenAnswerIsSelected_FoundInDb_ValueTypeIsNull_ReturnsFalse() {
+        Result result = new Result();
+        Answer answer = new Answer();
+        answer.setId(1L);
+        answer.setValueType(null);
+        result.setAnswer(answer);
+        result.setFreeText("some feedback");
+
+        when(answerRepositoryMock.findById(1L)).thenReturn(Optional.of(answer));
+
+        boolean valid = resultValidator.isValid(result);
+
+        assertFalse(valid);
+    }
+
+    @Test
+    public void isAnswerNotSelected_WhenAnswerIsNull_ReturnsTrue() {
+        Result result = new Result();
+        result.setAnswer(null);
+
+        boolean notSelected = resultValidator.isAnswerNotSelected(result);
+
+        assertTrue(notSelected);
+    }
+
+    @Test
+    public void isAnswerNotSelected_WhenAnswerIdIsNull_ReturnsTrue() {
+        Result result = new Result();
+        Answer answer = new Answer();
+        answer.setId(null);
+        result.setAnswer(answer);
+
+        boolean notSelected = resultValidator.isAnswerNotSelected(result);
+
+        assertTrue(notSelected);
+    }
+
+    @Test
+    public void isAnswerNotSelected_WhenAnswerAndIdAreNotNull_ReturnsFalse() {
+        Result result = new Result();
+        Answer answer = new Answer();
+        answer.setId(1L);
+        result.setAnswer(answer);
+
+        boolean notSelected = resultValidator.isAnswerNotSelected(result);
+
+        assertFalse(notSelected);
+    }
+
+    @Test
+    public void setAnswerRepository_SomeAnswerRepository_SameValueIsReturnedByGetAnswerRepository() {
+        AnswerRepository repositoryMock = mock(AnswerRepository.class);
+
+        resultValidator.setAnswerRepository(repositoryMock);
+
+        assertEquals(repositoryMock, resultValidator.getAnswerRepository());
     }
 }

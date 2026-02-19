@@ -1,0 +1,31 @@
+<th:block th:insert="survey/question/error"></th:block>
+<th:block th:with="counter = ${0}"></th:block>
+<div class="card mt-3">
+    <h3 class="card-header" th:text="${question.title}"></h3>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">&nbsp;</th>
+                    <th:block th:each="answer, statusLoopAnswers : ${question.answers}">
+                        <th scope="col" th:text="${answer.title}"></th>
+                    </th:block>
+                </tr>
+            </thead>
+            <tbody>
+                <th:block th:each="answerRow, statusLoopAnswerRows : ${question.answerRows}">
+                    <tr>
+                        <th scope="row" th:text="${answerRow.title}"></th>
+                        <th:block th:each="answer, statusLoopAnswers : ${question.answers}"
+                                  th:switch="${#strings.toString(question.type)}">
+                            <th:block th:case="MATRIX_SINGLE_CHOICE"
+                                      th:insert="survey/answer/matrixSingleChoice"></th:block>
+                            <th:block th:case="MATRIX_MULTIPLE_CHOICE"
+                                      th:insert="survey/answer/matrixMultipleChoice"></th:block>
+                        </th:block>
+                    </tr>
+                </th:block>
+            </tbody>
+        </table>
+    </div>
+</div>

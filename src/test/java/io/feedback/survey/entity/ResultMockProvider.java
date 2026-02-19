@@ -145,14 +145,12 @@ public class ResultMockProvider {
 
     private Result createOneWithSelectedAnswer() {
         Answer answerMock = createAnswerMock(1L);
-        Result resultMock = createResultMock(null, answerMock);
-        return resultMock;
+        return createResultMock(null, answerMock);
     }
 
     private Result createOneWithUnselectedAnswer() {
         Answer answerMock = createAnswerMock(null);
-        Result resultMock = createResultMock(null, answerMock);
-        return resultMock;
+        return createResultMock(null, answerMock);
     }
 
     private Answer createAnswerMock(Long answerId) {

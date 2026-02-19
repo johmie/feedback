@@ -1,0 +1,5 @@
+<td>
+    <input th:field="*{questionModels[__${question.id}__].results[__${statusLoopAnswerRows.index}__].answerIdAnswerRowId}"
+           th:value="|${answer.id}_${answerRow.id}|"
+           type="radio" class="form-check-input"/>
+</td>

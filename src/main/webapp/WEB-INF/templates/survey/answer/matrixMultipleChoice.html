@@ -1,0 +1,6 @@
+<td>
+    <input th:field="*{questionModels[__${question.id}__].results[__${answerIdAnswerRowIdIndex}__].answerIdAnswerRowId}"
+           th:value="|${answer.id}_${answerRow.id}|"
+           th:with="answerIdAnswerRowIdIndex=${statusLoopAnswerRows.index * question.answers.size() + statusLoopAnswers.index}"
+           type="checkbox" class="form-check-input"/>
+</td>

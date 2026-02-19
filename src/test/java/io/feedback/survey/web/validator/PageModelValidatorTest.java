@@ -4,11 +4,9 @@ import io.feedback.survey.entity.Page;
 import io.feedback.survey.entity.Question;
 import io.feedback.survey.repository.QuestionRepository;
 import io.feedback.survey.web.model.PageModel;
-import io.feedback.survey.web.model.PageModelMockProvider;
+import io.feedback.survey.web.model.QuestionModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.validation.Errors;
 
 import java.util.HashMap;
@@ -17,97 +15,123 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
-class PageModelValidatorTest {
-
-    private static final PageModelMockProvider MOCK_PROVIDER = new PageModelMockProvider();
+public class PageModelValidatorTest {
 
     private PageModelValidator pageModelValidator;
 
-    private static Object[] provideOneWithEmptyResults() {
-        return MOCK_PROVIDER.provideOneWithEmptyResults();
-    }
-
-    private static Object[] provideOneWithCountOfQuestions() {
-        return MOCK_PROVIDER.provideOneWithCountOfQuestions();
-    }
+    private QuestionRepository questionRepositoryMock;
+    private QuestionModelValidator questionModelValidatorMock;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         pageModelValidator = new PageModelValidator();
-        pageModelValidator.setQuestionModelValidator(mock(QuestionModelValidator.class));
-        pageModelValidator.setQuestionRepository(mock(QuestionRepository.class));
+        questionRepositoryMock = mock(QuestionRepository.class);
+        questionModelValidatorMock = mock(QuestionModelValidator.class);
+
+        pageModelValidator.setQuestionRepository(questionRepositoryMock);
+        pageModelValidator.setQuestionModelValidator(questionModelValidatorMock);
     }
 
     @Test
-    void setQuestionRepository_SomeQuestionRepository_SameValueIsReturnedByGetQuestionRepository() {
-        QuestionRepository questionRepository = mock(QuestionRepository.class);
+    public void validate_WhenQuestionModelsIsNull_AddsErrorForEachQuestion() {
+        PageModel pageModel = new PageModel();
+        Errors errorsMock = mock(Errors.class);
 
-        pageModelValidator.setQuestionRepository(questionRepository);
+        Page page = new Page();
+        Question question1 = new Question();
+        question1.setId(1L);
+        Question question2 = new Question();
+        question2.setId(2L);
 
-        assertEquals(questionRepository, pageModelValidator.getQuestionRepository());
+        page.setQuestions(java.util.Set.of(question1, question2));
+
+        pageModelValidator.validate(pageModel, errorsMock, page);
+
+        verify(errorsMock).rejectValue("questionModels[1]", "error.question_not_answered");
+        verify(errorsMock).rejectValue("questionModels[2]", "error.question_not_answered");
     }
 
     @Test
-    void setQuestionModelValidator_SomeQuestionModelValidator_SameValueIReturnedByGetQuestionModelValidator() {
-        QuestionModelValidator questionModelValidator = mock(QuestionModelValidator.class);
+    public void validate_WhenQuestionModelsIsNotNull_CallsQuestionModelValidator() {
+        PageModel pageModel = new PageModel();
+        Map<Long, QuestionModel> questionModels = new HashMap<>();
+        QuestionModel questionModel = new QuestionModel();
+        questionModels.put(1L, questionModel);
+        pageModel.setQuestionModels(questionModels);
 
-        pageModelValidator.setQuestionModelValidator(questionModelValidator);
+        Errors errorsMock = mock(Errors.class);
+        Page page = new Page();
 
-        assertEquals(questionModelValidator, pageModelValidator.getQuestionModelValidator());
+        Question question = new Question();
+        question.setId(1L);
+
+        when(questionRepositoryMock.findById(1L)).thenReturn(Optional.of(question));
+
+        pageModelValidator.validate(pageModel, errorsMock, page);
+
+        verify(questionModelValidatorMock).validate(questionModel, errorsMock, question);
     }
 
-    @ParameterizedTest
-    @MethodSource("provideOneWithEmptyResults")
-    void validate_PageModelWithEmptyResults_NotAnsweredErrorIsSetForAnyQuestion(PageModel pageModelMock,
-                                                                                Page pageMock) {
+    @Test
+    public void validate_WhenQuestionModelsIsNotNull_ValidatesAllQuestions() {
+        PageModel pageModel = new PageModel();
+        Map<Long, QuestionModel> questionModels = new HashMap<>();
+        QuestionModel questionModel1 = new QuestionModel();
+        QuestionModel questionModel2 = new QuestionModel();
+        questionModels.put(1L, questionModel1);
+        questionModels.put(2L, questionModel2);
+        pageModel.setQuestionModels(questionModels);
+
         Errors errorsMock = mock(Errors.class);
-        when(pageModelMock.getQuestionModels()).thenReturn(null);
+        Page page = new Page();
 
-        pageModelValidator.validate(pageModelMock, errorsMock, pageMock);
+        Question question1 = new Question();
+        question1.setId(1L);
+        Question question2 = new Question();
+        question2.setId(2L);
 
-        for (Question questionMock : pageMock.getQuestions()) {
-            verify(errorsMock, times(1))
-                    .rejectValue("questionModels[" + questionMock.getId() + "]", "error.question_not_answered");
-        }
+        when(questionRepositoryMock.findById(1L)).thenReturn(Optional.of(question1));
+        when(questionRepositoryMock.findById(2L)).thenReturn(Optional.of(question2));
+
+        pageModelValidator.validate(pageModel, errorsMock, page);
+
+        verify(questionModelValidatorMock).validate(questionModel1, errorsMock, question1);
+        verify(questionModelValidatorMock).validate(questionModel2, errorsMock, question2);
     }
 
-    @ParameterizedTest
-    @MethodSource("provideOneWithCountOfQuestions")
-    void validate_PageModelWithResults_AnyQuestionFromPageIsLoaded(PageModel pageModelMock,
-                                                                   int countOfQuestions) {
-        Errors errorsMock = mock(Errors.class);
-        for (long i = 1; i <= countOfQuestions; i++) {
-            Question questionMock = mock(Question.class);
-            when(pageModelValidator.getQuestionRepository().findById(i)).thenReturn(Optional.of(questionMock));
-        }
-        pageModelValidator.validate(pageModelMock, errorsMock, mock(Page.class));
+    @Test
+    public void validate_WhenPageHasNoQuestions_NoErrorsAdded() {
+        PageModel pageModel = new PageModel();
+        pageModel.setQuestionModels(new HashMap<>());
 
-        for (long i = 1; i <= countOfQuestions; i++) {
-            verify(pageModelValidator.getQuestionRepository()).findById(i);
-        }
+        Errors errorsMock = mock(Errors.class);
+        Page page = new Page();
+        page.setQuestions(java.util.Set.of());
+
+        pageModelValidator.validate(pageModel, errorsMock, page);
+
+        verifyNoInteractions(errorsMock);
     }
 
-    @ParameterizedTest
-    @MethodSource("provideOneWithCountOfQuestions")
-    void validate_PageModelWithResults_AnyQuestionFromPageIsValidated(PageModel pageModelMock,
-                                                                      int countOfQuestions) {
-        Errors errorsMock = mock(Errors.class);
-        Map<Long, Question> questionMocks = new HashMap<>();
-        for (long i = 1; i <= countOfQuestions; i++) {
-            Question questionMock = mock(Question.class);
-            questionMocks.put(i, questionMock);
-            when(pageModelValidator.getQuestionRepository().findById(i)).thenReturn(Optional.of(questionMock));
-        }
+    @Test
+    public void setQuestionRepository_SomeQuestionRepository_SameValueIsReturnedByGetQuestionRepository() {
+        QuestionRepository repositoryMock = mock(QuestionRepository.class);
 
-        pageModelValidator.validate(pageModelMock, errorsMock, mock(Page.class));
+        pageModelValidator.setQuestionRepository(repositoryMock);
 
-        for (long i = 1; i <= countOfQuestions; i++) {
-            verify(pageModelValidator.getQuestionModelValidator())
-                    .validate(pageModelMock.getQuestionModels().get(i), errorsMock, questionMocks.get(i));
-        }
+        assertEquals(repositoryMock, pageModelValidator.getQuestionRepository());
+    }
+
+    @Test
+    public void setQuestionModelValidator_SomeQuestionModelValidator_SameValueIsReturnedByGetQuestionModelValidator() {
+        QuestionModelValidator validatorMock = mock(QuestionModelValidator.class);
+
+        pageModelValidator.setQuestionModelValidator(validatorMock);
+
+        assertEquals(validatorMock, pageModelValidator.getQuestionModelValidator());
     }
 }

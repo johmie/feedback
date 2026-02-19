@@ -35,6 +35,10 @@ public class Question extends AbstractEntity {
     @OrderBy("position")
     private Set<Answer> answers;
 
+    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
+    @OrderBy("position")
+    private Set<AnswerRow> answerRows;
+
     public Type getType() {
         return type;
     }
@@ -57,6 +61,14 @@ public class Question extends AbstractEntity {
 
     public void setAnswers(Set<Answer> answers) {
         this.answers = answers;
+    }
+
+    public Set<AnswerRow> getAnswerRows() {
+        return answerRows;
+    }
+
+    public void setAnswerRows(Set<AnswerRow> answerRows) {
+        this.answerRows = answerRows;
     }
 
     public String getName() {
@@ -83,9 +95,14 @@ public class Question extends AbstractEntity {
         this.position = position;
     }
 
+    public boolean isMatrix() {
+        return type != null && type.name().startsWith("MATRIX");
+    }
+
     public enum Type {
         SINGLE_CHOICE,
         MULTIPLE_CHOICE,
-        MATRIX
+        MATRIX_SINGLE_CHOICE,
+        MATRIX_MULTIPLE_CHOICE,
     }
 }

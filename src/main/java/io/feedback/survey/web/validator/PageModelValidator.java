@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -49,17 +48,17 @@ public class PageModelValidator {
 
     private void handleNoQuestionAnswered(Page page, Errors errors) {
         for (Question question : page.getQuestions()) {
-            errors.rejectValue("questionModels[" + question.getId() + "]", "error.question_not_answered");
+            errors.rejectValue(
+                    "questionModels[" + question.getId() + "]", "error.question_not_answered"
+            );
         }
     }
 
     private void validateQuestions(Map<Long, QuestionModel> questionModels, Errors errors) {
-        Iterator<Entry<Long, QuestionModel>> questionModelsIterator = questionModels.entrySet().iterator();
-        while (questionModelsIterator.hasNext()) {
-            Entry<Long, QuestionModel> questionModelEntry = questionModelsIterator.next();
+        for (Entry<Long, QuestionModel> questionModelEntry : questionModels.entrySet()) {
             QuestionModel questionModel = questionModelEntry.getValue();
-            Optional<Question> question = questionRepository.findById(questionModelEntry.getKey());
-            questionModelValidator.validate(questionModel, errors, question.get());
+            Optional<Question> question = getQuestionRepository().findById(questionModelEntry.getKey());
+            getQuestionModelValidator().validate(questionModel, errors, question.get());
         }
     }
 }
