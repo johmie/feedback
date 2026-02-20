@@ -42,7 +42,7 @@ public class PageModelValidator {
         if (pageModel.getQuestionModels() == null) {
             handleNoQuestionAnswered(page, errors);
         } else {
-            validateQuestions(pageModel.getQuestionModels(), errors);
+            validateQuestions(pageModel.getQuestionModels(), errors, page);
         }
     }
 
@@ -54,11 +54,24 @@ public class PageModelValidator {
         }
     }
 
-    private void validateQuestions(Map<Long, QuestionModel> questionModels, Errors errors) {
+    private void validateQuestions(Map<Long, QuestionModel> questionModels, Errors errors, Page page) {
         for (Entry<Long, QuestionModel> questionModelEntry : questionModels.entrySet()) {
             QuestionModel questionModel = questionModelEntry.getValue();
             Optional<Question> question = getQuestionRepository().findById(questionModelEntry.getKey());
             getQuestionModelValidator().validate(questionModel, errors, question.get());
+        }
+        validateMissingQuestions(questionModels, errors, page);
+    }
+
+    private void validateMissingQuestions(Map<Long, QuestionModel> questionModels, Errors errors, Page page) {
+        if (page.getQuestions() != null) {
+            for (Question question : page.getQuestions()) {
+                if (!questionModels.containsKey(question.getId())) {
+                    errors.rejectValue(
+                            "questionModels[" + question.getId() + "]", "error.question_not_answered"
+                    );
+                }
+            }
         }
     }
 }

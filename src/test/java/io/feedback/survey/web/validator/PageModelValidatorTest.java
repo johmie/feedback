@@ -12,6 +12,7 @@ import org.springframework.validation.Errors;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -115,6 +116,32 @@ public class PageModelValidatorTest {
         pageModelValidator.validate(pageModel, errorsMock, page);
 
         verifyNoInteractions(errorsMock);
+    }
+
+    @Test
+    public void validate_WhenPageHasQuestionsNotInQuestionModels_AddsErrorForMissingQuestions() {
+        PageModel pageModel = new PageModel();
+        Map<Long, QuestionModel> questionModels = new HashMap<>();
+        QuestionModel questionModel1 = new QuestionModel();
+        questionModels.put(1L, questionModel1);
+        pageModel.setQuestionModels(questionModels);
+
+        Errors errorsMock = mock(Errors.class);
+        Page page = new Page();
+
+        Question question1 = new Question();
+        question1.setId(1L);
+        Question question2 = new Question();
+        question2.setId(2L);
+
+        page.setQuestions(Set.of(question1, question2));
+
+        when(questionRepositoryMock.findById(1L)).thenReturn(Optional.of(question1));
+
+        pageModelValidator.validate(pageModel, errorsMock, page);
+
+        verify(questionModelValidatorMock).validate(questionModel1, errorsMock, question1);
+        verify(errorsMock).rejectValue("questionModels[2]", "error.question_not_answered");
     }
 
     @Test
